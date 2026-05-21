@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: chinchintirapie
+  profiles:
+    active: dev
+

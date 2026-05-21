@@ -1,0 +1,65 @@
+# =========================================================================
+# Gitignore Unificado - Chinchin-Backend-Frontend (Monorepo)
+# =========================================================================
+
+# -------------------------------------------------------------------------
+# Archivos del Sistema y Editores de Código
+# -------------------------------------------------------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+*.iml
+*.swp
+*.swo
+*.tmp
+*.log
+
+# -------------------------------------------------------------------------
+# Node.js / Frontend (Vite / React)
+# -------------------------------------------------------------------------
+Frontend/node_modules/
+Frontend/dist/
+Frontend/dist-ssr/
+Frontend/*.local
+Frontend/.env.local
+Frontend/.env.development.local
+Frontend/.env.test.local
+Frontend/.env.production.local
+Frontend/npm-debug.log*
+Frontend/yarn-debug.log*
+Frontend/yarn-error.log*
+Frontend/.pnp/
+Frontend/.pnp.js
+
+# -------------------------------------------------------------------------
+# Java / Backend (Spring Boot / Maven)
+# -------------------------------------------------------------------------
+backend/target/
+backend/out/
+backend/*.log
+backend/.env
+backend/.env.local
+backend/.settings/
+backend/.classpath
+backend/.project
+backend/.factorypath
+backend/bin/
+
+# Evitar subir dependencias descargadas localmente
+backend/.mvn/wrapper/maven-wrapper.jar
+!backend/.mvn/wrapper/maven-wrapper.properties
+
+# Archivos compilados o empaquetados directamente
+*.class
+*.jar
+*.war
+*.ear
+
+# -------------------------------------------------------------------------
+# Docker / Local Environment
+# -------------------------------------------------------------------------
+.env
+.env.local
+
