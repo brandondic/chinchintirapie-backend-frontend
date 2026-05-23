@@ -50,7 +50,7 @@ export default function Navbar() {
             />
           </div>
           <div className="logo-text">
-            <span className="logo-name">Chinchintirapíe</span>
+            <span className="logo-name">Chinchintirapié</span>
             <span className="logo-sub">Escuela Carnavalera</span>
           </div>
         </Link>

@@ -150,7 +150,7 @@ export default function Home() {
           <div className="section-header reveal">
             <h2 style={{ color: '#fff' }}>Nuestros <span style={{ color: 'var(--amarillo)' }}>Talleres</span></h2>
             <div className="deco-line"><span>🥁</span></div>
-            <p>Cuatro disciplinas que forman el corazón de la escuela carnavalera.</p>
+            <p>Tres disciplinas que forman el corazón de la escuela carnavalera.</p>
           </div>
           <div className="talleres-grid">
             {TALLERES.map(({ img, title, desc }) => (
