@@ -34,71 +34,81 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="navbar" ref={navRef} role="navigation" aria-label="Navegación principal">
-      <Link to="/" className="logo-wrap" onClick={() => setMobileOpen(false)}>
-        <div className="logo-img">
-          <img src="/img/logo-chinchitirapie.webp" alt="Logo Chinchintirapie" />
-        </div>
-        <div className="logo-text">
-          <span className="logo-name">Chinchintirapie</span>
-          <span className="logo-sub">Escuela Carnavalera</span>
-        </div>
-      </Link>
+      <nav className="navbar" ref={navRef} role="navigation" aria-label="Navegación principal">
+        <Link to="/" className="logo-wrap" onClick={() => setMobileOpen(false)}>
+          <div className="logo-img">
+            <img
+                src="/img/logo-chinchitirapie.webp"
+                alt="Logo Chinchintirapie"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                  borderRadius: '50%',
+                  margin: '1%',
+                }}
+            />
+          </div>
+          <div className="logo-text">
+            <span className="logo-name">Chinchintirapié</span>
+            <span className="logo-sub">Escuela Carnavalera</span>
+          </div>
+        </Link>
 
-      <button
-        className="hamburger"
-        aria-label="Menú"
-        aria-expanded={mobileOpen}
-        onClick={() => setMobileOpen((v) => !v)}
-      >
-        {mobileOpen ? '✕' : '☰'}
-      </button>
+        <button
+            className="hamburger"
+            aria-label="Menú"
+            aria-expanded={mobileOpen}
+            onClick={() => setMobileOpen((v) => !v)}
+        >
+          {mobileOpen ? '✕' : '☰'}
+        </button>
 
-      <ul className={`nav-links${mobileOpen ? ' mobile-open' : ''}`} id="navLinks">
-        {NAV_LINKS.map((item) =>
-          item.children ? (
-            <li
-              key={item.label}
-              className={`has-dropdown${openDropdown === item.label ? ' open' : ''}`}
-            >
-              <button onClick={(e) => toggleDropdown(item.label, e)}>
-                {item.label} <span className="caret">▾</span>
-              </button>
-              <div className="dropdown">
-                {item.children.map((child) => (
-                  <NavLink
-                    key={child.to}
-                    to={child.to}
-                    onClick={() => { setOpenDropdown(null); setMobileOpen(false); }}
+        <ul className={`nav-links${mobileOpen ? ' mobile-open' : ''}`} id="navLinks">
+          {NAV_LINKS.map((item) =>
+              item.children ? (
+                  <li
+                      key={item.label}
+                      className={`has-dropdown${openDropdown === item.label ? ' open' : ''}`}
                   >
-                    {child.label}
-                  </NavLink>
-                ))}
-              </div>
-            </li>
-          ) : (
-            <li key={item.label}>
-              <NavLink
-                to={item.to}
-                className={({ isActive }) => isActive ? 'active-link' : ''}
-                onClick={() => setMobileOpen(false)}
-              >
-                {item.label}
-              </NavLink>
-            </li>
-          )
-        )}
-        <li>
-          <NavLink to="/tienda" className="nav-cta" onClick={() => setMobileOpen(false)}>
-            Tienda&nbsp;/&nbsp;Donaciones
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="/contacto" onClick={() => setMobileOpen(false)}>Contacto</NavLink>
-        </li>
-        <li>
-          {isAuthenticated ? (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}>
+                    <button onClick={(e) => toggleDropdown(item.label, e)}>
+                      {item.label} <span className="caret">▾</span>
+                    </button>
+                    <div className="dropdown">
+                      {item.children.map((child) => (
+                          <NavLink
+                              key={child.to}
+                              to={child.to}
+                              onClick={() => { setOpenDropdown(null); setMobileOpen(false); }}
+                          >
+                            {child.label}
+                          </NavLink>
+                      ))}
+                    </div>
+                  </li>
+              ) : (
+                  <li key={item.label}>
+                    <NavLink
+                        to={item.to}
+                        className={({ isActive }) => isActive ? 'active-link' : ''}
+                        onClick={() => setMobileOpen(false)}
+                    >
+                      {item.label}
+                    </NavLink>
+                  </li>
+              )
+          )}
+          <li>
+            <NavLink to="/tienda" className="nav-cta" onClick={() => setMobileOpen(false)}>
+              Tienda&nbsp;/&nbsp;Donaciones
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/contacto" onClick={() => setMobileOpen(false)}>Contacto</NavLink>
+          </li>
+          <li>
+            {isAuthenticated ? (
+                <div style={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}>
               <span style={{
                 color: 'var(--amarillo-e)',
                 fontWeight: 800,
@@ -110,21 +120,21 @@ export default function Navbar() {
               }}>
                 👤 {user?.fullName?.split(' ')[0]}
               </span>
-              <button
-                onClick={handleLogout}
-                className="nav-login-btn"
-                style={{ cursor: 'pointer' }}
-              >
-                Salir
-              </button>
-            </div>
-          ) : (
-            <NavLink to="/login" className="nav-login-btn" onClick={() => setMobileOpen(false)}>
-              Ingresar
-            </NavLink>
-          )}
-        </li>
-      </ul>
-    </nav>
+                  <button
+                      onClick={handleLogout}
+                      className="nav-login-btn"
+                      style={{ cursor: 'pointer' }}
+                  >
+                    Salir
+                  </button>
+                </div>
+            ) : (
+                <NavLink to="/login" className="nav-login-btn" onClick={() => setMobileOpen(false)}>
+                  Ingresar
+                </NavLink>
+            )}
+          </li>
+        </ul>
+      </nav>
   );
 }

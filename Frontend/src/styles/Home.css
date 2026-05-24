@@ -5,8 +5,8 @@
   display: flex;
   align-items: center;
   overflow: hidden;
-  border-top: 7px solid var(--beige-c);
-  border-bottom: 7px solid var(--beige-c);
+  border-top: 0px solid var(--crema);
+  border-bottom: 7px solid var(--crema)
 }
 
 .hero-bg {
@@ -18,12 +18,7 @@
 }
 
 .hero-bg::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(-45deg,
-    transparent, transparent 60px,
-    rgba(255,241,66,.03) 60px, rgba(255,241,66,.03) 62px);
+  display: none;
 }
 
 .float-shape {
@@ -35,19 +30,19 @@
 
 .float-shape:nth-child(2) {
   width: 300px; height: 300px;
-  background: var(--cian);
+  background: var(--naranja);
   top: 10%; right: 15%;
   animation-delay: 0s;
 }
 .float-shape:nth-child(3) {
   width: 180px; height: 180px;
-  background: var(--amarillo-e);
+  background: var(--amarillo);
   bottom: 20%; right: 30%;
   animation-delay: 2s;
 }
 .float-shape:nth-child(4) {
   width: 120px; height: 120px;
-  background: var(--purpura);
+  background: var(--rojo);
   top: 50%; right: 8%;
   animation-delay: 4s;
 }
@@ -60,16 +55,16 @@
 .hero-content {
   position: relative;
   z-index: 1;
-  max-width: 700px;
+  max-width: 1000px;
   padding: 4rem 2rem 4rem 6vw;
 }
 
 .hero-badge {
   display: inline-block;
-  background: var(--amarillo-e);
-  color: var(--morado-o);
-  font-family: 'Bangers', cursive;
-  font-size: 1rem;
+  background: var(--amarillo);
+  color: var(--oscuro);
+  font-family: var(--font-titulo);
+  font-size: 1.3rem;
   letter-spacing: 3px;
   padding: .35rem 1rem;
   border-radius: 20px;
@@ -77,24 +72,21 @@
 }
 
 .hero-title {
-  font-family: 'Bangers', cursive;
-  font-size: clamp(3rem, 8vw, 6rem);
-  line-height: 1;
+  font-family: var(--font-titulo);
+  font-size: clamp(2.5rem, 4.5vw, 5rem);
+  line-height: 1.15;
   color: #fff;
-  letter-spacing: 3px;
-  text-shadow: 4px 4px 0 rgba(62,15,66,.5);
-  margin-bottom: 1rem;
+  letter-spacing: 0px;
+  margin-bottom: 1.2rem;
 }
 
 .hero-title em {
-  font-style: normal;
-  color: var(--cian);
-  display: block;
+  white-space: nowrap;  /* ← evita que "20 años" se separe de "de Carnaval" */
 }
 
 .hero-sub {
   color: rgba(255,255,255,.85);
-  font-size: 1.15rem;
+  font-size: 1.35rem;
   line-height: 1.7;
   max-width: 520px;
   margin-bottom: 2rem;
@@ -151,13 +143,13 @@
   background: #fff;
   border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 12px 30px rgba(0,0,0,.08);
+  box-shadow: 6px 6px 0 var(--dorado), 0 12px 30px rgba(0,0,0,.08);
   transition: transform .3s, box-shadow .3s;
 }
 
 .card:hover {
   transform: translateY(-8px) rotate(.5deg);
-  box-shadow: 0 24px 50px rgba(0,0,0,.15);
+  box-shadow: 10px 10px 0 var(--rojo), 0 24px 50px rgba(0,0,0,.15);
 }
 
 .card-img {
@@ -168,7 +160,7 @@
   position: relative;
 }
 
-.card-img-1 { background: linear-gradient(135deg, var(--morado-o), var(--purpura)); }
+.card-img-1 { background: linear-gradient(135deg, var(--oscuro), var(--rojo)); }
 .card-img-2 { background: linear-gradient(135deg, var(--rojo), var(--naranja)); }
 .card-img-3 { background: linear-gradient(135deg, var(--turquesa), var(--verde)); }
 
@@ -177,8 +169,8 @@
 .card-tag {
   position: absolute;
   top: 1rem; right: 1rem;
-  background: var(--amarillo-e);
-  color: var(--morado-o);
+  background: var(--amarillo);
+  color: var(--oscuro);
   font-size: .72rem;
   font-weight: 800;
   letter-spacing: 1.5px;
@@ -190,7 +182,7 @@
 .card-body { padding: 1.5rem; }
 
 .card-body h3 {
-  font-family: 'Boogaloo', cursive;
+  font-family: var(--font-titulo);
   font-size: 1.4rem;
   color: var(--oscuro);
   margin-bottom: .5rem;
@@ -211,7 +203,7 @@
   transition: color .2s;
 }
 
-.card-link:hover { color: var(--purpura); }
+.card-link:hover { color: var(--rojo); }
 
 /* ── 20 Años ── */
 .años-section {
@@ -235,12 +227,12 @@
 }
 
 .años-number {
-  font-family: 'Bangers', cursive;
+  font-family: var(--font-titulo);
   font-size: 12rem;
   line-height: 1;
   color: transparent;
-  -webkit-text-stroke: 4px var(--purpura);
-  text-shadow: 8px 8px 0 rgba(156,65,150,.15);
+  -webkit-text-stroke: 4px var(--rojo);
+  text-shadow: 8px 8px 0 rgba(190,0,60,.15);
   position: relative;
   z-index: 1;
 }
@@ -262,15 +254,15 @@
 }
 
 .años-text h2 {
-  font-family: 'Bangers', cursive;
+  font-family: var(--font-titulo);
   font-size: 2.4rem;
-  color: var(--morado-o);
+  color: var(--oscuro);
   letter-spacing: 2px;
   margin-bottom: 1rem;
   line-height: 1.1;
 }
 
-.años-text h2 span { color: var(--purpura); }
+.años-text h2 span { color: var(--rojo); }
 
 .años-text p {
   color: #5a3e2b;
@@ -287,8 +279,8 @@
 }
 
 .stat-box {
-  background: var(--morado-o);
-  color: var(--amarillo-e);
+  background: var(--oscuro);
+  color: var(--amarillo);
   border-radius: 12px;
   padding: .9rem 1.3rem;
   text-align: center;
@@ -296,7 +288,7 @@
 }
 
 .stat-box .num {
-  font-family: 'Bangers', cursive;
+  font-family: var(--font-titulo);
   font-size: 2rem;
   display: block;
 }
@@ -311,19 +303,14 @@
 
 /* ── Talleres ── */
 .talleres-section {
-  background: var(--morado-o);
+  background: var(--oscuro);
   padding: 5rem 2rem;
   position: relative;
   overflow: hidden;
 }
 
 .talleres-section::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(-45deg,
-    transparent, transparent 50px,
-    rgba(0,251,207,.02) 50px, rgba(0,251,207,.02) 52px);
+  display: none;
 }
 
 .talleres-grid {
@@ -336,40 +323,31 @@
 }
 
 .taller-card {
-  background: rgba(255,255,255,.06);
-  border: 2px solid rgba(0,251,207,.2);
-  border-radius: 20px;
-  padding: 2.5rem 1.5rem;
+  background: #6b0020;
+  border: 2px solid var(--naranja);
+  border-radius: 24px;
+  padding: 1.2rem;
   text-align: center;
-  transition: background .3s, border-color .3s, transform .3s;
+  transition: transform .3s;
 }
 
 .taller-card:hover {
-  background: rgba(0,251,207,.08);
-  border-color: var(--cian);
   transform: translateY(-6px);
 }
 
-.taller-icon {
-  font-size: 3.5rem;
-  margin-bottom: 1rem;
-  display: block;
-}
-
 .taller-card h3 {
-  font-family: 'Bangers', cursive;
-  font-size: 1.6rem;
-  color: var(--amarillo-e);
-  letter-spacing: 2px;
-  margin-bottom: .5rem;
+  font-family: var(--font-titulo);
+  font-size: 1.8rem;
+  color: var(--amarillo);
+  letter-spacing: 3px;
+  margin-bottom: .7rem;
 }
 
 .taller-card p {
-  color: rgba(255,255,255,.7);
-  font-size: .92rem;
-  line-height: 1.6;
+  color: rgba(255,255,255,.85);
+  font-size: 1rem;
+  line-height: 1.7;
 }
-
 /* ── Eventos ── */
 .eventos-section {
   background: linear-gradient(135deg, var(--rojo) 0%, #8B1A1A 100%);
@@ -379,12 +357,7 @@
 }
 
 .eventos-section::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(45deg,
-    transparent, transparent 30px,
-    rgba(255,255,255,.03) 30px, rgba(255,255,255,.03) 32px);
+  display: none;
 }
 
 .eventos-inner {
@@ -399,16 +372,16 @@
 .eventos-text { flex: 1; }
 
 .eventos-text h2 {
-  font-family: 'Bangers', cursive;
+  font-family: var(--font-titulo);
   font-size: 2.4rem;
-  color: var(--amarillo-e);
-  text-shadow: 3px 3px 0 rgba(0,0,0,.35);
+  color: var(--amarillo);
+  text-shadow: 3px 3px 0 rgba(26,0,16,.45);
   letter-spacing: 2px;
   margin-bottom: .3rem;
 }
 
 .eventos-text p {
-  color: var(--beige-c);
+  color: var(--crema);
   font-weight: 700;
 }
 
@@ -430,9 +403,9 @@
 }
 
 .evento-fecha {
-  background: var(--cian);
-  color: var(--morado-o);
-  font-family: 'Bangers', cursive;
+  background: var(--naranja);
+  color: var(--oscuro);
+  font-family: var(--font-titulo);
   font-size: 1.1rem;
   padding: .2rem .7rem;
   border-radius: 6px;
@@ -441,7 +414,7 @@
 }
 
 .evento-nombre {
-  color: var(--beige-c);
+  color: var(--crema);
   font-weight: 700;
   font-size: .95rem;
 }

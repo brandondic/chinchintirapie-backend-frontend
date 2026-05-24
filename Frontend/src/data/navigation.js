@@ -41,13 +41,12 @@ export const FOOTER_LINKS = {
     { label: 'info@chinchintirapie.cl', href: 'mailto:info@chinchintirapie.cl' },
     { label: 'Tienda', to: '/tienda' },
     { label: 'Donaciones', to: '/tienda#donaciones' },
-    { label: 'Únete a la murga', to: '/contacto' },
+    { label: 'Únete a la escuela', to: '/contacto' },
   ],
 };
 
 export const SOCIAL_LINKS = [
-  { emoji: '📘', href: '#', label: 'Facebook' },
-  { emoji: '📸', href: '#', label: 'Instagram' },
-  { emoji: '▶️', href: '#', label: 'YouTube' },
-  { emoji: '🐦', href: '#', label: 'Twitter' },
+  { href: 'https://www.facebook.com/chinchintirapie', label: 'Facebook' },
+  { href: 'https://www.instagram.com/chinchintirapie/', label: 'Instagram' },
+  { href: 'https://www.youtube.com/@chinchintirapie', label: 'YouTube' },
 ];

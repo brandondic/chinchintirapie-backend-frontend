@@ -1,20 +1,36 @@
-@import url('https://fonts.googleapis.com/css2?family=Boogaloo&family=Pacifico&family=Nunito:wght@400;600;700;800&family=Bangers&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Changa+One:ital@0;1&family=Bricolage+Grotesque:wght@400;600;800&display=swap');
 
 :root {
-  --rojo: #C0392B;
-  --naranja: #E67E22;
-  --amarillo: #F1C40F;
-  --verde: #27AE60;
+  /* ── Tipografía ── */
+  --font-titulo: 'Changa One', sans-serif;
+  --font-texto:  'Bricolage Grotesque', sans-serif;
+
+  /* ── Paleta oficial Chinchintirapié ── */
+  --rojo: #be003c;   /* rojo carmesí — color principal */
+  --naranja:   #ffa93e;   /* naranja cálido — acentos y badges */
+  --amarillo:  #efc600;   /* amarillo intenso — destacados */
+  --blanco:    #ffffff;   /* blanco puro — textos sobre oscuro */
+
+  /* ── Colores derivados (generados desde la paleta) ── */
+  --rojo-oscuro:   #8a0029;   /* rojo más oscuro para hovers y sombras */
+  --rojo-claro:    #f0305e;   /* rojo más claro para gradientes */
+  --naranja-claro: #ffd4a0;   /* naranja muy suave para fondos */
+  --amarillo-e:    #efc600;   /* alias del amarillo (compatibilidad) */
+  --dorado:        #ffa93e;   /* alias del naranja (compatibilidad) */
+
+  /* ── Neutros ── */
+  --oscuro: rgb(110 0 34);         /* casi negro con tono rojo */
+  --gris:    #4a4a4a;         /* gris para textos secundarios */
+  --crema:   #fff8f0;         /* blanco cálido para fondos */
+  --sombra:  rgba(190,0,60,.25);
+
+  /* ── Mantener por compatibilidad con layout actual ── */
+  --purpura:  #be003c;        /* remapeado al rojo principal */
+  --cian:     #ffa93e;        /* remapeado al naranja */
+  --morado-o: #1a0010;        /* remapeado al oscuro */
+  --beige-c:  #fff8f0;        /* remapeado a crema */
+  --verde:    #27AE60;
   --turquesa: #16A085;
-  --dorado: #D4A017;
-  --crema: #FDF6E3;
-  --oscuro: #2C1A0E;
-  --sombra: rgba(44, 26, 14, .45);
-  --purpura: #9C4196;
-  --cian: #00FBCF;
-  --amarillo-e: #FFF142;
-  --morado-o: #3E0F42;
-  --beige-c: #F5E9D3;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -35,21 +51,13 @@
 html { scroll-behavior: smooth; }
 
 body {
-  font-family: 'Nunito', sans-serif;
+  font-family: var(--font-texto);
   background: var(--crema);
   color: var(--oscuro);
   overflow-x: hidden;
 }
 
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 9999;
-  opacity: .5;
-}
+/* textura de ruido eliminada */
 
 /* ── Reveal Animations ── */
 .reveal {
@@ -71,15 +79,15 @@ body::before {
   border-top: 2px solid var(--morado-o);
   border-bottom: 2px solid var(--morado-o);
 }
-  .ticker-inner {
-    display: inline-block;
-    animation: marquee 40s linear infinite;
-    font-family: Impact, 'Arial Narrow', sans-serif;
-    font-size: 1rem;
-    color: var(--morado-o);
-    letter-spacing: 2px;
-    text-transform: uppercase;
-  }
+.ticker-inner {
+  display: inline-block;
+  animation: marquee 50s linear infinite;
+  font-family: var(--font-titulo);
+  font-size: 1rem;
+  color: var(--morado-o);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
 @keyframes marquee {
   from { transform: translateX(100vw); }
   to   { transform: translateX(-100%); }
@@ -87,25 +95,21 @@ body::before {
 
 /* ── Page Hero (subpages) ── */
 .page-hero {
-  background: linear-gradient(135deg, var(--morado-o) 0%, #4c1151 50%, var(--rojo) 100%);
+  background: linear-gradient(135deg, var(--oscuro) 0%, var(--rojo-oscuro) 60%, var(--rojo) 100%);
   padding: 5rem 2rem 4rem;
   text-align: center;
   position: relative;
   overflow: hidden;
-  border-bottom: 4px solid var(--dorado);
+  border-bottom: 4px solid var(--amarillo);
 }
 .page-hero::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(-45deg, transparent, transparent 40px,
-    rgba(241,196,15,.03) 40px, rgba(241,196,15,.03) 42px);
+  display: none;
 }
 .page-hero-badge {
   display: inline-block;
-  background: var(--dorado);
+  background: var(--amarillo);
   color: var(--oscuro);
-  font-family: 'Bangers', cursive;
+  font-family: var(--font-titulo);
   font-size: .95rem;
   letter-spacing: 3px;
   padding: .3rem 1.1rem;
@@ -114,21 +118,21 @@ body::before {
   position: relative;
 }
 .page-hero h1 {
-  font-family: 'Bangers', cursive;
+  font-family: var(--font-titulo);
   font-size: clamp(2.5rem, 6vw, 5rem);
-  color: #fff;
+  color: var(--blanco);
   letter-spacing: 3px;
   line-height: 1;
-  text-shadow: 4px 4px 0 var(--rojo);
+  text-shadow: 4px 4px 0 var(--rojo-oscuro);
   margin-bottom: .9rem;
   position: relative;
 }
 .page-hero h1 em {
-  font-style: normal;
+  font-style: italic;
   color: var(--amarillo);
 }
 .page-hero p {
-  color: rgba(255,255,255,.8);
+  color: rgba(255,255,255,.85);
   font-size: 1.1rem;
   max-width: 600px;
   margin: 0 auto;
@@ -138,23 +142,19 @@ body::before {
 
 /* ── Page Hero Variants ── */
 .page-hero--default {
-  background: linear-gradient(135deg, var(--morado-o) 0%, #4c1151 50%, var(--rojo) 100%);
+  background: linear-gradient(135deg, var(--oscuro) 0%, var(--rojo-oscuro) 60%, var(--rojo) 100%);
 }
-
 .page-hero--purple {
-  background: linear-gradient(135deg, var(--morado-o) 0%, #2a0a30 60%, var(--purpura) 100%);
+  background: linear-gradient(135deg, var(--oscuro) 0%, #3a0015 60%, var(--rojo) 100%);
 }
-
 .page-hero--red {
-  background: linear-gradient(135deg, #8B1A1A 0%, var(--rojo) 60%, var(--naranja) 100%);
+  background: linear-gradient(135deg, var(--rojo-oscuro) 0%, var(--rojo) 60%, var(--naranja) 100%);
 }
-
 .page-hero--teal {
   background: linear-gradient(135deg, var(--turquesa) 0%, var(--verde) 60%, #0b5345 100%);
 }
-
 .page-hero--dark {
-  background: linear-gradient(135deg, #0d0d0d 0%, #1a1a2e 60%, #16213e 100%);
+  background: linear-gradient(135deg, #0d0d0d 0%, var(--oscuro) 60%, var(--rojo-oscuro) 100%);
 }
 
 .stats-strip {
@@ -175,7 +175,7 @@ body::before {
 .strip-stat:last-child { border-right: none; }
 .s-num {
   display: block;
-  font-family: 'Bangers', cursive;
+  font-family: var(--font-titulo);
   font-size: 2.8rem;
   color: var(--amarillo-e);
   line-height: 1;
@@ -206,7 +206,7 @@ body::before {
   border: 2px solid var(--dorado);
   background: transparent;
   color: var(--oscuro);
-  font-family: 'Nunito', sans-serif;
+  font-family: var(--font-texto);
   font-size: .85rem;
   font-weight: 800;
   letter-spacing: .5px;
@@ -221,7 +221,7 @@ body::before {
 
 /* ── Search Bar ── */
 .search-bar-wrap {
-  background: var(--morado-o);
+  background: var(--oscuro);
   padding: 1.5rem 2rem;
   display: flex;
   justify-content: center;
@@ -241,7 +241,7 @@ body::before {
   border: 2px solid rgba(212,160,23,.4);
   background: rgba(255,255,255,.08);
   color: #fff;
-  font-family: 'Nunito', sans-serif;
+  font-family: var(--font-texto);
   font-size: 1rem;
   outline: none;
   transition: border-color .2s;
@@ -254,7 +254,7 @@ body::before {
   color: #fff;
   border: none;
   border-radius: 8px;
-  font-family: 'Nunito', sans-serif;
+  font-family: var(--font-texto);
   font-size: .95rem;
   font-weight: 800;
   cursor: pointer;
@@ -275,7 +275,7 @@ body::before {
   margin-bottom: 2rem;
 }
 .year-label {
-  font-family: 'Bangers', cursive;
+  font-family: var(--font-titulo);
   font-size: 3.5rem;
   color: transparent;
   -webkit-text-stroke: 3px var(--rojo);
@@ -299,13 +299,13 @@ body::before {
   border-radius: 14px;
   overflow: hidden;
   background: #fff;
-  box-shadow: 0 6px 20px rgba(0,0,0,.09);
+  box-shadow: 4px 4px 0 var(--dorado), 0 6px 20px rgba(0,0,0,.09);
   transition: transform .28s, box-shadow .28s;
   cursor: pointer;
 }
 .media-card:hover {
   transform: translateY(-6px) rotate(.4deg);
-  box-shadow: 0 14px 36px rgba(0,0,0,.16);
+  box-shadow: 8px 8px 0 var(--rojo), 0 14px 36px rgba(0,0,0,.16);
 }
 .media-thumb {
   height: 160px;
@@ -333,7 +333,7 @@ body::before {
 .media-card:hover .play-icon { opacity: 1; }
 .media-info { padding: 1rem 1.1rem; }
 .media-info h4 {
-  font-family: 'Boogaloo', cursive;
+  font-family: var(--font-titulo);
   font-size: 1.1rem;
   color: var(--oscuro);
   margin-bottom: .25rem;
@@ -363,7 +363,7 @@ body::before {
 }
 .cedoc-main section { margin-bottom: 3rem; }
 .cedoc-main h2 {
-  font-family: 'Bangers', cursive;
+  font-family: var(--font-titulo);
   font-size: 2rem;
   color: var(--oscuro);
   letter-spacing: 2px;
@@ -376,7 +376,7 @@ body::before {
   border-radius: 14px;
   padding: 1.5rem;
   margin-bottom: 1.2rem;
-  box-shadow: 0 4px 16px rgba(0,0,0,.07);
+  box-shadow: 3px 3px 0 var(--dorado), 0 4px 16px rgba(0,0,0,.07);
   transition: transform .25s, box-shadow .25s;
   display: flex;
   gap: 1.2rem;
@@ -384,7 +384,7 @@ body::before {
 }
 .article-card:hover {
   transform: translateX(4px);
-  box-shadow: 0 8px 24px rgba(0,0,0,.12);
+  box-shadow: 5px 5px 0 var(--rojo), 0 8px 24px rgba(0,0,0,.12);
 }
 .article-icon {
   font-size: 2.5rem;
@@ -398,7 +398,7 @@ body::before {
   justify-content: center;
 }
 .article-body h3 {
-  font-family: 'Boogaloo', cursive;
+  font-family: var(--font-titulo);
   font-size: 1.25rem;
   color: var(--oscuro);
   margin-bottom: .3rem;
@@ -441,7 +441,7 @@ body::before {
   margin-top: .5rem;
   border: none;
   cursor: pointer;
-  font-family: 'Nunito', sans-serif;
+  font-family: var(--font-texto);
 }
 
 .download-btn:hover { background: var(--rojo); color: #fff; }
@@ -451,10 +451,10 @@ body::before {
   border-radius: 14px;
   padding: 1.5rem;
   margin-bottom: 1.5rem;
-  box-shadow: 0 4px 14px rgba(0,0,0,.07);
+  box-shadow: 3px 3px 0 var(--dorado), 0 4px 14px rgba(0,0,0,.07);
 }
 .sidebar-widget h3 {
-  font-family: 'Bangers', cursive;
+  font-family: var(--font-titulo);
   font-size: 1.4rem;
   color: var(--oscuro);
   letter-spacing: 2px;
@@ -490,7 +490,7 @@ body::before {
   box-shadow: 0 0 0 2px var(--rojo);
 }
 .timeline-year {
-  font-family: 'Bangers', cursive;
+  font-family: var(--font-titulo);
   font-size: 1.1rem;
   color: var(--rojo);
   letter-spacing: 1px;
@@ -509,7 +509,7 @@ body::before {
   gap: .5rem;
   padding: .85rem 2rem;
   border-radius: 12px;
-  font-family: 'Nunito', sans-serif;
+  font-family: var(--font-texto);
   font-size: 1rem;
   font-weight: 800;
   letter-spacing: 1px;
@@ -520,17 +520,17 @@ body::before {
 }
 .btn:hover { transform: translateY(-2px); }
 .btn-primary {
-  background: var(--amarillo-e);
-  color: var(--morado-o);
-  box-shadow: 4px 4px 0 var(--purpura);
+  background: var(--amarillo);
+  color: var(--oscuro);
+  box-shadow: 4px 4px 0 var(--rojo);
 }
-.btn-primary:hover { box-shadow: 6px 6px 0 var(--purpura); }
+.btn-primary:hover { box-shadow: 6px 6px 0 var(--rojo-oscuro); }
 .btn-secondary {
   background: transparent;
-  color: var(--crema);
-  border: 2px solid var(--cian);
+  color: var(--blanco);
+  border: 2px solid var(--naranja);
 }
-.btn-secondary:hover { background: rgba(0,251,207,.1); }
+.btn-secondary:hover { background: rgba(255,169,62,.15); }
 
 /* ── Section header ── */
 .section-header {
@@ -539,7 +539,7 @@ body::before {
   padding: 0 1rem;
 }
 .section-header h2 {
-  font-family: 'Bangers', cursive;
+  font-family: var(--font-titulo);
   font-size: clamp(2rem, 5vw, 3rem);
   letter-spacing: 3px;
   color: var(--oscuro);
