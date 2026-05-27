@@ -58,7 +58,13 @@ export default function CronicaDetail() {
         </Link>
 
         <div className="cronica-detail__card">
-          <div className="cronica-detail__emoji">📰</div>
+          <div className="cronica-detail__emoji" style={cronica.urlPhoto ? { background: 'transparent' } : {}}>
+            {cronica.urlPhoto ? (
+              <img src={cronica.urlPhoto} alt={cronica.title} style={{ width: '100%', maxHeight: '400px', objectFit: 'cover', borderRadius: '12px' }} />
+            ) : (
+              "📰"
+            )}
+          </div>
 
           <div className="cronica-detail__tags">
               <span className="cronica-detail__tag">Crónica</span>

@@ -7,8 +7,8 @@ import articuloService from '../services/articuloService';
 import '../styles/Cronica.css';
 
 export default function Cronicas() {
-  useReveal();
   const [cronicas, setCronicas] = useState([]);
+  useReveal([cronicas]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -39,7 +39,13 @@ export default function Cronicas() {
           {!loading && !error && cronicas.map((c) => (
             <Link to={`/cronicas/${c.id}`} key={c.id} className="cronica-link">
               <article className="cronica-card reveal">
-                <div className="cronica-emoji">📰</div>
+                <div className="cronica-emoji" style={c.urlPhoto ? { padding: 0, overflow: 'hidden', background: 'transparent' } : {}}>
+                  {c.urlPhoto ? (
+                    <img src={c.urlPhoto} alt={c.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  ) : (
+                    "📰"
+                  )}
+                </div>
                 <div>
                   <p className="cronica-date">
                     {c.createdAt ? new Date(c.createdAt).toLocaleDateString() : ''}
