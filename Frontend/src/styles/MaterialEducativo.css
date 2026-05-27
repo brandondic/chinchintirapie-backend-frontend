@@ -1,0 +1,63 @@
+.material-section {
+  padding: 4rem 2rem;
+  background: var(--crema);
+}
+
+.material-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.material-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.edu-card {
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0,0,0,.07);
+  display: flex;
+  flex-direction: column;
+}
+
+.edu-card-top {
+  height: 120px;
+  background: linear-gradient(135deg, var(--oscuro), #5a3e2b);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3.5rem;
+}
+
+.edu-card-body {
+  padding: 1.2rem;
+}
+
+.edu-card-body h3 {
+  font-family: var(--font-titulo);
+  font-size: 1.1rem;
+  color: var(--oscuro);
+  margin: .4rem 0;
+}
+
+.edu-card-meta {
+  font-size: .8rem;
+  color: #7a5c40;
+  margin-bottom: .8rem;
+}
+
+.material-download-btn {
+  width: 100%;
+  justify-content: center;
+}
+
+@media (max-width: 640px) {
+  .material-grid {
+    grid-template-columns: 1fr;
+  }
+}

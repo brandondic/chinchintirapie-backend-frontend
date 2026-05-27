@@ -4,6 +4,7 @@ import { useReveal } from '../hooks/useReveal';
 import PageHero from '../components/PageHero';
 import Ticker from '../components/Ticker';
 import { REPO_ITEMS } from '../data/repositorioData';
+import '../styles/Repositorio.css';
 
 export default function Repositorio() {
   const [search, setSearch] = useState('');
@@ -29,12 +30,12 @@ export default function Repositorio() {
           <button>🔍 Buscar</button>
         </div>
       </div>
-      <section style={{ padding: '4rem 2rem', background: 'var(--crema)' }}>
-        <div className="media-grid" style={{ maxWidth: 1200, margin: '0 auto' }}>
+      <section className="repositorio-section">
+        <div className="media-grid repositorio-media-grid">
           {filtered.map(({ id, emoji, title, type, year, count }) => (
-            <Link to={`/repositorio/${id}`} key={id} style={{ textDecoration: 'none', color: 'inherit' }}>
+            <Link to={`/repositorio/${id}`} key={id} className="repositorio-link-reset">
               <div className="media-card reveal">
-                <div className="media-thumb" style={{ background: `linear-gradient(135deg, var(--morado-o), var(--purpura))` }}>
+                <div className="media-thumb">
                   <span>{emoji}</span>
                   <div className="play-icon">▶</div>
                 </div>

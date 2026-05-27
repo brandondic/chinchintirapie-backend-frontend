@@ -1,0 +1,47 @@
+.page-empty {
+  text-align: center;
+  padding: 5rem;
+}
+
+.educativo-detail {
+  max-width: 800px;
+  margin: 4rem auto;
+  padding: 0 2rem;
+  text-align: center;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 2rem;
+  color: var(--purpura);
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.educativo-card {
+  background: var(--crema);
+  padding: 4rem;
+  border-radius: 16px;
+  border: 2px dashed #ccc;
+}
+
+.educativo-icon {
+  font-size: 6rem;
+  margin-bottom: 1rem;
+}
+
+.educativo-title {
+  font-family: var(--font-titulo);
+  font-size: 2rem;
+  color: var(--oscuro);
+  margin-bottom: 1rem;
+}
+
+.educativo-copy {
+  color: #5a3e2b;
+  margin: 1rem 0 2rem;
+}
+
+.material-download-btn {
+  margin: 0 auto;
+}

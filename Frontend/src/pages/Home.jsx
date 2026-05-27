@@ -57,7 +57,7 @@ export default function Home() {
 
   return (
       <>
-        <Ticker text="🥁 ¡20 años haciendo carnaval en la calle! &nbsp;&nbsp;🎺 Próximas fechas: 19 horas · 23 feb · 23 mar &nbsp;&nbsp; Nuevas inscripciones abiertas para Figurines &nbsp;&nbsp; Proyectos comunitarios activos en toda la ciudad &nbsp;&nbsp; Baile · Diseño de figurines · banda" />
+        <Ticker text="🥁 ¡20 años haciendo carnaval en la calle!   ·   🎺 Próximas fechas: 19 horas · 23 feb · 23 mar   ·   Nuevas inscripciones abiertas para Figurines   ·   Proyectos comunitarios activos en toda la ciudad   ·   Baile · Diseño de figurines · banda" />
 
         {/* HERO */}
         <section className="hero" id="inicio">

@@ -1,0 +1,215 @@
+.hero-history {
+  background: linear-gradient(135deg, var(--morado-o) 0%, #1a0820 100%);
+  padding: 5rem 2rem;
+  color: #fff;
+}
+
+.hero-history-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+.hero-history-tagline {
+  color: var(--cian);
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  font-size: .85rem;
+}
+
+.hero-history-title {
+  font-family: var(--font-titulo);
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  letter-spacing: 3px;
+  line-height: 1;
+  margin-bottom: 1rem;
+  text-shadow: 4px 4px 0 var(--rojo);
+}
+
+.hero-history-copy {
+  color: rgba(255,255,255,.8);
+  font-size: 1.1rem;
+  line-height: 1.7;
+  margin-bottom: 2rem;
+  max-width: 500px;
+}
+
+.hero-history-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.hero-history-aside {
+  background: rgba(255,255,255,.07);
+  border: 2px solid rgba(0,251,207,.3);
+  border-radius: 20px;
+  padding: 2rem;
+}
+
+.hero-history-quote {
+  color: var(--cian);
+  font-style: italic;
+  margin-bottom: .5rem;
+  font-size: 1.05rem;
+}
+
+.hero-history-note {
+  color: rgba(255,255,255,.4);
+  display: block;
+  margin-top: 1rem;
+}
+
+.story-section,
+.gallery-section {
+  padding: 5rem 2rem;
+  background: var(--crema);
+}
+
+.mission-section {
+  background: var(--morado-o);
+  padding: 5rem 2rem;
+}
+
+.section-crema {
+  background: var(--crema);
+}
+
+.story-grid,
+.mission-grid,
+.gallery-grid {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.story-grid {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.story-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 8px 24px rgba(0,0,0,.07);
+}
+
+.story-card-title {
+  font-family: var(--font-titulo);
+  font-size: 1.3rem;
+  color: var(--oscuro);
+  margin-bottom: .7rem;
+}
+
+.story-card-copy {
+  color: #5a3e2b;
+  line-height: 1.7;
+  font-size: .95rem;
+}
+
+.story-card-feature {
+  border: 2px solid var(--rojo);
+}
+
+.accent-card {
+  border: 2px solid var(--dorado);
+}
+
+.wide-card {
+  grid-column: span 2;
+}
+
+.mission-grid {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.mission-card {
+  background: rgba(255,255,255,.06);
+  border: 2px solid rgba(0,251,207,.2);
+  border-radius: 20px;
+  padding: 2.5rem;
+  color: #fff;
+}
+
+.mission-badge {
+  background: var(--dorado);
+  color: var(--oscuro);
+  border-radius: 20px;
+  padding: .2rem .9rem;
+  font-size: .78rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.mission-card h3 {
+  font-family: var(--font-titulo);
+  font-size: 1.4rem;
+  margin-bottom: .7rem;
+  color: var(--amarillo-e);
+}
+
+.mission-card p {
+  color: rgba(255,255,255,.75);
+  line-height: 1.7;
+}
+
+.gallery-grid {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.gallery-card {
+  margin: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0,0,0,.07);
+}
+
+.gallery-img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+}
+
+.gallery-caption {
+  background: var(--oscuro);
+  color: #fff;
+  padding: 1rem 1.2rem;
+}
+
+.gallery-caption-title {
+  display: block;
+  font-family: var(--font-titulo);
+  font-size: 1.1rem;
+  margin-bottom: .3rem;
+}
+
+.gallery-caption-desc {
+  font-size: .85rem;
+  color: rgba(255,255,255,.6);
+}
+
+@media (max-width: 900px) {
+  .hero-history-inner,
+  .años-inner {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-history {
+    padding: 3rem 1rem;
+  }
+
+  .hero-history-inner {
+    gap: 2rem;
+  }
+}

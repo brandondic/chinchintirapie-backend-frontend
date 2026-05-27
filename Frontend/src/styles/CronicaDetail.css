@@ -1,0 +1,90 @@
+.cronica-detail__container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 4rem;
+}
+
+.cronica-detail__back-link {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  color: #7a1f1f;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.cronica-detail__back-link:hover {
+  color: #a52a2a;
+}
+
+.cronica-detail__card {
+  background: #ffffff;
+  border: 1px solid #ece7e7;
+  border-radius: 18px;
+  padding: 2rem;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.06);
+}
+
+.cronica-detail__emoji {
+  font-size: 3rem;
+  line-height: 1;
+  margin-bottom: 1rem;
+}
+
+.cronica-detail__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 1.25rem;
+}
+
+.cronica-detail__tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  background: #fdf1f1;
+  color: #8b1e1e;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.cronica-detail__content {
+  color: #374151;
+  line-height: 1.8;
+  font-size: 1rem;
+}
+
+.cronica-detail__content p {
+  margin: 0;
+  white-space: pre-line;
+}
+
+.cronica-detail__not-found {
+  min-height: 50vh;
+  display: grid;
+  place-content: center;
+  gap: 1rem;
+  text-align: center;
+  padding: 2rem;
+}
+
+@media (max-width: 768px) {
+  .cronica-detail__container {
+    padding: 1.5rem 1rem 3rem;
+  }
+
+  .cronica-detail__card {
+    padding: 1.5rem;
+    border-radius: 14px;
+  }
+
+  .cronica-detail__emoji {
+    font-size: 2.4rem;
+  }
+
+  .cronica-detail__content {
+    font-size: 0.98rem;
+    line-height: 1.7;
+  }
+}

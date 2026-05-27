@@ -1,7 +1,12 @@
+import '../styles/Ticker.css';
+
 export default function Ticker({ text }) {
   return (
     <div className="ticker" aria-hidden="true">
-      <span className="ticker-inner">{text}&nbsp;&nbsp;{text}</span>
+      <div className="ticker-inner">
+        <span className="ticker-content">{text}</span>
+        <span className="ticker-content">{text}</span>
+      </div>
     </div>
   );
 }

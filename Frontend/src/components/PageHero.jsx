@@ -1,3 +1,5 @@
+import '../styles/PageHero.css';
+
 export default function PageHero({ badge, title, titleEm, description, variant = 'default' }) {
   return (
     <div className={`page-hero page-hero--${variant}`}>

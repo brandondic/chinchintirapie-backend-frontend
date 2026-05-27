@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../styles/Footer.css';
 import { FOOTER_LINKS, SOCIAL_LINKS } from '../data/navigation';
 
@@ -26,6 +26,34 @@ const ICONS = {
       </svg>
   ),
 };
+
+function FooterLink({ label, to, href }) {
+  const navigate = useNavigate();
+
+  if (href) {
+    return <a href={href}>{label}</a>;
+  }
+
+  // Handle hash links like "/#talleres" or "/tienda#donaciones"
+  if (to && to.includes('#')) {
+    const [path, hash] = to.split('#');
+    const handleClick = (e) => {
+      e.preventDefault();
+      const targetPath = path || '/';
+      navigate(targetPath);
+      // Wait for navigation and DOM to update, then scroll
+      setTimeout(() => {
+        const el = document.getElementById(hash);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 100);
+    };
+    return <a href={to} onClick={handleClick}>{label}</a>;
+  }
+
+  return <Link to={to}>{label}</Link>;
+}
 
 export default function Footer() {
   return (
@@ -60,9 +88,9 @@ export default function Footer() {
           <div className="footer-col">
             <h4>Escuela</h4>
             <ul>
-              {FOOTER_LINKS.escuela.map(({ label, to }) => (
+              {FOOTER_LINKS.escuela.map(({ label, to, href }) => (
                   <li key={label}>
-                    <Link to={to}>{label}</Link>
+                    <FooterLink label={label} to={to} href={href} />
                   </li>
               ))}
             </ul>
@@ -72,9 +100,9 @@ export default function Footer() {
           <div className="footer-col">
             <h4>Archivo</h4>
             <ul>
-              {FOOTER_LINKS.archivo.map(({ label, to }) => (
+              {FOOTER_LINKS.archivo.map(({ label, to, href }) => (
                   <li key={label}>
-                    <Link to={to}>{label}</Link>
+                    <FooterLink label={label} to={to} href={href} />
                   </li>
               ))}
             </ul>
@@ -86,11 +114,7 @@ export default function Footer() {
             <ul>
               {FOOTER_LINKS.contacto.map(({ label, href, to }) => (
                   <li key={label}>
-                    {href ? (
-                        <a href={href}>{label}</a>
-                    ) : (
-                        <Link to={to}>{label}</Link>
-                    )}
+                    <FooterLink label={label} to={to} href={href} />
                   </li>
               ))}
             </ul>

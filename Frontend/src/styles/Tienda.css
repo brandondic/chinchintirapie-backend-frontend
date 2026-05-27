@@ -1,0 +1,211 @@
+.tienda-page {
+  background: var(--crema);
+  padding: 5rem 2rem;
+  min-height: 100vh;
+}
+.tienda-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+.tienda-header h1 {
+  font-family: var(--font-titulo);
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  letter-spacing: 3px;
+  color: var(--oscuro);
+}
+.tienda-header h1 span {
+  color: var(--rojo);
+}
+.tienda-header p {
+  color: #6a4c35;
+  max-width: 600px;
+  margin: .8rem auto 0;
+  line-height: 1.7;
+}
+.tienda-layout {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 5rem;
+}
+.tienda-section h2 {
+  font-family: var(--font-titulo);
+  font-size: 2.4rem;
+  letter-spacing: 2px;
+  border-left: 6px solid var(--rojo);
+  padding-left: 1rem;
+  margin-bottom: 2rem;
+}
+.tienda-product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+.tienda-product-card {
+  background: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0,0,0,.12);
+  transition: transform .3s, box-shadow .3s;
+}
+.tienda-product-card:hover {
+  transform: translateY(-4px);
+}
+.tienda-product-image {
+  position: relative;
+}
+.tienda-product-image img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  display: block;
+}
+.tienda-product-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: var(--rojo);
+  color: #fff;
+  border-radius: 20px;
+  padding: .25rem .75rem;
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+.tienda-product-info {
+  padding: 1.5rem;
+}
+.tienda-product-title {
+  font-family: var(--font-titulo);
+  font-size: 1.4rem;
+  color: var(--oscuro);
+  margin-bottom: .4rem;
+}
+.tienda-product-desc {
+  color: #6a4c35;
+  font-size: .9rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+.tienda-product-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.tienda-product-price {
+  font-family: var(--font-titulo);
+  font-size: 1.6rem;
+  color: var(--rojo);
+  letter-spacing: 1px;
+}
+.tienda-buy-btn {
+  background: var(--oscuro);
+  color: var(--amarillo);
+  border: none;
+  border-radius: 10px;
+  padding: .6rem 1.4rem;
+  font-family: var(--font-texto);
+  font-weight: 800;
+  cursor: pointer;
+  transition: background .2s;
+}
+.tienda-buy-btn:hover {
+  background: var(--rojo);
+}
+.tienda-donation-panel {
+  background: linear-gradient(135deg, var(--morado-o) 0%, #2a0a30 100%);
+  border-radius: 24px;
+  padding: 3rem 2rem;
+  color: #fff;
+}
+.tienda-donation-panel h2 {
+  font-family: var(--font-titulo);
+  font-size: 2.4rem;
+  letter-spacing: 2px;
+  color: var(--amarillo-e);
+  margin-bottom: .5rem;
+}
+.tienda-donation-panel p {
+  color: rgba(255,255,255,.7);
+  margin-bottom: 2rem;
+  max-width: 500px;
+}
+.tienda-donation-success {
+  text-align: center;
+  padding: 2rem;
+}
+.tienda-donation-success-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+.tienda-donation-success-title {
+  font-family: var(--font-titulo);
+  font-size: 1.8rem;
+  color: var(--amarillo-e);
+  margin-bottom: .75rem;
+}
+.tienda-donation-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .8rem;
+  margin-bottom: 1.5rem;
+}
+.tienda-donation-amount {
+  padding: .6rem 1.4rem;
+  border-radius: 12px;
+  border: 2px solid rgba(255,255,255,.25);
+  background: transparent;
+  color: #fff;
+  font-family: var(--font-titulo);
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all .2s;
+}
+.tienda-donation-amount.active {
+  border-color: var(--amarillo-e);
+  background: var(--amarillo-e);
+  color: var(--morado-o);
+}
+.tienda-donation-form {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.tienda-donation-input {
+  padding: .65rem 1rem;
+  border-radius: 10px;
+  border: 2px solid rgba(255,255,255,.25);
+  background: rgba(255,255,255,.08);
+  color: #fff;
+  font-family: var(--font-texto);
+  font-size: .95rem;
+  outline: none;
+  flex: 1;
+  min-width: 160px;
+}
+.tienda-donation-input::placeholder {
+  color: rgba(255,255,255,.7);
+}
+.tienda-donation-submit {
+  background: var(--rojo);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: .7rem 2rem;
+  font-family: var(--font-texto);
+  font-weight: 800;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background .2s;
+  white-space: nowrap;
+}
+.tienda-donation-submit:hover {
+  background: #9a002f;
+}
+@media (max-width: 768px) {
+  .tienda-product-footer { flex-direction: column; align-items: stretch; gap: .8rem; }
+  .tienda-donation-form { flex-direction: column; align-items: stretch; }
+}

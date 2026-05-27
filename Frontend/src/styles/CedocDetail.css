@@ -1,0 +1,117 @@
+.cedoc-detail__container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 4rem;
+}
+
+.cedoc-detail__back-link {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  color: #0f4c5c;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.cedoc-detail__back-link:hover {
+  color: #0c7489;
+}
+
+.cedoc-detail__row {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  background: #ffffff;
+  border: 1px solid #e7e7e7;
+  border-radius: 18px;
+  padding: 2rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.cedoc-detail__icon {
+  width: 88px;
+  height: 88px;
+  min-width: 88px;
+  border-radius: 20px;
+  display: grid;
+  place-items: center;
+  font-size: 2rem;
+  background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+  color: #1d4ed8;
+}
+
+.cedoc-detail__content {
+  flex: 1;
+}
+
+.cedoc-detail__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.cedoc-detail__tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  background: #eef6f8;
+  color: #0f4c5c;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.cedoc-detail__description {
+  margin-bottom: 1.5rem;
+  color: #374151;
+  line-height: 1.7;
+  font-size: 1rem;
+}
+
+.cedoc-detail__button {
+  border: none;
+  border-radius: 12px;
+  padding: 0.9rem 1.2rem;
+  background: #0f4c5c;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.cedoc-detail__button:hover {
+  background: #0c7489;
+  transform: translateY(-1px);
+}
+
+.cedoc-detail__button--gold {
+  background: #b8891f;
+}
+
+.cedoc-detail__button--gold:hover {
+  background: #9c7418;
+}
+
+.cedoc-detail__empty {
+  min-height: 50vh;
+  display: grid;
+  place-content: center;
+  gap: 1rem;
+  text-align: center;
+  padding: 2rem;
+}
+
+@media (max-width: 768px) {
+  .cedoc-detail__row {
+    flex-direction: column;
+    padding: 1.5rem;
+  }
+
+  .cedoc-detail__icon {
+    width: 72px;
+    height: 72px;
+    min-width: 72px;
+    font-size: 1.6rem;
+  }
+}

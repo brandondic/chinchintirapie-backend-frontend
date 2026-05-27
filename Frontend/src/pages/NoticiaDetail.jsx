@@ -1,26 +1,32 @@
 import { useParams, Link } from 'react-router-dom';
 import { NEWS_ITEMS } from '../data/noticiasData';
 import PageHero from '../components/PageHero';
+import '../styles/NoticiaDetail.css';
 
 export default function NoticiaDetail() {
   const { id } = useParams();
   const noticia = NEWS_ITEMS.find((n) => n.id === id);
 
-  if (!noticia) return <div style={{ textAlign: 'center', padding: '5rem' }}><h2>Noticia no encontrada</h2><Link to="/noticias">Volver</Link></div>;
+  if (!noticia) return (
+    <div className="page-empty">
+      <h2>Noticia no encontrada</h2>
+      <Link to="/noticias" className="back-link">Volver</Link>
+    </div>
+  );
 
   return (
     <>
       <PageHero badge={noticia.category} title={noticia.title} description="" />
-      <div style={{ maxWidth: 800, margin: '4rem auto', padding: '0 2rem' }}>
-        <Link to="/noticias" style={{ display: 'inline-block', marginBottom: '2rem', color: 'var(--purpura)', fontWeight: 'bold', textDecoration: 'none' }}>← Volver a Noticias</Link>
+      <div className="noticia-detail">
+        <Link to="/noticias" className="back-link">← Volver a Noticias</Link>
         {noticia.video ? (
-          <video controls style={{ width: '100%', borderRadius: 16, marginBottom: '2rem' }}>
+          <video controls className="noticia-media">
             <source src={noticia.video} type="video/mp4" />
           </video>
         ) : (
-          <img src={noticia.img} alt={noticia.title} style={{ width: '100%', borderRadius: 16, marginBottom: '2rem' }} />
+          <img src={noticia.img} alt={noticia.title} className="noticia-media" />
         )}
-        <p style={{ fontSize: '1.2rem', lineHeight: 1.8, color: '#444' }}>{noticia.desc}</p>
+        <p className="noticia-desc">{noticia.desc}</p>
       </div>
     </>
   );

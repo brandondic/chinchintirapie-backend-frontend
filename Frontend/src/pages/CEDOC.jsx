@@ -5,6 +5,7 @@ import Ticker from '../components/Ticker';
 
 import { Link } from 'react-router-dom';
 import { ARTICLES, TIMELINE, DOWNLOADS, TOPICS, FILTERS, STATS } from '../data/cedocData';
+import '../styles/Cedoc.css';
 
 
 export default function CEDOC() {
@@ -58,7 +59,7 @@ export default function CEDOC() {
             <section>
               <h2>✦ Artículos Destacados</h2>
               {visibleArticles.filter((a) => a.status === 'published').map((a) => (
-                <Link to={`/cedoc/${a.id}`} key={a.id} style={{ textDecoration: 'none', color: 'inherit' }}>
+                <Link to={`/cedoc/${a.id}`} key={a.id} className="link-reset">
                   <div className="article-card reveal">
                     <div className="article-icon" style={a.iconStyle}>{a.icon}</div>
                     <div className="article-body">
@@ -77,7 +78,7 @@ export default function CEDOC() {
             <section>
               <h2>🔬 Investigaciones en Curso</h2>
               {visibleArticles.filter((a) => a.status === 'in-progress').map((a) => (
-                <Link to={`/cedoc/${a.id}`} key={a.id} style={{ textDecoration: 'none', color: 'inherit' }}>
+                <Link to={`/cedoc/${a.id}`} key={a.id} className="link-reset">
                   <div className="article-card reveal">
                     <div className="article-icon" style={a.iconStyle}>{a.icon}</div>
                     <div className="article-body">
@@ -86,7 +87,7 @@ export default function CEDOC() {
                       <div className="article-meta">
                         {a.tags.map((t) => <span className="meta-tag" key={t}>{t}</span>)}
                       </div>
-                      <button type="button" className="download-btn" style={{ background: 'var(--dorado)', color: 'var(--oscuro)' }}>👁 Ver avance completo</button>
+                      <button type="button" className="download-btn download-btn--gold">👁 Ver avance completo</button>
                     </div>
                   </div>
                 </Link>
@@ -110,15 +111,11 @@ export default function CEDOC() {
 
             <div className="sidebar-widget reveal">
               <h3>📄 Descargas Rápidas</h3>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '.7rem' }}>
+              <div className="download-list">
                 {DOWNLOADS.map(({ emoji, label, size, gold }) => (
-                  <button key={label} type="button" className="download-btn"
-                    style={{
-                      justifyContent: 'space-between',
-                      ...(gold ? { background: 'var(--dorado)', color: 'var(--oscuro)' } : {}),
-                    }}>
+                  <button key={label} type="button" className={`download-btn${gold ? ' download-btn--gold' : ''}`}>
                     <span>{emoji} {label}</span>
-                    <span style={{ fontSize: '.7rem', opacity: .7 }}>{size}</span>
+                    <span className="download-meta">{size}</span>
                   </button>
                 ))}
               </div>
@@ -126,20 +123,19 @@ export default function CEDOC() {
 
             <div className="sidebar-widget reveal">
               <h3>🏷 Temas de Investigación</h3>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '.5rem' }}>
+              <div className="tag-row">
                 {TOPICS.map((t) => (
-                  <span key={t} className="meta-tag" style={{ fontSize: '.82rem', padding: '.3rem .7rem' }}>{t}</span>
+                  <span key={t} className="meta-tag topic-pill">{t}</span>
                 ))}
               </div>
             </div>
 
-            <div className="sidebar-widget reveal" style={{ background: 'var(--oscuro)', border: '2px solid var(--dorado)' }}>
-              <h3 style={{ color: 'var(--amarillo)' }}>✉ Envía tu Investigación</h3>
-              <p style={{ fontSize: '.85rem', color: 'rgba(255,255,255,.7)', lineHeight: 1.6, marginBottom: '1rem' }}>
+            <div className="sidebar-widget reveal sidebar-widget--dark">
+              <h3>✉ Envía tu Investigación</h3>
+              <p>
                 ¿Tienes una investigación sobre carnaval y cultura popular? El CEDOC recibe colaboraciones externas.
               </p>
-              <a href="mailto:cedoc@chinchintirapie.cl" className="download-btn"
-                style={{ background: 'var(--rojo)', color: '#fff', display: 'block', textAlign: 'center' }}>
+              <a href="mailto:chinchintirapie@gmail.com" className="download-btn download-btn--solid">
                 📨 Enviar propuesta
               </a>
             </div>

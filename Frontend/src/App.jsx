@@ -10,7 +10,7 @@ const Home            = lazy(() => import('./pages/Home.jsx'))
 const Historia        = lazy(() => import('./pages/Historia.jsx'))
 const Organizacion    = lazy(() => import('./pages/Organizacion.jsx'))
 const Noticias        = lazy(() => import('./pages/Noticias.jsx'))
-const CEDOC           = lazy(() => import('./pages/CEDOC.jsx'))
+const CEDOC           = lazy(() => import('./pages/Cedoc.jsx'))
 const Contacto        = lazy(() => import('./pages/Contacto.jsx'))
 const Tienda          = lazy(() => import('./pages/Tienda.jsx'))
 const Login           = lazy(() => import('./pages/Login.jsx'))
@@ -32,7 +32,7 @@ const MaterialEducativo  = lazy(() => import('./pages/MaterialEducativo.jsx'))
 const NoticiaDetail           = lazy(() => import('./pages/NoticiaDetail.jsx'))
 const CronicaDetail           = lazy(() => import('./pages/CronicaDetail.jsx'))
 const RepositorioDetail       = lazy(() => import('./pages/RepositorioDetail.jsx'))
-const CEDOCDetail             = lazy(() => import('./pages/CEDOCDetail.jsx'))
+const CEDOCDetail             = lazy(() => import('./pages/CedocDetail.jsx'))
 const MaterialEducativoDetail = lazy(() => import('./pages/MaterialEducativoDetail.jsx'))
 
 function PageLoader() {
@@ -53,12 +53,14 @@ function PageLoader() {
 }
 
 function Layout() {
-    const { pathname } = useLocation()
+    const { pathname, hash } = useLocation()
     const isLogin = pathname === '/login'
 
     useEffect(() => {
-        window.scrollTo(0, 0)
-    }, [pathname])
+        if (!hash) {
+            window.scrollTo(0, 0)
+        }
+    }, [pathname, hash])
 
     return (
         <>
