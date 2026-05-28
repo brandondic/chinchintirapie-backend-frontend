@@ -67,7 +67,7 @@ function PageLoader() {
 
 function Layout() {
     const { pathname, hash } = useLocation()
-    const isLogin = pathname === '/login' || pathname === '/recuperar-password' || pathname === '/reset-password'
+    const isLogin = pathname.startsWith('/login') || pathname.startsWith('/recuperar-password') || pathname.startsWith('/reset-password')
 
     useEffect(() => {
         if (!hash) {
@@ -95,7 +95,7 @@ function Layout() {
                     <Route path="/tienda" element={<Tienda />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/recuperar-password" element={<RecuperarPassword />} />
-                    <Route path="/reset-password/:token" element={<ResetPassword />} />
+                    <Route path="/reset-password" element={<ResetPassword />} />
 
                     {/* DETALLES */}
                     <Route path="/noticias/:id" element={<NoticiaDetail />} />
