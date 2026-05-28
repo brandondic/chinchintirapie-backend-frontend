@@ -106,34 +106,44 @@ export default function Navbar() {
           <li>
             <NavLink to="/contacto" onClick={() => setMobileOpen(false)}>Contacto</NavLink>
           </li>
-          <li>
-            {isAuthenticated ? (
-                <div style={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}>
-              <span style={{
-                color: 'var(--amarillo-e)',
-                fontWeight: 800,
-                fontSize: '.85rem',
-                maxWidth: 120,
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                whiteSpace: 'nowrap',
-              }}>
-                👤 {user?.fullName?.split(' ')[0]}
-              </span>
-                  <button
-                      onClick={handleLogout}
-                      className="nav-login-btn"
-                      style={{ cursor: 'pointer' }}
+          {isAuthenticated ? (
+              <li className={`has-dropdown${openDropdown === 'userMenu' ? ' open' : ''}`}>
+                <button
+                    onClick={(e) => toggleDropdown('userMenu', e)}
+                    className="nav-login-btn"
+                    style={{ display: 'flex', alignItems: 'center', gap: '.4rem', padding: '.5rem .85rem' }}
+                >
+                  <span style={{ maxWidth: 120, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    👤 {user?.fullName?.split(' ')[0]}
+                  </span>
+                  <span className="caret">▾</span>
+                </button>
+                <div className="dropdown" style={{ right: 0, left: 'auto', minWidth: '150px' }}>
+                  {user?.role === 'ADMIN' && (
+                      <NavLink
+                          to="/admin"
+                          onClick={() => { setOpenDropdown(null); setMobileOpen(false); }}
+                          style={{ whiteSpace: 'nowrap' }}
+                      >
+                        Panel Admin
+                      </NavLink>
+                  )}
+                  <a
+                      href="#"
+                      onClick={(e) => { e.preventDefault(); setOpenDropdown(null); handleLogout(); }}
+                      style={{ whiteSpace: 'nowrap' }}
                   >
                     Salir
-                  </button>
+                  </a>
                 </div>
-            ) : (
+              </li>
+          ) : (
+              <li>
                 <NavLink to="/login" className="nav-login-btn" onClick={() => setMobileOpen(false)}>
                   Ingresar
                 </NavLink>
-            )}
-          </li>
+              </li>
+          )}
         </ul>
       </nav>
   );

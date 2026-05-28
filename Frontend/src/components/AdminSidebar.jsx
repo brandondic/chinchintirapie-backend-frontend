@@ -36,7 +36,9 @@ function AdminSidebar() {
         <aside className="admin-sidebar">
 
             <div className="admin-sidebar__logo">
-                <h2>Panel Admin</h2>
+                <h2 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', justifyContent: 'center' }}>
+                    Panel Admin
+                </h2>
             </div>
 
             <nav className="admin-sidebar__nav">
