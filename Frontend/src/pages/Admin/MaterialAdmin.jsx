@@ -1,20 +1,21 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import articuloService from '../../services/articuloService';
+import multimediaService from '../../services/multimediaService';
 import { useAuth } from '../../context/AuthContext';
 import '../../styles/Admin.css';
 
-function CronicasAdmin() {
+function MaterialAdmin() {
     const location = useLocation();
     const navigate = useNavigate();
     const { user } = useAuth();
-    const cronicaAEditar = location.state?.cronica;
+    const itemAEditar = location.state?.item;
 
     const [form, setForm] = useState({
         title: '',
-        body: '',
-        author: '',
-        urlPhoto: ''
+        url: '',
+        description: '',
+        year: '',
+        author: ''
     });
 
     const [loading, setLoading] = useState(false);
@@ -24,21 +25,22 @@ function CronicasAdmin() {
     const [toast, setToast] = useState({ show: false, title: '', message: '' });
 
     useEffect(() => {
-        if (cronicaAEditar) {
+        if (itemAEditar) {
             setForm({
-                title: cronicaAEditar.title || '',
-                body: cronicaAEditar.body || '',
-                author: cronicaAEditar.author || '',
-                urlPhoto: cronicaAEditar.urlPhoto || ''
+                title: itemAEditar.title || '',
+                url: itemAEditar.url || '',
+                description: itemAEditar.description || '',
+                year: itemAEditar.year || '',
+                author: itemAEditar.author || ''
             });
         }
-    }, [cronicaAEditar]);
+    }, [itemAEditar]);
 
     useEffect(() => {
         if (toast.show) {
             const timer = setTimeout(() => {
                 setToast({ show: false, title: '', message: '' });
-                navigate('/admin/cronicas/editar');
+                navigate('/admin/material/editar');
             }, 3000);
             return () => clearTimeout(timer);
         }
@@ -59,20 +61,18 @@ function CronicasAdmin() {
 
         const payload = {
             ...form,
-            type: 'CRONICA',
+            type: 'MATERIAL_EDUCATIVO',
             authorId: user?.id || 1,
-            description: form.body.substring(0, 100)
+            categories: []
         };
 
         try {
-            if (cronicaAEditar?.id) {
-                // PUT
-                await articuloService.update(cronicaAEditar.id, payload);
-                setToast({ show: true, title: 'Crónica actualizada', message: 'Los cambios se guardaron correctamente' });
+            if (itemAEditar?.id) {
+                await multimediaService.update(itemAEditar.id, payload);
+                setToast({ show: true, title: 'Material actualizado', message: 'Los cambios se guardaron correctamente' });
             } else {
-                // POST
-                await articuloService.create(payload);
-                setToast({ show: true, title: 'Crónica creada', message: 'La crónica se guardó correctamente' });
+                await multimediaService.create(payload);
+                setToast({ show: true, title: 'Material creado', message: 'El material se guardó correctamente' });
             }
         } catch (err) {
             setError(err.message);
@@ -83,15 +83,15 @@ function CronicasAdmin() {
 
     const closeToastAndNavigate = () => {
         setToast({ show: false, title: '', message: '' });
-        navigate('/admin/cronicas/editar');
+        navigate('/admin/material/editar');
     };
 
     const handleDelete = async () => {
-        if (!window.confirm("¿Seguro que deseas eliminar esta crónica?")) return;
+        if (!window.confirm("¿Seguro que deseas eliminar este material?")) return;
         setLoading(true);
         try {
-            await articuloService.delete(cronicaAEditar.id);
-            navigate('/admin/cronicas/editar');
+            await multimediaService.delete(itemAEditar.id);
+            navigate('/admin/material/editar');
         } catch (err) {
             setError(err.message);
             setLoading(false);
@@ -100,9 +100,9 @@ function CronicasAdmin() {
 
     return (
         <div className="admin-container">
-            <h1 className="admin-title">Administrar Crónicas</h1>
+            <h1 className="admin-title">Administrar Material Educativo</h1>
 
-            <h2>{cronicaAEditar ? 'Editar crónica' : 'Crear nueva crónica'}</h2>
+            <h2>{itemAEditar ? 'Editar material' : 'Crear nuevo material'}</h2>
 
             {error && <p style={{ color: 'red', marginBottom: '1rem' }}>{error}</p>}
             {successMsg && <p style={{ color: 'green', marginBottom: '1rem' }}>{successMsg}</p>}
@@ -118,45 +118,53 @@ function CronicasAdmin() {
                     required
                 />
 
-                <textarea
-                    name="body"
-                    value={form.body}
-                    placeholder="Contenido de la crónica"
+                <input
+                    type="text"
+                    name="url"
+                    value={form.url}
+                    placeholder="URL del material (video, documento, etc.)"
                     onChange={handleChange}
                     required
-                    style={{ minHeight: '150px' }}
+                />
+
+                <textarea
+                    name="description"
+                    value={form.description}
+                    placeholder="Descripción"
+                    onChange={handleChange}
+                    style={{ minHeight: '100px' }}
+                />
+
+                <input
+                    type="text"
+                    name="year"
+                    value={form.year}
+                    placeholder="Año"
+                    onChange={handleChange}
                 />
 
                 <input
                     type="text"
                     name="author"
                     value={form.author}
-                    placeholder="Autor (ej. Nombre)"
+                    placeholder="Autor"
                     onChange={handleChange}
                     required
                 />
 
-                <input
-                    type="text"
-                    name="urlPhoto"
-                    value={form.urlPhoto}
-                    placeholder="URL de la imagen (temporal)"
-                    onChange={handleChange}
-                />
-
                 <div style={{ display: 'flex', gap: '10px' }}>
                     <button type="submit" disabled={loading} style={{ background: 'var(--purpura)', color: 'white', padding: '10px 20px', borderRadius: '5px', cursor: 'pointer', border: 'none', fontWeight: 'bold' }}>
-                        {loading ? 'Guardando...' : (cronicaAEditar ? 'Guardar Cambios' : 'Publicar')}
+                        {loading ? 'Guardando...' : (itemAEditar ? 'Guardar Cambios' : 'Publicar')}
                     </button>
 
-                    {cronicaAEditar && (
+                    {itemAEditar && (
                         <button 
                             type="button" 
                             disabled={loading} 
                             onClick={handleDelete}
                             style={{ background: '#d32f2f', color: 'white', border: 'none', padding: '10px 20px', borderRadius: '5px', cursor: 'pointer', fontWeight: 'bold' }}
                         >
-                            Eliminar Crónica
+                            Eliminar Material
                         </button>
                     )}
                 </div>
@@ -235,4 +243,4 @@ function CronicasAdmin() {
     );
 }
 
-export default CronicasAdmin;
+export default MaterialAdmin;

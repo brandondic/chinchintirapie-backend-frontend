@@ -20,8 +20,6 @@ function AdminSidebar() {
             setOpenMenu('repositorio');
         } else if (location.pathname.includes('/admin/cedoc')) {
             setOpenMenu('cedoc');
-        } else if (location.pathname.includes('/admin/eventos')) {
-            setOpenMenu('eventos');
         } else if (location.pathname.includes('/admin/usuarios')) {
             setOpenMenu('usuarios');
         }
@@ -118,20 +116,7 @@ function AdminSidebar() {
                     </div>
                 )}
 
-                {/* EVENTOS */}
-                <div
-                    className="admin-sidebar__nav-link"
-                    onClick={() => toggleMenu('eventos')}
-                >
-                    Eventos
-                </div>
 
-                {openMenu === 'eventos' && (
-                    <div className="admin-submenu">
-                        <NavLink to="/admin/eventos">Agregar Evento</NavLink>
-                        <NavLink to="/admin/eventos/editar">Modificar Evento</NavLink>
-                    </div>
-                )}
 
                 {/* USUARIOS */}
                 <div

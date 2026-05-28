@@ -16,12 +16,23 @@ const Tienda          = lazy(() => import('./pages/Tienda.jsx'))
 const Login           = lazy(() => import('./pages/Login.jsx'))
 
 // ADMIN
+const AdminDashboard = lazy(() => import('./pages/Admin/AdminDashboard.jsx'))
 const NoticiasAdmin = lazy(() => import('./pages/Admin/NoticiasAdmin.jsx'))
 const AdminLayout   = lazy(() => import('./pages/Admin/AdminLayout.jsx'))
 const NoticiasList  = lazy(() => import('./pages/Admin/NoticiasList.jsx'))
 
 const AdminList = lazy(() => import('./pages/Admin/AdminList.jsx'))
 const AdminForm = lazy(() => import('./pages/Admin/AdminForm.jsx'))
+const CronicasAdmin = lazy(() => import('./pages/Admin/CronicasAdmin.jsx'))
+const CronicasList  = lazy(() => import('./pages/Admin/CronicasList.jsx'))
+const UsuariosAdmin = lazy(() => import('./pages/Admin/UsuariosAdmin.jsx'))
+const UsuariosList  = lazy(() => import('./pages/Admin/UsuariosList.jsx'))
+const MaterialAdmin = lazy(() => import('./pages/Admin/MaterialAdmin.jsx'))
+const MaterialList  = lazy(() => import('./pages/Admin/MaterialList.jsx'))
+const RepositorioAdmin = lazy(() => import('./pages/Admin/RepositorioAdmin.jsx'))
+const RepositorioList  = lazy(() => import('./pages/Admin/RepositorioList.jsx'))
+const CedocAdmin = lazy(() => import('./pages/Admin/CedocAdmin.jsx'))
+const CedocList  = lazy(() => import('./pages/Admin/CedocList.jsx'))
 
 // OTRAS PÁGINAS
 const Cronicas           = lazy(() => import('./pages/Cronicas.jsx'))
@@ -93,11 +104,7 @@ function Layout() {
                     <Route path="/admin" element={<AdminLayout />}>
                         <Route
                             index
-                            element={
-                                <h1 className="admin-title">
-                                    Bienvenido al Panel de Administrador
-                                </h1>
-                            }
+                            element={<AdminDashboard />}
                         />
 
                         {/* NOTICIAS */}
@@ -105,28 +112,28 @@ function Layout() {
                         <Route path="noticias/editar" element={<NoticiasList />} />
 
                         {/* CRÓNICAS */}
-                        <Route path="cronicas" element={<AdminForm tipo="crónica" />} />
-                        <Route path="cronicas/editar" element={<AdminList tipo="cronicas" />} />
+                        <Route path="cronicas" element={<CronicasAdmin />} />
+                        <Route path="cronicas/editar" element={<CronicasList />} />
 
                         {/* MATERIAL */}
-                        <Route path="material" element={<AdminForm tipo="material" />} />
-                        <Route path="material/editar" element={<AdminList tipo="material" />} />
+                        <Route path="material" element={<MaterialAdmin />} />
+                        <Route path="material/editar" element={<MaterialList />} />
 
                         {/* REPOSITORIO */}
-                        <Route path="repositorio" element={<AdminForm tipo="repositorio" />} />
-                        <Route path="repositorio/editar" element={<AdminList tipo="repositorio" />} />
+                        <Route path="repositorio" element={<RepositorioAdmin />} />
+                        <Route path="repositorio/editar" element={<RepositorioList />} />
 
                         {/* CEDOC */}
-                        <Route path="cedoc" element={<AdminForm tipo="cedoc" />} />
-                        <Route path="cedoc/editar" element={<AdminList tipo="cedoc" />} />
+                        <Route path="cedoc" element={<CedocAdmin />} />
+                        <Route path="cedoc/editar" element={<CedocList />} />
 
                         {/* EVENTOS */}
                         <Route path="eventos" element={<AdminForm tipo="evento" />} />
                         <Route path="eventos/editar" element={<AdminList tipo="eventos" />} />
 
                         {/* USUARIOS */}
-                        <Route path="usuarios" element={<AdminForm tipo="usuario" />} />
-                        <Route path="usuarios/listar" element={<AdminList tipo="usuarios" />} />
+                        <Route path="usuarios" element={<UsuariosAdmin />} />
+                        <Route path="usuarios/listar" element={<UsuariosList />} />
                     </Route>
 
                     {/* 404 */}
