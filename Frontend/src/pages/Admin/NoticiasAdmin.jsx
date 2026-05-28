@@ -154,7 +154,7 @@ function NoticiasAdmin() {
                             type="button" 
                             disabled={loading} 
                             onClick={handleDelete}
-                            style={{ background: '#d32f2f', color: 'white', border: 'none', padding: '10px 20px', borderRadius: '5px', cursor: 'pointer', fontWeight: 'bold' }}
+                            style={{ background: 'var(--rojo)', color: 'white', border: 'none', padding: '10px 20px', borderRadius: '5px', cursor: 'pointer', fontWeight: 'bold' }}
                         >
                             Eliminar Noticia
                         </button>

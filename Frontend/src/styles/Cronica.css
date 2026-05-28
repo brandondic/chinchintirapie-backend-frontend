@@ -63,7 +63,7 @@
 }
 
 .cronica-body {
-  color: #5a3e2b;
+  color: var(--oscuro);
   line-height: 1.7;
   font-size: .95rem;
   margin-bottom: .8rem;

@@ -13,7 +13,7 @@
   align-items: center;
 }
 .organizacion-text {
-  color: #5a3e2b;
+  color: var(--oscuro);
   line-height: 1.9;
   font-size: 1rem;
 }
@@ -59,7 +59,7 @@
   margin-bottom: 0.5rem;
 }
 .organizacion-card-desc {
-  color: #5a3e2b;
+  color: var(--oscuro);
   line-height: 1.6;
   font-size: 0.95rem;
 }

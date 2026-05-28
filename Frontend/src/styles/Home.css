@@ -189,7 +189,7 @@
 }
 
 .card-body p {
-  color: #5a3e2b;
+  color: var(--oscuro);
   font-size: .92rem;
   line-height: 1.6;
   margin-bottom: 1rem;
@@ -265,7 +265,7 @@
 .años-text h2 span { color: var(--rojo); }
 
 .años-text p {
-  color: #5a3e2b;
+  color: var(--oscuro);
   line-height: 1.8;
   font-size: 1rem;
   margin-bottom: 1rem;

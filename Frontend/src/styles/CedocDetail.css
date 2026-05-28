@@ -7,22 +7,22 @@
 .cedoc-detail__back-link {
   display: inline-block;
   margin-bottom: 1.5rem;
-  color: #0f4c5c;
+  color: var(--oscuro);
   text-decoration: none;
   font-weight: 600;
   transition: color 0.2s ease;
 }
 
 .cedoc-detail__back-link:hover {
-  color: #0c7489;
+  color: var(--rojo);
 }
 
 .cedoc-detail__row {
   display: flex;
   align-items: flex-start;
   gap: 1.5rem;
-  background: #ffffff;
-  border: 1px solid #e7e7e7;
+  background: var(--blanco);
+  border: 1px solid rgba(190, 0, 60, 0.15);
   border-radius: 18px;
   padding: 2rem;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
@@ -36,8 +36,8 @@
   display: grid;
   place-items: center;
   font-size: 2rem;
-  background: linear-gradient(135deg, #dbeafe, #bfdbfe);
-  color: #1d4ed8;
+  background: linear-gradient(135deg, var(--rojo), var(--naranja));
+  color: var(--blanco);
 }
 
 .cedoc-detail__content {
@@ -56,15 +56,15 @@
   align-items: center;
   padding: 0.4rem 0.85rem;
   border-radius: 999px;
-  background: #eef6f8;
-  color: #0f4c5c;
+  background: rgba(190, 0, 60, 0.08);
+  color: var(--rojo);
   font-size: 0.9rem;
   font-weight: 600;
 }
 
 .cedoc-detail__description {
   margin-bottom: 1.5rem;
-  color: #374151;
+  color: var(--oscuro);
   line-height: 1.7;
   font-size: 1rem;
 }
@@ -73,24 +73,24 @@
   border: none;
   border-radius: 12px;
   padding: 0.9rem 1.2rem;
-  background: #0f4c5c;
-  color: #fff;
+  background: var(--rojo);
+  color: var(--blanco);
   font-weight: 700;
   cursor: pointer;
   transition: transform 0.2s ease, background 0.2s ease;
 }
 
 .cedoc-detail__button:hover {
-  background: #0c7489;
+  background: var(--naranja);
   transform: translateY(-1px);
 }
 
 .cedoc-detail__button--gold {
-  background: #b8891f;
+  background: var(--amarillo);
 }
 
 .cedoc-detail__button--gold:hover {
-  background: #9c7418;
+  background: #d4b700;
 }
 
 .cedoc-detail__empty {
