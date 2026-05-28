@@ -38,15 +38,20 @@ public class SecurityConfig {
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.OPTIONS, "/api/auth/**").permitAll()
+                        // Pre-flight OPTIONS para todos los endpoints públicos
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        // Auth (login, registro, forgot-password dentro de /api/auth)
                         .requestMatchers("/api/auth/**").permitAll()
+                        // Endpoints públicos adicionales
                         .requestMatchers(HttpMethod.POST, "/api/contacto").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/articulos/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/multimedia/**").permitAll()
-                        .requestMatchers(HttpMethod.OPTIONS, "/forgot-password").permitAll()
-                        .requestMatchers(HttpMethod.OPTIONS, "/reset-password").permitAll()
                         .requestMatchers("/forgot-password").permitAll()
                         .requestMatchers("/reset-password").permitAll()
+                        // Rutas protegidas
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/users/**").hasRole("ADMIN")
+                        .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(
