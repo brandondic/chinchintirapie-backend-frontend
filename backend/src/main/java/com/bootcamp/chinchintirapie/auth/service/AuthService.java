@@ -8,6 +8,7 @@ import com.bootcamp.chinchintirapie.user.model.Role;
 import com.bootcamp.chinchintirapie.user.model.UserEntity;
 import com.bootcamp.chinchintirapie.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.User;
@@ -26,6 +27,10 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
+    private final EmailService emailService;
+
+    @Value("${frontend.url:http://localhost:5173}")
+    private String frontendUrl;
 
     @Transactional
     public java.util.Map<String, String> register(RegisterRequestDto request) {
@@ -89,5 +94,43 @@ public class AuthService {
                 user.getEmail(),
                 user.getRole()
         );
+    }
+
+    @Transactional
+    public java.util.Map<String, String> forgotPassword(String email) {
+        UserEntity user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ese correo"));
+
+        String token = java.util.UUID.randomUUID().toString();
+        user.setResetToken(token);
+        user.setResetTokenExpiry(LocalDateTime.now().plusHours(1)); // 1 hour expiry
+        userRepository.save(user);
+
+        String baseUrl = frontendUrl;
+        if (baseUrl.endsWith("/")) {
+            baseUrl = baseUrl.substring(0, baseUrl.length() - 1);
+        }
+        String resetLink = baseUrl + "/reset-password?token=" + token;
+        
+        emailService.sendPasswordResetEmail(user.getEmail(), resetLink);
+
+        return java.util.Map.of("message", "Se ha enviado un correo con las instrucciones para restablecer tu contraseña");
+    }
+
+    @Transactional
+    public java.util.Map<String, String> resetPassword(String token, String newPassword) {
+        UserEntity user = userRepository.findByResetToken(token)
+                .orElseThrow(() -> new RuntimeException("Token inválido o expirado"));
+
+        if (user.getResetTokenExpiry().isBefore(LocalDateTime.now())) {
+            throw new RuntimeException("El token ha expirado");
+        }
+
+        user.setPassword(passwordEncoder.encode(newPassword));
+        user.setResetToken(null);
+        user.setResetTokenExpiry(null);
+        userRepository.save(user);
+
+        return java.util.Map.of("message", "Contraseña restablecida exitosamente");
     }
 }

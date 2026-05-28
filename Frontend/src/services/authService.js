@@ -125,6 +125,51 @@ const authService = {
 
     return fetch(url, { ...options, headers });
   },
+
+  /**
+   * Solicitar recuperación de contraseña
+   * @param {string} email
+   * @returns {Promise<{message: string}>}
+   */
+  async forgotPassword(email) {
+    const response = await fetch(`${API_BASE}/forgot-password`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      const errorMsg = data.message || data.error || 'Error al procesar la solicitud';
+      throw new Error(errorMsg);
+    }
+
+    return data;
+  },
+
+  /**
+   * Restablecer contraseña con token
+   * @param {string} token
+   * @param {string} newPassword
+   * @returns {Promise<{message: string}>}
+   */
+  async resetPassword(token, newPassword) {
+    const response = await fetch(`${API_BASE}/reset-password`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token, newPassword }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      const errorMsg = data.message || data.error || 'Error al restablecer la contraseña';
+      throw new Error(errorMsg);
+    }
+
+    return data;
+  },
 };
 
 export default authService;

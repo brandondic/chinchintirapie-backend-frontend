@@ -1,20 +1,21 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import articuloService from '../../services/articuloService';
+import multimediaService from '../../services/multimediaService';
 import { useAuth } from '../../context/AuthContext';
 import '../../styles/Admin.css';
 
-function NoticiasAdmin() {
+function MaterialAdmin() {
     const location = useLocation();
     const navigate = useNavigate();
     const { user } = useAuth();
-    const noticiaAEditar = location.state?.noticia;
+    const itemAEditar = location.state?.item;
 
     const [form, setForm] = useState({
         title: '',
-        body: '',
-        author: '',
-        urlPhoto: ''
+        url: '',
+        description: '',
+        year: '',
+        author: ''
     });
 
     const [loading, setLoading] = useState(false);
@@ -24,21 +25,22 @@ function NoticiasAdmin() {
     const [toast, setToast] = useState({ show: false, title: '', message: '' });
 
     useEffect(() => {
-        if (noticiaAEditar) {
+        if (itemAEditar) {
             setForm({
-                title: noticiaAEditar.title || '',
-                body: noticiaAEditar.body || '',
-                author: noticiaAEditar.author || '',
-                urlPhoto: noticiaAEditar.urlPhoto || ''
+                title: itemAEditar.title || '',
+                url: itemAEditar.url || '',
+                description: itemAEditar.description || '',
+                year: itemAEditar.year || '',
+                author: itemAEditar.author || ''
             });
         }
-    }, [noticiaAEditar]);
+    }, [itemAEditar]);
 
     useEffect(() => {
         if (toast.show) {
             const timer = setTimeout(() => {
                 setToast({ show: false, title: '', message: '' });
-                navigate('/admin/noticias/editar');
+                navigate('/admin/material/editar');
             }, 3000);
             return () => clearTimeout(timer);
         }
@@ -59,20 +61,18 @@ function NoticiasAdmin() {
 
         const payload = {
             ...form,
-            type: 'NOTICIA',
+            type: 'MATERIAL_EDUCATIVO',
             authorId: user?.id || 1,
-            description: form.body.substring(0, 100)
+            categories: []
         };
 
         try {
-            if (noticiaAEditar?.id) {
-                // PUT
-                await articuloService.update(noticiaAEditar.id, payload);
-                setToast({ show: true, title: 'Noticia actualizada', message: 'Los cambios se guardaron correctamente' });
+            if (itemAEditar?.id) {
+                await multimediaService.update(itemAEditar.id, payload);
+                setToast({ show: true, title: 'Material actualizado', message: 'Los cambios se guardaron correctamente' });
             } else {
-                // POST
-                await articuloService.create(payload);
-                setToast({ show: true, title: 'Noticia creada', message: 'La noticia se guardó correctamente' });
+                await multimediaService.create(payload);
+                setToast({ show: true, title: 'Material creado', message: 'El material se guardó correctamente' });
             }
         } catch (err) {
             setError(err.message);
@@ -83,15 +83,15 @@ function NoticiasAdmin() {
 
     const closeToastAndNavigate = () => {
         setToast({ show: false, title: '', message: '' });
-        navigate('/admin/noticias/editar');
+        navigate('/admin/material/editar');
     };
 
     const handleDelete = async () => {
-        if (!window.confirm("¿Seguro que deseas eliminar esta noticia?")) return;
+        if (!window.confirm("¿Seguro que deseas eliminar este material?")) return;
         setLoading(true);
         try {
-            await articuloService.delete(noticiaAEditar.id);
-            navigate('/admin/noticias/editar'); // Volver a la lista
+            await multimediaService.delete(itemAEditar.id);
+            navigate('/admin/material/editar');
         } catch (err) {
             setError(err.message);
             setLoading(false);
@@ -100,9 +100,9 @@ function NoticiasAdmin() {
 
     return (
         <div className="admin-container">
-            <h1 className="admin-title">Administrar Noticias</h1>
+            <h1 className="admin-title">Administrar Material Educativo</h1>
 
-            <h2>{noticiaAEditar ? 'Editar noticia' : 'Crear nueva noticia'}</h2>
+            <h2>{itemAEditar ? 'Editar material' : 'Crear nuevo material'}</h2>
 
             {error && <p style={{ color: 'red', marginBottom: '1rem' }}>{error}</p>}
             {successMsg && <p style={{ color: 'green', marginBottom: '1rem' }}>{successMsg}</p>}
@@ -118,45 +118,53 @@ function NoticiasAdmin() {
                     required
                 />
 
-                <textarea
-                    name="body"
-                    value={form.body}
-                    placeholder="Contenido de la noticia"
+                <input
+                    type="text"
+                    name="url"
+                    value={form.url}
+                    placeholder="URL del material (video, documento, etc.)"
                     onChange={handleChange}
                     required
-                    style={{ minHeight: '150px' }}
+                />
+
+                <textarea
+                    name="description"
+                    value={form.description}
+                    placeholder="Descripción"
+                    onChange={handleChange}
+                    style={{ minHeight: '100px' }}
+                />
+
+                <input
+                    type="text"
+                    name="year"
+                    value={form.year}
+                    placeholder="Año"
+                    onChange={handleChange}
                 />
 
                 <input
                     type="text"
                     name="author"
                     value={form.author}
-                    placeholder="Autor (ej. Nombre)"
+                    placeholder="Autor"
                     onChange={handleChange}
                     required
                 />
 
-                <input
-                    type="text"
-                    name="urlPhoto"
-                    value={form.urlPhoto}
-                    placeholder="URL de la imagen (temporal)"
-                    onChange={handleChange}
-                />
-
                 <div style={{ display: 'flex', gap: '10px' }}>
                     <button type="submit" disabled={loading} style={{ background: 'var(--purpura)', color: 'white', padding: '10px 20px', borderRadius: '5px', cursor: 'pointer', border: 'none', fontWeight: 'bold' }}>
-                        {loading ? 'Guardando...' : (noticiaAEditar ? 'Guardar Cambios' : 'Publicar')}
+                        {loading ? 'Guardando...' : (itemAEditar ? 'Guardar Cambios' : 'Publicar')}
                     </button>
 
-                    {noticiaAEditar && (
+                    {itemAEditar && (
                         <button 
                             type="button" 
                             disabled={loading} 
                             onClick={handleDelete}
                             style={{ background: '#d32f2f', color: 'white', border: 'none', padding: '10px 20px', borderRadius: '5px', cursor: 'pointer', fontWeight: 'bold' }}
                         >
-                            Eliminar Noticia
+                            Eliminar Material
                         </button>
                     )}
                 </div>
@@ -182,7 +190,6 @@ function NoticiasAdmin() {
                         width: '100%',
                         boxShadow: '0 25px 60px rgba(0,0,0,0.6)',
                     }}>
-                        {/* Círculo con check */}
                         <div style={{
                             width: '80px',
                             height: '80px',
@@ -197,8 +204,6 @@ function NoticiasAdmin() {
                                 <polyline points="20 6 9 17 4 12"></polyline>
                             </svg>
                         </div>
-
-                        {/* Título */}
                         <div style={{
                             color: '#f59e0b',
                             fontSize: '1.8rem',
@@ -208,8 +213,6 @@ function NoticiasAdmin() {
                         }}>
                             ¡Guardado!
                         </div>
-
-                        {/* Mensaje */}
                         <div style={{
                             color: '#a3a3a3',
                             fontSize: '0.95rem',
@@ -218,8 +221,6 @@ function NoticiasAdmin() {
                         }}>
                             {toast.message}
                         </div>
-
-                        {/* Botón */}
                         <button
                             onClick={closeToastAndNavigate}
                             style={{
@@ -238,9 +239,8 @@ function NoticiasAdmin() {
                     </div>
                 </div>
             )}
-
         </div>
     );
 }
 
-export default NoticiasAdmin;
+export default MaterialAdmin;

@@ -44,6 +44,10 @@ public class UserEntity {
     @Column(nullable = false)
     private boolean enabled;
 
+    private String resetToken;
+
+    private LocalDateTime resetTokenExpiry;
+
     @Builder.Default
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TaskEntity> tasks = new ArrayList<>();

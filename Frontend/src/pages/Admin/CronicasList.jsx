@@ -1,45 +1,55 @@
-import { useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import articuloService from '../../services/articuloService';
 
 function CronicasList() {
-
     const location = useLocation();
-
+    const navigate = useNavigate();
     const esEditar = location.pathname.includes('editar');
-    const esEliminar = location.pathname.includes('eliminar');
 
-    const cronicasAdmin = [
-        {
-            id: 1,
-            titulo: "Primera noticia",
-            autor: "Brandon OG",
-            fecha: "2026-05-05"
-        },
-        {
-            id: 2,
-            titulo: "Segunda noticia",
-            autor: "Naty Pelusa",
-            fecha: "2024-12-09"
-        },
-        {
-            id: 3,
-            titulo: "Tercera Noticia",
-            autor: "Robert Fripp",
-            fecha: "1997-08-21"
-        },
-    ];
+    const [cronicas, setCronicas] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchCronicas = async () => {
+            try {
+                const data = await articuloService.fetchCronicas();
+                setCronicas(data);
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchCronicas();
+    }, []);
+
+    const handleEditar = (cronica) => {
+        navigate('/admin/cronicas', { state: { cronica } });
+    };
+
+    if (loading) return <div className="admin-container"><p>Cargando crónicas...</p></div>;
+    if (error) return <div className="admin-container"><p>Error: {error}</p></div>;
 
     return (
         <div className="admin-container">
-            <h2>Listado de cronicas</h2>
+            <h2>Listado de crónicas</h2>
+            {cronicas.length === 0 && <p>No hay crónicas publicadas.</p>}
 
-            {cronicasAdmin.map((cronicas) => (
-                <div key={cronicas.id}>
-                    <p>{cronicas.titulo}</p>
-                    <p>{cronicas.autor}</p>
-                    <p>{cronicas.fecha}</p>
+            {cronicas.map((cronica) => (
+                <div key={cronica.id} style={{ marginBottom: '20px', borderBottom: '1px solid #ccc', paddingBottom: '10px' }}>
+                    <p><strong>{cronica.title}</strong></p>
+                    <p>Autor: {cronica.author}</p>
+                    <p>Fecha: {new Date(cronica.createdAt).toLocaleDateString()}</p>
 
-                    {esEditar && <button>Editar</button>}
-                    {esEliminar && <button>Eliminar</button>}
+                    {esEditar && (
+                        <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
+                            <button className="btn btn-primary" onClick={() => handleEditar(cronica)}>
+                                Editar
+                            </button>
+                        </div>
+                    )}
                 </div>
             ))}
         </div>

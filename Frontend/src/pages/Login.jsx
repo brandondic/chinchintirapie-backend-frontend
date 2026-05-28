@@ -205,7 +205,7 @@ export default function Login() {
 
           {tab === 'login' && (
             <div className="form-group login-forgot-container">
-              <button type="button" className="login-forgot">¿Olvidaste tu contraseña?</button>
+              <Link to="/recuperar-password" className="login-forgot">¿Olvidaste tu contraseña?</Link>
             </div>
           )}
 

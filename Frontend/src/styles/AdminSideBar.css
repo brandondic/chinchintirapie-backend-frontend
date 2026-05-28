@@ -1,7 +1,7 @@
 .admin-sidebar {
     width: 250px;
     min-height: 100vh;
-    background-color: #111827;
+    background-color: var(--oscuro);
     color: white;
     padding: 2rem 1rem;
     display: flex;
@@ -35,7 +35,8 @@
 }
 
 .admin-sidebar__nav :is(a, .admin-sidebar__nav-link):hover {
-    background-color: #374151;
+    background-color: var(--rojo);
+    color: var(--amarillo);
 }
 
 .admin-sidebar__nav a.active {

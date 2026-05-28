@@ -20,8 +20,6 @@ function AdminSidebar() {
             setOpenMenu('repositorio');
         } else if (location.pathname.includes('/admin/cedoc')) {
             setOpenMenu('cedoc');
-        } else if (location.pathname.includes('/admin/eventos')) {
-            setOpenMenu('eventos');
         } else if (location.pathname.includes('/admin/usuarios')) {
             setOpenMenu('usuarios');
         }
@@ -36,7 +34,9 @@ function AdminSidebar() {
         <aside className="admin-sidebar">
 
             <div className="admin-sidebar__logo">
-                <h2>Panel Admin</h2>
+                <h2 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', justifyContent: 'center' }}>
+                    Panel Admin
+                </h2>
             </div>
 
             <nav className="admin-sidebar__nav">
@@ -116,20 +116,7 @@ function AdminSidebar() {
                     </div>
                 )}
 
-                {/* EVENTOS */}
-                <div
-                    className="admin-sidebar__nav-link"
-                    onClick={() => toggleMenu('eventos')}
-                >
-                    Eventos
-                </div>
 
-                {openMenu === 'eventos' && (
-                    <div className="admin-submenu">
-                        <NavLink to="/admin/eventos">Agregar Evento</NavLink>
-                        <NavLink to="/admin/eventos/editar">Modificar Evento</NavLink>
-                    </div>
-                )}
 
                 {/* USUARIOS */}
                 <div

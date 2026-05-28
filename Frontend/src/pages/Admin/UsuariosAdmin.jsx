@@ -1,20 +1,19 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import articuloService from '../../services/articuloService';
-import { useAuth } from '../../context/AuthContext';
+import userService from '../../services/userService';
+import authService from '../../services/authService';
 import '../../styles/Admin.css';
 
-function NoticiasAdmin() {
+function UsuariosAdmin() {
     const location = useLocation();
     const navigate = useNavigate();
-    const { user } = useAuth();
-    const noticiaAEditar = location.state?.noticia;
+    const usuarioAEditar = location.state?.usuario;
 
     const [form, setForm] = useState({
-        title: '',
-        body: '',
-        author: '',
-        urlPhoto: ''
+        fullName: '',
+        email: '',
+        password: '',
+        role: 'CLIENT'
     });
 
     const [loading, setLoading] = useState(false);
@@ -24,21 +23,21 @@ function NoticiasAdmin() {
     const [toast, setToast] = useState({ show: false, title: '', message: '' });
 
     useEffect(() => {
-        if (noticiaAEditar) {
+        if (usuarioAEditar) {
             setForm({
-                title: noticiaAEditar.title || '',
-                body: noticiaAEditar.body || '',
-                author: noticiaAEditar.author || '',
-                urlPhoto: noticiaAEditar.urlPhoto || ''
+                fullName: usuarioAEditar.fullName || '',
+                email: usuarioAEditar.email || '',
+                password: '', // No mostrar la contraseña al editar
+                role: usuarioAEditar.role || 'CLIENT'
             });
         }
-    }, [noticiaAEditar]);
+    }, [usuarioAEditar]);
 
     useEffect(() => {
         if (toast.show) {
             const timer = setTimeout(() => {
                 setToast({ show: false, title: '', message: '' });
-                navigate('/admin/noticias/editar');
+                navigate('/admin/usuarios/listar');
             }, 3000);
             return () => clearTimeout(timer);
         }
@@ -57,22 +56,27 @@ function NoticiasAdmin() {
         setError(null);
         setSuccessMsg(null);
 
-        const payload = {
-            ...form,
-            type: 'NOTICIA',
-            authorId: user?.id || 1,
-            description: form.body.substring(0, 100)
-        };
-
         try {
-            if (noticiaAEditar?.id) {
-                // PUT
-                await articuloService.update(noticiaAEditar.id, payload);
-                setToast({ show: true, title: 'Noticia actualizada', message: 'Los cambios se guardaron correctamente' });
+            if (usuarioAEditar?.id) {
+                // PUT - Solo enviar password si fue modificado
+                const payload = {
+                    fullName: form.fullName,
+                    email: form.email,
+                    role: form.role
+                };
+                if (form.password) {
+                    payload.password = form.password;
+                }
+                
+                await userService.update(usuarioAEditar.id, payload);
+                setToast({ show: true, title: 'Usuario actualizado', message: 'Los cambios se guardaron correctamente' });
             } else {
-                // POST
-                await articuloService.create(payload);
-                setToast({ show: true, title: 'Noticia creada', message: 'La noticia se guardó correctamente' });
+                // POST - Registro básico (luego se tendría que actualizar el rol si register no lo permite, pero asumimos lo básico por ahora o requerir otro endpoint)
+                if (!form.password) {
+                    throw new Error("La contraseña es obligatoria para crear un usuario");
+                }
+                await authService.register(form.fullName, form.email, form.password);
+                setToast({ show: true, title: 'Usuario creado', message: 'El usuario se guardó correctamente' });
             }
         } catch (err) {
             setError(err.message);
@@ -83,15 +87,15 @@ function NoticiasAdmin() {
 
     const closeToastAndNavigate = () => {
         setToast({ show: false, title: '', message: '' });
-        navigate('/admin/noticias/editar');
+        navigate('/admin/usuarios/listar');
     };
 
     const handleDelete = async () => {
-        if (!window.confirm("¿Seguro que deseas eliminar esta noticia?")) return;
+        if (!window.confirm("¿Seguro que deseas eliminar este usuario?")) return;
         setLoading(true);
         try {
-            await articuloService.delete(noticiaAEditar.id);
-            navigate('/admin/noticias/editar'); // Volver a la lista
+            await userService.delete(usuarioAEditar.id);
+            navigate('/admin/usuarios/listar');
         } catch (err) {
             setError(err.message);
             setLoading(false);
@@ -100,9 +104,9 @@ function NoticiasAdmin() {
 
     return (
         <div className="admin-container">
-            <h1 className="admin-title">Administrar Noticias</h1>
+            <h1 className="admin-title">Administrar Usuarios</h1>
 
-            <h2>{noticiaAEditar ? 'Editar noticia' : 'Crear nueva noticia'}</h2>
+            <h2>{usuarioAEditar ? 'Editar usuario' : 'Crear nuevo usuario'}</h2>
 
             {error && <p style={{ color: 'red', marginBottom: '1rem' }}>{error}</p>}
             {successMsg && <p style={{ color: 'green', marginBottom: '1rem' }}>{successMsg}</p>}
@@ -111,52 +115,58 @@ function NoticiasAdmin() {
 
                 <input
                     type="text"
-                    name="title"
-                    value={form.title}
-                    placeholder="Título"
-                    onChange={handleChange}
-                    required
-                />
-
-                <textarea
-                    name="body"
-                    value={form.body}
-                    placeholder="Contenido de la noticia"
-                    onChange={handleChange}
-                    required
-                    style={{ minHeight: '150px' }}
-                />
-
-                <input
-                    type="text"
-                    name="author"
-                    value={form.author}
-                    placeholder="Autor (ej. Nombre)"
+                    name="fullName"
+                    value={form.fullName}
+                    placeholder="Nombre Completo"
                     onChange={handleChange}
                     required
                 />
 
                 <input
-                    type="text"
-                    name="urlPhoto"
-                    value={form.urlPhoto}
-                    placeholder="URL de la imagen (temporal)"
+                    type="email"
+                    name="email"
+                    value={form.email}
+                    placeholder="Correo Electrónico"
                     onChange={handleChange}
+                    required
                 />
 
-                <div style={{ display: 'flex', gap: '10px' }}>
+                <input
+                    type="password"
+                    name="password"
+                    value={form.password}
+                    placeholder={usuarioAEditar ? "Nueva Contraseña (dejar en blanco para mantener la actual)" : "Contraseña"}
+                    onChange={handleChange}
+                    required={!usuarioAEditar}
+                    minLength="6"
+                />
+
+                {usuarioAEditar && (
+                    <select 
+                        name="role" 
+                        value={form.role} 
+                        onChange={handleChange}
+                        required
+                        style={{ padding: '10px', borderRadius: '5px', border: '1px solid #ccc', backgroundColor: '#fff', color: '#333' }}
+                    >
+                        <option value="CLIENT">Cliente</option>
+                        <option value="ADMIN">Admin</option>
+                    </select>
+                )}
+
+                <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
                     <button type="submit" disabled={loading} style={{ background: 'var(--purpura)', color: 'white', padding: '10px 20px', borderRadius: '5px', cursor: 'pointer', border: 'none', fontWeight: 'bold' }}>
-                        {loading ? 'Guardando...' : (noticiaAEditar ? 'Guardar Cambios' : 'Publicar')}
+                        {loading ? 'Guardando...' : (usuarioAEditar ? 'Guardar Cambios' : 'Crear Usuario')}
                     </button>
 
-                    {noticiaAEditar && (
+                    {usuarioAEditar && (
                         <button 
                             type="button" 
                             disabled={loading} 
                             onClick={handleDelete}
                             style={{ background: '#d32f2f', color: 'white', border: 'none', padding: '10px 20px', borderRadius: '5px', cursor: 'pointer', fontWeight: 'bold' }}
                         >
-                            Eliminar Noticia
+                            Eliminar Usuario
                         </button>
                     )}
                 </div>
@@ -182,7 +192,6 @@ function NoticiasAdmin() {
                         width: '100%',
                         boxShadow: '0 25px 60px rgba(0,0,0,0.6)',
                     }}>
-                        {/* Círculo con check */}
                         <div style={{
                             width: '80px',
                             height: '80px',
@@ -197,8 +206,6 @@ function NoticiasAdmin() {
                                 <polyline points="20 6 9 17 4 12"></polyline>
                             </svg>
                         </div>
-
-                        {/* Título */}
                         <div style={{
                             color: '#f59e0b',
                             fontSize: '1.8rem',
@@ -208,8 +215,6 @@ function NoticiasAdmin() {
                         }}>
                             ¡Guardado!
                         </div>
-
-                        {/* Mensaje */}
                         <div style={{
                             color: '#a3a3a3',
                             fontSize: '0.95rem',
@@ -218,8 +223,6 @@ function NoticiasAdmin() {
                         }}>
                             {toast.message}
                         </div>
-
-                        {/* Botón */}
                         <button
                             onClick={closeToastAndNavigate}
                             style={{
@@ -238,9 +241,8 @@ function NoticiasAdmin() {
                     </div>
                 </div>
             )}
-
         </div>
     );
 }
 
-export default NoticiasAdmin;
+export default UsuariosAdmin;

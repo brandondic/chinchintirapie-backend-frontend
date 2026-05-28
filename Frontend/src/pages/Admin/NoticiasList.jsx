@@ -1,50 +1,52 @@
-import { useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import articuloService from '../../services/articuloService';
 
 function NoticiasList() {
-
     const location = useLocation();
-
+    const navigate = useNavigate();
     const esEditar = location.pathname.includes('editar');
 
-    const noticiasAdmin = [
-        {
-            id: 1,
-            titulo: "Primera noticia",
-            autor: "Brandon OG",
-            fecha: "2026-05-05"
-        },
-        {
-            id: 2,
-            titulo: "Segunda noticia",
-            autor: "Naty Pelusa",
-            fecha: "2024-12-09"
-        },
-        {
-            id: 3,
-            titulo: "Tercera Noticia",
-            autor: "Robert Fripp",
-            fecha: "1997-08-21"
-        },
-    ];
+    const [noticias, setNoticias] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchNoticias = async () => {
+            try {
+                const data = await articuloService.fetchNoticias();
+                setNoticias(data);
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchNoticias();
+    }, []);
+
+    const handleEditar = (noticia) => {
+        navigate('/admin/noticias', { state: { noticia } });
+    };
+
+    if (loading) return <div className="admin-container"><p>Cargando noticias...</p></div>;
+    if (error) return <div className="admin-container"><p>Error: {error}</p></div>;
 
     return (
         <div className="admin-container">
             <h2>Listado de noticias</h2>
+            {noticias.length === 0 && <p>No hay noticias publicadas.</p>}
 
-            {noticiasAdmin.map((noticia) => (
-                <div key={noticia.id} style={{ marginBottom: '20px' }}>
-                    <p>{noticia.titulo}</p>
-                    <p>{noticia.autor}</p>
-                    <p>{noticia.fecha}</p>
+            {noticias.map((noticia) => (
+                <div key={noticia.id} style={{ marginBottom: '20px', borderBottom: '1px solid #ccc', paddingBottom: '10px' }}>
+                    <p><strong>{noticia.title}</strong></p>
+                    <p>Autor: {noticia.author}</p>
+                    <p>Fecha: {new Date(noticia.createdAt).toLocaleDateString()}</p>
 
                     {esEditar && (
                         <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
-                            <button className="btn btn-primary">
+                            <button className="btn btn-primary" onClick={() => handleEditar(noticia)}>
                                 Editar
-                            </button>
-
-                            <button className="btn btn-primary">
-                                Eliminar
                             </button>
                         </div>
                     )}
