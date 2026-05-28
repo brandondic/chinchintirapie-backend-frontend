@@ -110,7 +110,7 @@ export default function Home() {
               <div className="años-badge-ring">
                 <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
                   <path id="circ" d="M 100,100 m -80,0 a 80,80 0 1,1 160,0 a 80,80 0 1,1 -160,0" fill="none" />
-                  <text fontFamily="Bangers,cursive" fontSize="14" fill="#C0392B" letterSpacing="4">
+                  <text style={{ fontFamily: 'var(--font-titulo)', fill: 'var(--rojo)' }} fontSize="14" letterSpacing="4">
                     <textPath href="#circ">★ CHINCHINTIRAPIE ★ ESCUELA CARNAVALERA ★ DESDE 2004 ★ </textPath>
                   </text>
                 </svg>
@@ -142,7 +142,7 @@ export default function Home() {
         {/* TALLERES */}
         <section className="talleres-section" id="talleres">
           <div className="section-header reveal">
-            <h2 style={{ color: '#fff' }}>Nuestros <span style={{ color: 'var(--amarillo)' }}>Talleres</span></h2>
+            <h2 style={{ color: 'var(--blanco)' }}>Nuestros <span style={{ color: 'var(--amarillo)' }}>Talleres</span></h2>
             <div className="deco-line"><span>🥁</span></div>
             <p>Tres disciplinas que forman el corazón de la escuela carnavalera.</p>
           </div>

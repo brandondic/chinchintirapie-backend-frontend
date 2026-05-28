@@ -125,7 +125,7 @@
   margin-bottom: 0.3rem;
 }
 .noticias-card p {
-  color: #5a3e2b;
+  color: var(--oscuro);
   font-size: 0.88rem;
   line-height: 1.5;
   margin-bottom: 0.8rem;

@@ -52,11 +52,11 @@
   padding: .6rem;
   border: none;
   background: transparent;
-  font-family: Nunito, sans-serif;
+  font-family: var(--font-texto);
   font-weight: 800;
   font-size: .95rem;
   cursor: pointer;
-  color: #999;
+  color: rgba(190, 0, 60, 0.7);
   transition: all .2s;
   border-bottom: 3px solid transparent;
   margin-bottom: -2px;
@@ -112,9 +112,9 @@
   padding: .75rem 1rem;
   border-radius: 10px;
   border: 2px solid rgba(44,26,14,.15);
-  font-family: Nunito, sans-serif;
+  font-family: var(--font-texto);
   font-size: .95rem;
-  background: #fdfaf5;
+  background: #FFFFFF;
   color: var(--oscuro);
   outline: none;
   margin-top: .3rem;
@@ -205,7 +205,7 @@
   font-size: .82rem;
   font-weight: 700;
   cursor: pointer;
-  font-family: Nunito, sans-serif;
+  font-family: var(--font-texto);
   padding: 0;
 }
 
@@ -216,7 +216,7 @@
   color: var(--amarillo-e);
   border: none;
   border-radius: 12px;
-  font-family: Nunito, sans-serif;
+  font-family: var(--font-texto);
   font-weight: 800;
   font-size: 1rem;
   cursor: pointer;

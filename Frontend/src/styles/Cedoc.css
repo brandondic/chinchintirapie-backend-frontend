@@ -181,7 +181,7 @@
 
 .timeline-item p {
   font-size: 0.85rem;
-  color: #5a3e2b;
+  color: var(--oscuro);
   line-height: 1.5;
   margin: 0;
 }

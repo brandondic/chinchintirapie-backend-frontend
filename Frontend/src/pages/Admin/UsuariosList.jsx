@@ -33,7 +33,7 @@ function UsuariosList() {
     if (error) return (
         <div className="admin-container">
             <h2>Listado de usuarios</h2>
-            <div style={{ padding: '1rem', background: '#fff3f3', border: '1px solid #f5c6c6', borderRadius: '8px', color: '#c0392b', marginTop: '1rem' }}>
+            <div style={{ padding: '1rem', background: 'rgba(190,0,60,0.08)', border: '1px solid rgba(190,0,60,0.24)', borderRadius: '8px', color: 'var(--rojo)', marginTop: '1rem' }}>
                 <strong>⚠ Error al obtener datos</strong>
                 <p style={{ margin: '0.5rem 0 0', fontSize: '0.9rem' }}>{error}</p>
                 <p style={{ margin: '0.25rem 0 0', fontSize: '0.8rem', color: '#888' }}>
@@ -41,7 +41,7 @@ function UsuariosList() {
                 </p>
                 <button
                     onClick={() => window.location.reload()}
-                    style={{ marginTop: '0.75rem', padding: '6px 16px', borderRadius: '5px', border: 'none', background: '#c0392b', color: 'white', cursor: 'pointer', fontWeight: 'bold' }}
+                    style={{ marginTop: '0.75rem', padding: '6px 16px', borderRadius: '5px', border: 'none', background: 'var(--rojo)', color: 'white', cursor: 'pointer', fontWeight: 'bold' }}
                 >
                     Reintentar
                 </button>

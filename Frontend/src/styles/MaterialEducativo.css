@@ -17,7 +17,7 @@
 }
 
 .edu-card {
-  background: #fff;
+  background: var(--blanco);
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 8px 24px rgba(0,0,0,.07);
@@ -27,7 +27,7 @@
 
 .edu-card-top {
   height: 120px;
-  background: linear-gradient(135deg, var(--oscuro), #5a3e2b);
+  background: linear-gradient(135deg, var(--rojo), var(--naranja));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -47,7 +47,7 @@
 
 .edu-card-meta {
   font-size: .8rem;
-  color: #7a5c40;
+  color: var(--oscuro);
   margin-bottom: .8rem;
 }
 

@@ -49,7 +49,7 @@
 }
 
 .carousel-caption h3 {
-  font-family: 'Bangers', cursive;
+  font-family: var(--font-titulo);
   font-size: 2.2rem;
   color: var(--amarillo, #f1c40f);
   letter-spacing: 1px;
@@ -123,7 +123,7 @@
 }
 
 .contacto-title {
-  font-family: 'Bangers', cursive;
+  font-family: var(--font-titulo);
   font-size: 2.8rem;
   color: var(--oscuro, #2c1a0e);
   margin-bottom: 0.2rem;
@@ -256,7 +256,7 @@
 .submit-btn {
   background: var(--rojo, #c0392b);
   color: #fff;
-  font-family: 'Bangers', cursive;
+  font-family: var(--font-titulo);
   font-size: 1.6rem;
   letter-spacing: 1px;
   padding: 1rem;
@@ -304,7 +304,7 @@
 }
 
 .success-screen h3 {
-  font-family: 'Bangers', cursive;
+  font-family: var(--font-titulo);
   font-size: 2.2rem;
   color: var(--turquesa, #16a085);
   margin-bottom: 1rem;
@@ -320,7 +320,7 @@
 .btn-reset {
   background: var(--oscuro, #2c1a0e);
   color: var(--amarillo, #f1c40f);
-  font-family: 'Bangers', cursive;
+  font-family: var(--font-titulo);
   font-size: 1.3rem;
   letter-spacing: 1px;
   padding: 0.8rem 2rem;

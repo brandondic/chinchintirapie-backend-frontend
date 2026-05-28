@@ -1,21 +1,26 @@
-@import url('https://fonts.googleapis.com/css2?family=Boogaloo&family=Nunito:wght@400;600;700;800&family=Bangers&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Changa+One&display=swap');
 
 :root {
-  --rojo: #c0392b;
-  --naranja: #e67e22;
-  --amarillo: #f1c40f;
-  --verde: #27ae60;
-  --turquesa: #16a085;
-  --dorado: #d4a017;
-  --crema: #fdf6e3;
-  --oscuro: #2c1a0e;
-  --sombra: rgba(44, 26, 14, 0.45);
-  --purpura: #9c4196;
-  --cian: #00fbcf;
-  --amarillo-e: #fff142;
-  --morado-o: #3e0f42;
-  --beige-c: #f5e9d3;
-  --blanco: #ffffff;
+  --font-titulo: 'Changa One', cursive;
+  --font-texto: 'Bricolage Grotesque', sans-serif;
+
+  --rojo: #BE003C;
+  --naranja: #FA9A3E;
+  --amarillo: #EFC600;
+  --verde: #FA9A3E;
+  --turquesa: #EFC600;
+  --dorado: #EFC600;
+  --crema: #FFFFFF;
+  --oscuro: #BE003C;
+  --sombra: rgba(190, 0, 60, 0.16);
+  --purpura: #BE003C;
+  --rojo-oscuro: #93002c;
+  --color-acento: rgba(190, 0, 60, 0.18);
+  --cian: #EFC600;
+  --amarillo-e: #EFC600;
+  --morado-o: #BE003C;
+  --beige-c: #FFFFFF;
+  --blanco: #FFFFFF;
 
   --radius-sm: 8px;
   --radius-md: 10px;
@@ -23,9 +28,9 @@
   --radius-xl: 14px;
   --radius-pill: 9999px;
 
-  --shadow-sm: 0 4px 14px rgba(0, 0, 0, 0.07);
-  --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.09);
-  --shadow-lg: 0 14px 36px rgba(0, 0, 0, 0.16);
+  --shadow-sm: 0 4px 14px rgba(190, 0, 60, 0.12);
+  --shadow-md: 0 6px 20px rgba(190, 0, 60, 0.14);
+  --shadow-lg: 0 14px 36px rgba(190, 0, 60, 0.2);
 
   --transition-fast: 0.2s;
   --transition-md: 0.25s;
@@ -58,7 +63,7 @@ html {
 body {
   min-height: 100dvh;
   overflow-x: hidden;
-  font-family: 'Nunito', sans-serif;
+  font-family: var(--font-texto);
   font-size: 16px;
   line-height: 1.6;
   color: var(--oscuro);
@@ -111,7 +116,7 @@ p, li, figcaption {
 }
 
 ::selection {
-  background: rgba(0, 251, 207, 0.25);
+  background: rgba(239, 198, 0, 0.25);
   color: var(--oscuro);
 }
 

@@ -76,7 +76,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={label}
-                style={{ color: '#fff' }}
+                style={{ color: 'var(--blanco)' }}
                 >
               {ICONS[label]}
                 </a>

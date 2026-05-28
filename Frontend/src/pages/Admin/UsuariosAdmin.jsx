@@ -147,7 +147,7 @@ function UsuariosAdmin() {
                         value={form.role} 
                         onChange={handleChange}
                         required
-                        style={{ padding: '10px', borderRadius: '5px', border: '1px solid #ccc', backgroundColor: '#fff', color: '#333' }}
+                        style={{ padding: '10px', borderRadius: '5px', border: '1px solid rgba(190, 0, 60, 0.15)', backgroundColor: 'var(--blanco)', color: 'var(--oscuro)' }}
                     >
                         <option value="CLIENT">Cliente</option>
                         <option value="ADMIN">Admin</option>
@@ -164,7 +164,7 @@ function UsuariosAdmin() {
                             type="button" 
                             disabled={loading} 
                             onClick={handleDelete}
-                            style={{ background: '#d32f2f', color: 'white', border: 'none', padding: '10px 20px', borderRadius: '5px', cursor: 'pointer', fontWeight: 'bold' }}
+                            style={{ background: 'var(--rojo)', color: 'white', border: 'none', padding: '10px 20px', borderRadius: '5px', cursor: 'pointer', fontWeight: 'bold' }}
                         >
                             Eliminar Usuario
                         </button>

@@ -38,7 +38,7 @@
 }
 
 .educativo-copy {
-  color: #5a3e2b;
+  color: var(--oscuro);
   margin: 1rem 0 2rem;
 }
 

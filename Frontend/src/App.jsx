@@ -55,7 +55,7 @@ function PageLoader() {
             alignItems: 'center',
             justifyContent: 'center',
             minHeight: '60vh',
-            fontFamily: 'Bangers, cursive',
+            fontFamily: 'var(--font-titulo)',
             fontSize: '2rem',
             letterSpacing: 3,
             color: 'var(--purpura)',
@@ -144,10 +144,10 @@ function Layout() {
                     <Route path="*" element={
                         <div style={{ textAlign: 'center', padding: '6rem 2rem' }}>
                             <div style={{ fontSize: '5rem' }}>🎭</div>
-                            <h1 style={{ fontFamily: 'Bangers, cursive', fontSize: '3rem', letterSpacing: 3 }}>
+                            <h1 style={{ fontFamily: 'var(--font-titulo)', fontSize: '3rem', letterSpacing: 3 }}>
                                 Página no encontrada
                             </h1>
-                            <p style={{ color: '#5a3e2b', margin: '1rem 0 2rem' }}>
+                            <p style={{ color: 'var(--oscuro)', margin: '1rem 0 2rem' }}>
                                 Parece que esta calle no lleva al carnaval.
                             </p>
                             <a href="/" className="btn btn-primary">← Volver al inicio</a>

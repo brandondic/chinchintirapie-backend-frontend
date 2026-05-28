@@ -6,8 +6,8 @@
     padding: 2rem 1rem;
     display: flex;
     flex-direction: column;
-    font-family: 'Nunito', sans-serif; /* ← subido aquí */
-    font-weight: bold;                 /* ← subido aquí */
+    font-family: var(--font-texto);
+    font-weight: bold;
 }
 
 .admin-sidebar__logo {
