@@ -20,6 +20,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
+import org.springframework.http.HttpMethod;
 
 @Configuration
 @RequiredArgsConstructor
@@ -37,17 +38,15 @@ public class SecurityConfig {
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.OPTIONS, "/api/auth/**").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/contacto").permitAll()
-                        .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/articulos/**").permitAll()
-                        .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/multimedia/**").permitAll()
-                        .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/forgot-password").permitAll()
-                        .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/reset-password").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/contacto").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/articulos/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/multimedia/**").permitAll()
+                        .requestMatchers(HttpMethod.OPTIONS, "/forgot-password").permitAll()
+                        .requestMatchers(HttpMethod.OPTIONS, "/reset-password").permitAll()
                         .requestMatchers("/forgot-password").permitAll()
                         .requestMatchers("/reset-password").permitAll()
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/api/users/**").hasRole("ADMIN")
-                        .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(
