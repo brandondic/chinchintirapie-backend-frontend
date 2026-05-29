@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +23,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         // Verificar si el usuario está habilitado
         if (!user.isEnabled()) {
-            throw new UsernameNotFoundException("La cuenta está deshabilitada: " + email);
+            throw new DisabledException("La cuenta está deshabilitada. Contacte al administrador.");
         }
 
         return User.builder()

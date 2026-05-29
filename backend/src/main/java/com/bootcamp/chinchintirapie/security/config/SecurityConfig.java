@@ -20,6 +20,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
+import org.springframework.http.HttpMethod;
 
 @Configuration
 @RequiredArgsConstructor
@@ -37,10 +38,17 @@ public class SecurityConfig {
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(auth -> auth
+                        // Pre-flight OPTIONS para todos los endpoints públicos
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        // Auth (login, registro, forgot-password dentro de /api/auth)
                         .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/contacto").permitAll()
-                        .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/articulos/**").permitAll()
-                        .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/multimedia/**").permitAll()
+                        // Endpoints públicos adicionales
+                        .requestMatchers(HttpMethod.POST, "/api/contacto").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/articulos/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/multimedia/**").permitAll()
+                        .requestMatchers("/forgot-password").permitAll()
+                        .requestMatchers("/reset-password").permitAll()
+                        // Rutas protegidas
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/users/**").hasRole("ADMIN")
                         .anyRequest().authenticated()

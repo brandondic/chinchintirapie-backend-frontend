@@ -25,16 +25,19 @@ spring:
     password: ${SENDGRID_API_KEY}
     properties:
       mail:
-        from: ${MAIL_FROM:noreply@chinchintirapie.com}
         smtp:
           auth: true
           starttls:
             enable: true
+            required: true
+
+app:
+  mail:
+    from: ${MAIL_FROM}
 
 jwt:
   secret: ${JWT_SECRET}
-  # Por defecto 8 horas (28800000 ms). Ajustar con variable JWT_EXPIRATION en producción.
   expiration: ${JWT_EXPIRATION:28800000}
 
 frontend:
-  url: ${FRONTEND_URL:http://localhost:5173}
+  url: ${FRONTEND_URL}

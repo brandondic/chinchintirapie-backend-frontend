@@ -21,12 +21,18 @@ spring:
           auth: false
           starttls:
             enable: false
+          # Timeouts agregados para evitar fallos por bloqueo en GitHub Actions
+          connectiontimeout: 1000
+          timeout: 1000
+          writetimeout: 1000
 
 jwt:
   secret: claveSecretaDePruebaSuperSeguraYAlfanumericaParaElBootcamp2026
   expiration: 3600000
 
 app:
+  mail:
+    from: noreply@test.com
   url: http://localhost:8080
 
 frontend:
