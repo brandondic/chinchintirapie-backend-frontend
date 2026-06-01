@@ -4,6 +4,8 @@ import { useAuth } from '../context/AuthContext';
 import { getPasswordStrength, isPasswordValid } from '../utils/passwordStrength';
 import '../styles/Login.css';
 
+const ADMIN_EMAILS = ['admin@miescuela.com'];
+
 // ── Barra de fuerza ──────────────────────────────────────────────────────────
 const LEVEL_CONFIG = {
   weak:   { bars: 1, color: 'var(--rojo)',    label: 'Débil'     },
@@ -76,8 +78,58 @@ export default function Login() {
   const [serverSuccess, setServerSuccess] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const { login, register } = useAuth();
+  const { login, register, loginWithGoogle } = useAuth();
   const navigate = useNavigate();
+
+  const handleGoogleLogin = () => {
+    if (typeof window === 'undefined' || !window.google) {
+      setServerError('El script de Google aún no ha cargado. Inténtalo de nuevo.');
+      return;
+    }
+
+    setServerError('');
+    setServerSuccess('');
+    setLoading(true);
+
+    try {
+      const client = window.google.accounts.oauth2.initTokenClient({
+        client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+        scope: 'openid email profile',
+        callback: async (tokenResponse) => {
+          if (tokenResponse.error) {
+            setLoading(false);
+            setServerError('Cerraste la ventana de Google antes de completar');
+            return;
+          }
+          try {
+            const res = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+              headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
+            });
+            const userInfo = await res.json();
+            const { name, email, picture } = userInfo;
+            const role = ADMIN_EMAILS.includes(email) ? 'admin' : 'guest';
+            loginWithGoogle({ name, email, picture, role });
+            if (role === 'admin') {
+              navigate('/admin');
+            } else {
+              navigate('/');
+            }
+          } catch (err) {
+            setServerError('Error al obtener perfil de Google');
+            setLoading(false);
+          }
+        },
+        error_callback: () => {
+          setLoading(false);
+          setServerError('Cerraste la ventana de Google antes de completar');
+        },
+      });
+      client.requestAccessToken();
+    } catch (err) {
+      setLoading(false);
+      setServerError('Error al inicializar Google OAuth');
+    }
+  };
 
   const handleChange = (field) => (e) => {
     setForm((f) => ({ ...f, [field]: e.target.value }));
@@ -213,6 +265,26 @@ export default function Login() {
             {loading ? '⏳ Procesando...' : tab === 'login' ? '🎭 Ingresar' : '🥁 Crear cuenta'}
           </button>
         </form>
+
+        <div className="google-divider">
+          <span>o continúa con</span>
+        </div>
+
+        <button
+          type="button"
+          onClick={handleGoogleLogin}
+          disabled={loading}
+          className={`submit-btn google-btn ${loading ? 'loading' : ''}`}
+        >
+          <img
+            src="https://www.svgrepo.com/show/475656/google-color.svg"
+            alt="Google"
+            width="24"
+            height="24"
+            className="google-icon"
+          />
+          Continuar con Google
+        </button>
 
         <p className="login-footer">
           <Link to="/" className="login-back-link">← Volver al inicio</Link>

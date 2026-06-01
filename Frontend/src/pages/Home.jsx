@@ -41,9 +41,9 @@ const STATS = [
 ];
 
 const TALLERES = [
-  { img: '/img/Taller-card-baile.webp', title: 'Baile',    desc: 'Expresión corporal y coreografías colectivas inspiradas en el carnaval y la cultura popular.' },
-  { img: '/img/Taller-card-banda.webp', title: 'Banda',    desc: 'Formación musical con ritmos carnavaleros, percusión y trabajo en conjunto.' },
-  { img: '/img/Taller-card-figurines.webp', title: 'Figurines', desc: 'Diseño y creación de vestuarios, accesorios y personajes para presentaciones carnavaleras.' },
+  { icon: '💃', title: 'Baile',    phrase: 'Cuerpo en movimiento' },
+  { icon: '🥁', title: 'Banda',    phrase: 'Pulso de la calle' },
+  { icon: '🎭', title: 'Figurines', phrase: 'Color y memoria' },
 ];
 
 export default function Home() {
@@ -68,11 +68,11 @@ export default function Home() {
               `
           }} />
           <div className="hero-content">
-            <div className="hero-badge" style={{ color: '#000', fontSize: '1.6rem', padding: '.5rem 1.5rem' }}>
+            <div className="hero-badge">
               · Escuela Carnavalera Chinchintirapié ·
             </div>
             <h1 className="hero-title">
-              <em style={{ color: 'var(--naranja)', fontStyle: 'italic' }}>20 años </em>de Carnaval y educación popular
+              <em className="hero-title-em">20 años </em>de Carnaval y educación popular
             </h1>
 
             <div className="hero-btns">
@@ -149,27 +149,21 @@ export default function Home() {
           <div className="section-header reveal">
             <h2 style={{ color: 'var(--blanco)' }}>Nuestros <span style={{ color: 'var(--amarillo)' }}>Talleres</span></h2>
             <div className="deco-line"><span>🥁</span></div>
-            <p>Tres disciplinas que forman el corazón de la escuela carnavalera.</p>
+            <p>Descubre los tres pilares fundamentales de nuestra escuela.</p>
           </div>
-          <div className="talleres-grid">
-            {TALLERES.map(({ img, title, desc }) => (
-                <div className="taller-card reveal" key={title}>
-                  <img
-                      src={img}
-                      alt={title}
-                      style={{
-                        width: '100%',
-                        height: '220px',
-                        objectFit: 'cover',
-                        borderRadius: '16px',
-                        marginBottom: '1.5rem',
-                        display: 'block',
-                      }}
-                  />
-                  <h3>{title}</h3>
-                  <p>{desc}</p>
+          <div className="talleres-mini-grid">
+            {TALLERES.map(({ icon, title, phrase }) => (
+                <div className="taller-mini-card reveal" key={title}>
+                  <div className="taller-icon">{icon}</div>
+                  <div className="taller-info">
+                    <h3>{title}</h3>
+                    <p>{phrase}</p>
+                  </div>
                 </div>
             ))}
+          </div>
+          <div className="talleres-action reveal" style={{ textAlign: 'center', marginTop: '3rem' }}>
+            <Link to="/organizacion" className="btn btn-primary">Ver Organización</Link>
           </div>
         </section>
 

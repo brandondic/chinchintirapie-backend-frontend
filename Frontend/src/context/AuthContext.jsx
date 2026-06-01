@@ -33,6 +33,21 @@ export function AuthProvider({ children }) {
     setToken(null);
   }, []);
 
+  const loginWithGoogle = useCallback(({ name, email, picture, role }) => {
+    const userData = {
+      id: email,
+      fullName: name,
+      email,
+      role,
+      picture,
+    };
+    const googleToken = `google-${Date.now()}`;
+    setUser(userData);
+    setToken(googleToken);
+    localStorage.setItem('user', JSON.stringify(userData));
+    localStorage.setItem('token', googleToken);
+  }, []);
+
   const value = {
     user,
     token,
@@ -40,6 +55,7 @@ export function AuthProvider({ children }) {
     login,
     register,
     logout,
+    loginWithGoogle,
   };
 
   return (
@@ -51,7 +67,7 @@ export function AuthProvider({ children }) {
 
 /**
  * Hook para usar el contexto de autenticación.
- * @returns {{ user, token, isAuthenticated, login, register, logout }}
+ * @returns {{ user, token, isAuthenticated, login, register, logout, loginWithGoogle }}
  */
 // eslint-disable-next-line react-refresh/only-export-components
 export function useAuth() {
