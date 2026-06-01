@@ -106,24 +106,37 @@ export default function Navbar() {
           <li>
             <NavLink to="/contacto" onClick={() => setMobileOpen(false)}>Contacto</NavLink>
           </li>
-          {isAuthenticated ? (
+          {isAuthenticated ? (() => {
+            const roleLabel =
+              user?.role === 'admin' || user?.role === 'ADMIN'
+                ? 'Admin'
+                : user?.role === 'client' || user?.role === 'CLIENT'
+                  ? 'Cliente'
+                  : 'Usuario';
+
+            return (
               <li className={`has-dropdown${openDropdown === 'userMenu' ? ' open' : ''}`}>
                 <button
                     onClick={(e) => toggleDropdown('userMenu', e)}
                     className="nav-login-btn"
                     style={{ display: 'flex', alignItems: 'center', gap: '.4rem', padding: '.5rem .85rem' }}
                 >
-                  <span style={{ maxWidth: 120, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                    👤 {user?.fullName?.split(' ')[0]}
+                  <span style={{ maxWidth: 160, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    👤 {user?.fullName?.split(' ')[0]?.toUpperCase()}
                   </span>
                   <span className="caret">▾</span>
                 </button>
-                <div className="dropdown" style={{ right: 0, left: 'auto', minWidth: '150px' }}>
-                  {user?.role === 'ADMIN' && (
+                <div className="dropdown user-dropdown" style={{ right: 0, left: 'auto', minWidth: '160px' }}>
+                  <NavLink
+                      to="/perfil"
+                      onClick={() => { setOpenDropdown(null); setMobileOpen(false); }}
+                  >
+                    Mi perfil
+                  </NavLink>
+                  {(user?.role === 'admin' || user?.role === 'ADMIN') && (
                       <NavLink
                           to="/admin"
                           onClick={() => { setOpenDropdown(null); setMobileOpen(false); }}
-                          style={{ whiteSpace: 'nowrap' }}
                       >
                         Panel Admin
                       </NavLink>
@@ -131,13 +144,13 @@ export default function Navbar() {
                   <a
                       href="#"
                       onClick={(e) => { e.preventDefault(); setOpenDropdown(null); handleLogout(); }}
-                      style={{ whiteSpace: 'nowrap' }}
                   >
                     Salir
                   </a>
                 </div>
               </li>
-          ) : (
+            );
+          })() : (
               <li>
                 <NavLink to="/login" className="nav-login-btn" onClick={() => setMobileOpen(false)}>
                   Ingresar

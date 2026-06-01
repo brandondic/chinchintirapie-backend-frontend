@@ -16,6 +16,7 @@ const Tienda          = lazy(() => import('./pages/Tienda.jsx'))
 const Login           = lazy(() => import('./pages/Login.jsx'))
 const RecuperarPassword = lazy(() => import('./pages/RecuperarPassword.jsx'))
 const ResetPassword   = lazy(() => import('./pages/ResetPassword.jsx'))
+const Perfil          = lazy(() => import('./pages/Perfil.jsx'))
 
 // ADMIN
 const AdminDashboard = lazy(() => import('./pages/Admin/AdminDashboard.jsx'))
@@ -96,6 +97,7 @@ function Layout() {
                     <Route path="/login" element={<Login />} />
                     <Route path="/recuperar-password" element={<RecuperarPassword />} />
                     <Route path="/reset-password" element={<ResetPassword />} />
+                    <Route path="/perfil" element={<Perfil />} />
 
                     {/* DETALLES */}
                     <Route path="/noticias/:id" element={<NoticiaDetail />} />

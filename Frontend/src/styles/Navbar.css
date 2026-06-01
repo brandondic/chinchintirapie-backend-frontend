@@ -152,6 +152,29 @@
   color: var(--amarillo);
 }
 
+/* ── User dropdown: compact layout ── */
+.dropdown.user-dropdown {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: .35rem 0;
+}
+
+.dropdown.user-dropdown a {
+  padding: .45rem 1rem;
+}
+
+.dropdown.user-dropdown .user-dropdown-role {
+  display: block;
+  padding: .3rem 1rem;
+  font-size: .78rem;
+  opacity: .6;
+  cursor: default;
+  white-space: nowrap;
+  color: var(--blanco);
+  border-left: 3px solid transparent;
+}
+
 .nav-cta {
   background: var(--rojo) !important;
   border-radius: 8px !important;

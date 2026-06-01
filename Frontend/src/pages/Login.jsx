@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { getPasswordStrength, isPasswordValid } from '../utils/passwordStrength';
 import '../styles/Login.css';
 
-const ADMIN_EMAILS = ['admin@miescuela.com'];
+const ADMIN_EMAILS = ['chinchintirapie@gmail.com'];
 
 // ── Barra de fuerza ──────────────────────────────────────────────────────────
 const LEVEL_CONFIG = {
@@ -87,47 +87,62 @@ export default function Login() {
       return;
     }
 
+    const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+    if (!clientId) {
+      setServerError('Falta configurar VITE_GOOGLE_CLIENT_ID en el archivo .env');
+      return;
+    }
+
     setServerError('');
     setServerSuccess('');
     setLoading(true);
 
     try {
       const client = window.google.accounts.oauth2.initTokenClient({
-        client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+        client_id: clientId,
         scope: 'openid email profile',
         callback: async (tokenResponse) => {
-          if (tokenResponse.error) {
-            setLoading(false);
-            setServerError('Cerraste la ventana de Google antes de completar');
-            return;
-          }
-          try {
-            const res = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-              headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
-            });
-            const userInfo = await res.json();
-            const { name, email, picture } = userInfo;
-            const role = ADMIN_EMAILS.includes(email) ? 'admin' : 'guest';
-            loginWithGoogle({ name, email, picture, role });
-            if (role === 'admin') {
-              navigate('/admin');
-            } else {
-              navigate('/');
+          if (tokenResponse && tokenResponse.access_token) {
+            try {
+              const res = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+                headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
+              });
+              const userInfo = await res.json();
+
+              const email = userInfo.email.toLowerCase();
+              const role = ADMIN_EMAILS.includes(email) ? 'admin' : 'client';
+
+              loginWithGoogle({
+                name: userInfo.name,
+                email,
+                picture: userInfo.picture,
+                role,
+              });
+              
+              navigate(role === 'admin' ? '/admin' : '/');
+            } catch (err) {
+              setServerError('Error al obtener perfil de Google');
+            } finally {
+              setLoading(false);
             }
-          } catch (err) {
-            setServerError('Error al obtener perfil de Google');
-            setLoading(false);
+          } else {
+             setLoading(false);
           }
         },
-        error_callback: () => {
+        error_callback: (error) => {
           setLoading(false);
-          setServerError('Cerraste la ventana de Google antes de completar');
+          if (error && error.type === 'popup_closed') {
+            setServerError('Cancelaste el inicio de sesión con Google.');
+          } else {
+            setServerError('Ocurrió un error con el inicio de sesión de Google.');
+          }
         },
       });
       client.requestAccessToken();
     } catch (err) {
       setLoading(false);
-      setServerError('Error al inicializar Google OAuth');
+      console.error("Error GSI:", err);
+      setServerError('Error al inicializar Google OAuth. Revisa la consola.');
     }
   };
 

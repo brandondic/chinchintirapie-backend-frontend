@@ -7,8 +7,17 @@ const AuthContext = createContext(null);
  * Provider de autenticación — envuelve la app para compartir estado de sesión.
  */
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(() => authService.getUser());
-  const [token, setToken] = useState(() => authService.getToken());
+  const [user, setUser] = useState(() => {
+    try {
+      const localUser = localStorage.getItem('user');
+      return localUser ? JSON.parse(localUser) : authService.getUser();
+    } catch {
+      return authService.getUser();
+    }
+  });
+  const [token, setToken] = useState(() => {
+    return localStorage.getItem('token') || authService.getToken();
+  });
 
   const login = useCallback(async (email, password) => {
     const data = await authService.login(email, password);
@@ -19,6 +28,9 @@ export function AuthProvider({ children }) {
       role: data.role,
     });
     setToken(data.token);
+    // Persistir login tradicional en localStorage
+    localStorage.setItem('user', JSON.stringify(data));
+    localStorage.setItem('token', data.token);
     return data;
   }, []);
 
@@ -29,21 +41,26 @@ export function AuthProvider({ children }) {
 
   const logout = useCallback(() => {
     authService.logout();
+    // Limpiar localStorage de Google/tradicional
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
     setUser(null);
     setToken(null);
   }, []);
 
   const loginWithGoogle = useCallback(({ name, email, picture, role }) => {
     const userData = {
-      id: email,
+      id: email, // Usamos el email como ID temporal para GSI
       fullName: name,
       email,
       role,
       picture,
     };
-    const googleToken = `google-${Date.now()}`;
+    const googleToken = `google-auth-token`; // Token simbólico
     setUser(userData);
     setToken(googleToken);
+    
+    // Persistir en localStorage para que resista recargas de página
     localStorage.setItem('user', JSON.stringify(userData));
     localStorage.setItem('token', googleToken);
   }, []);
