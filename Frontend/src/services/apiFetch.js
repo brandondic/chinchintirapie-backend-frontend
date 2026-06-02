@@ -55,7 +55,20 @@ export async function apiFetch(endpoint, options = {}) {
   }
 
   if (!response.ok) {
-    throw new Error(`Error HTTP ${response.status}: ${response.statusText}`);
+    let errorMsg = `Error HTTP ${response.status}: ${response.statusText}`;
+    try {
+      const errData = await response.json();
+      if (errData.message) {
+        errorMsg = errData.message;
+      } else if (errData.errors) { // Si son varios errores de validación
+        errorMsg = Object.values(errData.errors).join(', ');
+      } else if (typeof errData === 'string') {
+        errorMsg = errData;
+      }
+    } catch (e) {
+      // Ignorar si no es JSON
+    }
+    throw new Error(errorMsg);
   }
 
   return response;
