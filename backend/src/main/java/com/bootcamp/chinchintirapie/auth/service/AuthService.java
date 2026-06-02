@@ -28,6 +28,7 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
     private final EmailService emailService;
+    private final GoogleTokenVerifier googleTokenVerifier;
 
     @Value("${frontend.url}")
     private String frontendUrl;
@@ -132,5 +133,55 @@ public class AuthService {
         userRepository.save(user);
 
         return java.util.Map.of("message", "Contraseña restablecida exitosamente");
+    }
+
+    @Transactional
+    public AuthResponseDto googleLogin(String googleToken) {
+        com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload payload = googleTokenVerifier.verify(googleToken);
+        
+        String email = payload.getEmail();
+        String name = (String) payload.get("name");
+        
+        // Buscar si el usuario ya existe
+        UserEntity user = userRepository.findByEmail(email).orElse(null);
+        
+        if (user == null) {
+            // Registrar nuevo usuario con Google
+            user = UserEntity.builder()
+                    .fullName(name)
+                    .email(email)
+                    .password(passwordEncoder.encode(java.util.UUID.randomUUID().toString())) // Contraseña aleatoria ya que usa Google
+                    .role(Role.CLIENT)
+                    .enabled(true)
+                    .build();
+            userRepository.save(user);
+        }
+        
+        if (!user.isEnabled()) {
+            throw new RuntimeException("La cuenta está deshabilitada. Contacte al administrador.");
+        }
+        
+        user.setLastLogin(LocalDateTime.now());
+        userRepository.save(user);
+        
+        // Generar JWT
+        final String roleName = user.getRole().name();
+        User springUser = new User(
+                user.getEmail(),
+                user.getPassword(),
+                List.of(() -> "ROLE_" + roleName)
+        );
+
+        String token = jwtService.generateToken(springUser);
+
+        return new AuthResponseDto(
+                "Login exitoso con Google",
+                token,
+                "Bearer",
+                user.getId(),
+                user.getFullName(),
+                user.getEmail(),
+                user.getRole()
+        );
     }
 }

@@ -47,4 +47,10 @@ public class AuthController {
         
         return authService.resetPassword(token, newPassword);
     }
+
+    @PostMapping("/google")
+    public AuthResponseDto googleLogin(
+            @Valid @RequestBody com.bootcamp.chinchintirapie.auth.dto.GoogleAuthRequestDto request) {
+        return authService.googleLogin(request.token());
+    }
 }
