@@ -13,6 +13,7 @@ public record ArticuloResponseDto(
         ArticuloType type,
         String author,
         LocalDateTime createdAt,
+        LocalDateTime updatedAt,
         Long authorId,
         String authorEmail
 ) {

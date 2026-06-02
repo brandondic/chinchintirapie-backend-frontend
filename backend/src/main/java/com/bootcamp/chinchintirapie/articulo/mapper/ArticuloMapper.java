@@ -18,6 +18,7 @@ public class ArticuloMapper {
                 articulo.getType(),
                 articulo.getAuthor(),
                 articulo.getCreatedAt(),
+                articulo.getUpdatedAt(),
                 articulo.getUploadedBy().getId(),
                 articulo.getUploadedBy().getEmail()
         );

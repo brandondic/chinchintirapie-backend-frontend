@@ -30,6 +30,9 @@ public class MultimediaEntity {
     @Column(length = 1000)
     private String description;
 
+    @Column(length = 1000)
+    private String thumbnailUrl;
+
     private String year;
 
     @Enumerated(EnumType.STRING)
@@ -48,6 +51,8 @@ public class MultimediaEntity {
     @Column(nullable = false, updatable = false)
     private LocalDateTime uploadedAt;
 
+    private LocalDateTime updatedAt;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id", nullable = false)
     private UserEntity uploadedBy;
@@ -55,5 +60,10 @@ public class MultimediaEntity {
     @PrePersist
     protected void onCreate() {
         this.uploadedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
     }
 }

@@ -14,11 +14,13 @@ public class MultimediaMapper {
                 multimedia.getTitle(),
                 multimedia.getUrl(),
                 multimedia.getDescription(),
+                multimedia.getThumbnailUrl(),
                 multimedia.getYear(),
                 multimedia.getType(),
                 multimedia.getCategories(),
                 multimedia.getAuthor(),
                 multimedia.getUploadedAt(),
+                multimedia.getUpdatedAt(),
                 multimedia.getUploadedBy().getId(),
                 multimedia.getUploadedBy().getEmail()
         );

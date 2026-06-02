@@ -40,6 +40,8 @@ public class UserEntity {
 
     private LocalDateTime lastLogin;
 
+    private LocalDateTime updatedAt;
+
     @Column(nullable = false)
     private boolean enabled;
 
@@ -59,5 +61,10 @@ public class UserEntity {
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
         this.enabled = true;
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
     }
 }

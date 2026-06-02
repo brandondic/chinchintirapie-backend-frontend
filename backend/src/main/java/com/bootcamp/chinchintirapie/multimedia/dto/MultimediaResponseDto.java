@@ -10,11 +10,13 @@ public record MultimediaResponseDto(
         String title,
         String url,
         String description,
+        String thumbnailUrl,
         String year,
         MultimediaType type,
         List<String> categories,
         String author,
         LocalDateTime uploadedAt,
+        LocalDateTime updatedAt,
         Long authorId,
         String authorEmail
 ) {

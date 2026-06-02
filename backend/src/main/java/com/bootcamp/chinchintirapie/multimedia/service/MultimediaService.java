@@ -34,6 +34,7 @@ public class MultimediaService {
                 .year(request.year())
                 .type(request.type())
                 .categories(request.categories() != null ? request.categories() : List.of())
+                .thumbnailUrl(request.thumbnailUrl())
                 .author(request.author())
                 .uploadedBy(user)
                 .build();
@@ -73,6 +74,7 @@ public class MultimediaService {
         multimedia.setYear(request.year());
         multimedia.setType(request.type());
         multimedia.setCategories(request.categories() != null ? request.categories() : List.of());
+        multimedia.setThumbnailUrl(request.thumbnailUrl());
         multimedia.setAuthor(request.author());
 
         MultimediaEntity saved = multimediaRepository.save(multimedia);

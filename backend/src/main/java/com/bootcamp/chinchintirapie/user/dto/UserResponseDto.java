@@ -11,6 +11,7 @@ public record UserResponseDto(
         Role role,
         LocalDateTime createdAt,
         LocalDateTime lastLogin,
+        LocalDateTime updatedAt,
         boolean enabled
 ) {
 }
