@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:testdb;MODE=PostgreSQL;DB_CLOSE_DELAY=-1
+    url: jdbc:h2:mem:testdb;MODE=PostgreSQL;DB_CLOSE_DELAY=-1;NON_KEYWORDS=YEAR
     driver-class-name: org.h2.Driver
     username: sa
     password:
@@ -37,3 +37,6 @@ app:
 
 frontend:
   url: http://localhost:5173
+
+google:
+  client-id: test-dummy-client-id.apps.googleusercontent.com
