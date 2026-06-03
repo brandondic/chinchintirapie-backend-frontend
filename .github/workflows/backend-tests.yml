@@ -33,7 +33,9 @@ jobs:
 
       - name: Run backend workflow tests
         working-directory: backend
+        env:
+          SPRING_PROFILES_ACTIVE: test
         run: |
           chmod +x mvnw
-          ./mvnw -Dtest=BackendTests test -Dspring.profiles.active=test
+          ./mvnw test
 
