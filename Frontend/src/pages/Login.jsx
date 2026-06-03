@@ -266,7 +266,7 @@ export default function Login() {
           )}
 
           <button type="submit" disabled={loading} className={`submit-btn ${loading ? 'loading' : ''}`}>
-            {loading ? '⏳ Procesando...' : tab === 'login' ? '🎭 Ingresar' : '🥁 Crear cuenta'}
+            {loading ? '⏳ Procesando...' : tab === 'login' ? 'Ingresar' : 'Crear cuenta'}
           </button>
         </form>
 

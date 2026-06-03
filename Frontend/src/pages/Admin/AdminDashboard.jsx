@@ -170,25 +170,6 @@ function AdminDashboard() {
                     </div>
                 </div>
             </div>
-
-            <div className="quick-access-grid">
-                <Link to="/admin/noticias" className="quick-btn">
-                    <span className="quick-btn-icon">✍️</span>
-                    Nueva Noticia
-                </Link>
-                <Link to="/admin/usuarios/listar" className="quick-btn">
-                    <span className="quick-btn-icon">🧑‍🤝‍🧑</span>
-                    Gestionar Usuarios
-                </Link>
-                <Link to="/admin/material" className="quick-btn">
-                    <span className="quick-btn-icon">📤</span>
-                    Subir Material
-                </Link>
-                <Link to="/admin/cronicas" className="quick-btn">
-                    <span className="quick-btn-icon">📖</span>
-                    Nueva Crónica
-                </Link>
-            </div>
         </div>
     );
 }
