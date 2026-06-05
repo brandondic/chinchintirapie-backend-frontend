@@ -27,6 +27,8 @@ public record MultimediaRequestDto(
 
         List<String> categories,
 
+        List<String> galleryUrls,
+
         @Size(max = 1000, message = "La URL de la portada no puede exceder 1000 caracteres")
         String thumbnailUrl,
 

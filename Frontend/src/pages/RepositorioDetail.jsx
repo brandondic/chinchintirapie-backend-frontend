@@ -9,6 +9,7 @@ export default function RepositorioDetail() {
   const [item, setItem] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [lightboxIdx, setLightboxIdx] = useState(null);
 
   useEffect(() => {
     const fetchItem = async () => {
@@ -44,6 +45,16 @@ export default function RepositorioDetail() {
     );
   }
 
+  const gallery = item.galleryUrls || [];
+  const hasGallery = gallery.length > 0;
+  // Detectar si la URL principal es solo el fallback de la galería
+  const isGalleryOnly = hasGallery && item.url === gallery[0];
+
+  const openLightbox = (idx) => setLightboxIdx(idx);
+  const closeLightbox = () => setLightboxIdx(null);
+  const prevImage = () => setLightboxIdx((prev) => (prev > 0 ? prev - 1 : gallery.length - 1));
+  const nextImage = () => setLightboxIdx((prev) => (prev < gallery.length - 1 ? prev + 1 : 0));
+
   return (
     <>
       <PageHero
@@ -58,7 +69,7 @@ export default function RepositorioDetail() {
         </Link>
 
         <div className="repo-detail-preview">
-          {item.url ? (
+          {!isGalleryOnly && item.url ? (
             item.url.match(/\.(mp4|webm|ogg)$/i) ? (
               <video controls src={item.url} style={{ width: '100%', maxHeight: '500px', borderRadius: '16px', marginBottom: '1.5rem', background: '#000' }} />
             ) : item.url.includes('youtube.com/embed/') ? (
@@ -75,25 +86,52 @@ export default function RepositorioDetail() {
               <img src={item.thumbnailUrl || item.url} alt={item.title} style={{ width: '100%', maxHeight: '500px', objectFit: 'cover', borderRadius: '16px', marginBottom: '1.5rem' }} />
             )
           ) : (
-            <div className="repo-detail-emoji">📂</div>
+            !hasGallery && <div className="repo-detail-emoji">📂</div>
           )}
+          
           <h3>{item.title}</h3>
           <p className="repo-detail-text">
             {item.description || 'El archivo se encuentra en los registros históricos del repositorio.'}
           </p>
-          {item.url && (
-            <div style={{ marginTop: '20px', marginBottom: '10px' }}>
-              <a href={item.url} target="_blank" rel="noreferrer" style={{ textDecoration: 'none', display: 'inline-block', background: 'var(--purpura)', color: 'white', padding: '10px 20px', borderRadius: '5px', fontWeight: 'bold' }}>
-                {item.url.includes('youtube') || item.url.match(/\.(mp4|webm|ogg)$/i) ? '🎥 Ver Video' : '⬇ Descargar / Leer Archivo'}
-              </a>
-            </div>
-          )}
+          
+
           <p style={{ color: '#999', fontSize: '.9rem', marginTop: '.5rem' }}>
             {item.author && `Por ${item.author}`}
             {item.uploadedAt && ` · ${new Date(item.uploadedAt).toLocaleDateString()}`}
           </p>
         </div>
+
+        {/* ── Galería de Imágenes ── */}
+        {hasGallery && (
+          <div className="repo-gallery-section">
+
+            <div className="repo-gallery-grid">
+              {gallery.map((url, idx) => (
+                <button key={idx} type="button" className="repo-gallery-item" onClick={() => openLightbox(idx)}>
+                  <img src={url} alt={`${item.title} - Foto ${idx + 1}`} />
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
+
+      {/* ── Lightbox ── */}
+      {lightboxIdx !== null && (
+        <div className="repo-lightbox-overlay" onClick={closeLightbox}>
+          <div className="repo-lightbox-content" onClick={(e) => e.stopPropagation()}>
+            <button className="repo-lightbox-close" onClick={closeLightbox}>✕</button>
+            {gallery.length > 1 && (
+              <button className="repo-lightbox-nav repo-lightbox-prev" onClick={prevImage}>‹</button>
+            )}
+            <img src={gallery[lightboxIdx]} alt={`${item.title} - Foto ${lightboxIdx + 1}`} className="repo-lightbox-img" />
+            {gallery.length > 1 && (
+              <button className="repo-lightbox-nav repo-lightbox-next" onClick={nextImage}>›</button>
+            )}
+            <p className="repo-lightbox-counter">{lightboxIdx + 1} / {gallery.length}</p>
+          </div>
+        </div>
+      )}
     </>
   );
 }

@@ -20,6 +20,11 @@ function CedocAdmin() {
         author: ''
     });
 
+    // Categorías
+    const [selectedCategories, setSelectedCategories] = useState([]);
+    const [availableCategories, setAvailableCategories] = useState([]);
+    const [newCategory, setNewCategory] = useState('');
+
     const [mediaType, setMediaType] = useState('image'); // 'image' | 'video'
     const [uploadingFile, setUploadingFile] = useState(false);
     const [uploadingThumb, setUploadingThumb] = useState(false);
@@ -28,6 +33,17 @@ function CedocAdmin() {
     const [error, setError] = useState(null);
     const [successMsg, setSuccessMsg] = useState(null);
     const [toast, setToast] = useState({ show: false, title: '', message: '' });
+
+    // Cargar categorías disponibles del backend
+    useEffect(() => {
+        const loadCategories = async () => {
+            try {
+                const cats = await multimediaService.fetchCategorias('CEDOC');
+                if (Array.isArray(cats)) setAvailableCategories(cats);
+            } catch (_) { /* silenciar */ }
+        };
+        loadCategories();
+    }, []);
 
     useEffect(() => {
         if (itemAEditar) {
@@ -39,6 +55,7 @@ function CedocAdmin() {
                 thumbnailUrl: itemAEditar.thumbnailUrl || '',
                 author: itemAEditar.author || ''
             });
+            setSelectedCategories(itemAEditar.categories || []);
             if (itemAEditar.url && (itemAEditar.url.includes('youtube') || itemAEditar.url.includes('youtu.be'))) {
                 setMediaType('video');
             } else {
@@ -96,7 +113,7 @@ function CedocAdmin() {
             ...form,
             type: 'CEDOC',
             authorId: user?.id || 1,
-            categories: []
+            categories: selectedCategories
         };
 
         try {
@@ -253,6 +270,64 @@ function CedocAdmin() {
                     onChange={handleChange}
                     required
                 />
+
+                {/* ── SECCIÓN CATEGORÍAS ── */}
+                <div className="admin-categories-section">
+                    <p className="admin-categories-title">🏷️ Categorías:</p>
+                    {selectedCategories.length > 0 && (
+                        <div className="admin-categories-selected">
+                            {selectedCategories.map((cat) => (
+                                <span key={cat} className="admin-cat-pill">
+                                    {cat}
+                                    <button type="button" onClick={() => setSelectedCategories(prev => prev.filter(c => c !== cat))}>✕</button>
+                                </span>
+                            ))}
+                        </div>
+                    )}
+                    {availableCategories.filter(c => !selectedCategories.includes(c)).length > 0 && (
+                        <div className="admin-categories-available">
+                            <p className="admin-categories-subtitle">Categorías disponibles:</p>
+                            <div className="admin-categories-pills">
+                                {availableCategories.filter(c => !selectedCategories.includes(c)).map((cat) => (
+                                    <button key={cat} type="button" className="admin-cat-add-pill" onClick={() => setSelectedCategories(prev => [...prev, cat])}>
+                                        + {cat}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+                    <div className="admin-categories-new">
+                        <input
+                            type="text"
+                            value={newCategory}
+                            placeholder="Nueva categoría..."
+                            onChange={(e) => setNewCategory(e.target.value)}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    e.preventDefault();
+                                    const trimmed = newCategory.trim();
+                                    if (trimmed && !selectedCategories.includes(trimmed)) {
+                                        setSelectedCategories(prev => [...prev, trimmed]);
+                                        if (!availableCategories.includes(trimmed)) {
+                                            setAvailableCategories(prev => [...prev, trimmed]);
+                                        }
+                                        setNewCategory('');
+                                    }
+                                }
+                            }}
+                        />
+                        <button type="button" onClick={() => {
+                            const trimmed = newCategory.trim();
+                            if (trimmed && !selectedCategories.includes(trimmed)) {
+                                setSelectedCategories(prev => [...prev, trimmed]);
+                                if (!availableCategories.includes(trimmed)) {
+                                    setAvailableCategories(prev => [...prev, trimmed]);
+                                }
+                                setNewCategory('');
+                            }
+                        }}>Agregar</button>
+                    </div>
+                </div>
 
                 <div style={{ display: 'flex', gap: '10px' }}>
                     <button type="submit" disabled={loading || uploadingFile || uploadingThumb} style={{ background: 'var(--purpura)', color: 'white', padding: '10px 20px', borderRadius: '5px', cursor: 'pointer', border: 'none', fontWeight: 'bold' }}>

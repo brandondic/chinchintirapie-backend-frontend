@@ -162,3 +162,103 @@
   opacity: 0.7;
   margin: 1rem 0;
 }
+
+/* ── Repositorio Category Controls ── */
+.repo-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  width: 100%;
+  max-width: 600px;
+}
+
+.repo-categories {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.repo-cat-pill {
+  background: var(--crema, #fdf6e3);
+  border: 1px solid var(--naranja, #e67e22);
+  color: var(--oscuro, #2d2d2d);
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 0.25rem 0.7rem;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-family: var(--font-texto, sans-serif);
+}
+
+.repo-cat-pill:hover {
+  background: var(--naranja, #e67e22);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.repo-cat-pill.selected {
+  background: var(--rojo, #e74c3c);
+  color: #fff;
+  border-color: var(--rojo, #e74c3c);
+  box-shadow: 0 2px 8px rgba(231, 76, 60, 0.3);
+}
+
+.repo-cat-clear {
+  background: transparent;
+  border-color: #999;
+  color: #999;
+  font-size: 0.72rem;
+}
+
+.repo-cat-clear:hover {
+  background: #999;
+  color: #fff;
+}
+
+/* Category badges on media cards */
+.media-categories {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+
+.media-cat-badge {
+  background: var(--crema, #fdf6e3);
+  border: 1px solid var(--color-acento, #ddd);
+  color: var(--oscuro, #2d2d2d);
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.1rem 0.5rem;
+  border-radius: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+/* Year groupings */
+.repo-year-group {
+  margin-bottom: 4rem;
+}
+
+.repo-year-title {
+  font-family: var(--font-titulo);
+  font-size: 2.5rem;
+  color: var(--naranja);
+  margin-bottom: 2rem;
+  text-align: center;
+  position: relative;
+}
+
+.repo-year-title::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 4px;
+  background: var(--rojo);
+  margin: 0.5rem auto 0;
+  border-radius: 2px;
+}

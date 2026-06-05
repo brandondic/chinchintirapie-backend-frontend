@@ -61,3 +61,112 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ── Material Educativo Search & Category Controls ── */
+.material-controls-wrap {
+  padding: 2rem;
+  background: var(--crema);
+  display: flex;
+  justify-content: center;
+}
+
+.material-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  width: 100%;
+  max-width: 600px;
+}
+
+.material-search-bar {
+  display: flex;
+  width: 100%;
+  background: #fff;
+  border: 2px solid var(--rojo, #e74c3c);
+  border-radius: var(--radius-pill, 50px);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm, 0 2px 8px rgba(0,0,0,.06));
+  transition: box-shadow 0.2s;
+}
+
+.material-search-bar:focus-within {
+  box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.25);
+}
+
+.material-search-bar input {
+  flex: 1;
+  border: none;
+  padding: 1rem 1.5rem;
+  outline: none;
+  font-size: 1rem;
+  background: transparent;
+}
+
+.material-search-bar button {
+  background: var(--rojo, #e74c3c);
+  color: #fff;
+  font-weight: 700;
+  padding: 0 1.5rem;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.material-search-bar button:hover {
+  background: var(--naranja, #e67e22);
+}
+
+.material-categories {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.mat-cat-pill {
+  background: var(--crema, #fdf6e3);
+  border: 1px solid var(--rojo, #e74c3c);
+  color: var(--oscuro, #2d2d2d);
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 0.25rem 0.7rem;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-family: var(--font-texto, sans-serif);
+}
+
+.mat-cat-pill:hover {
+  background: var(--rojo, #e74c3c);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.mat-cat-pill.selected {
+  background: var(--rojo, #e74c3c);
+  color: #fff;
+  border-color: var(--rojo, #e74c3c);
+  box-shadow: 0 2px 8px rgba(231, 76, 60, 0.3);
+}
+
+.mat-cat-clear {
+  background: transparent;
+  border-color: #999;
+  color: #999;
+  font-size: 0.72rem;
+}
+
+.mat-cat-clear:hover {
+  background: #999;
+  color: #fff;
+}
+
+/* Category badges on edu cards */
+.edu-card-cats {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.4rem;
+}

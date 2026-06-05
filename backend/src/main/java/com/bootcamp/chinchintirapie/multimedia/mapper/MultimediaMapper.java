@@ -18,6 +18,7 @@ public class MultimediaMapper {
                 multimedia.getYear(),
                 multimedia.getType(),
                 multimedia.getCategories(),
+                multimedia.getGalleryUrls(),
                 multimedia.getAuthor(),
                 multimedia.getUploadedAt(),
                 multimedia.getUpdatedAt(),

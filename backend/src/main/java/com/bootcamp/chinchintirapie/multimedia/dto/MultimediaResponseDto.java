@@ -14,6 +14,7 @@ public record MultimediaResponseDto(
         String year,
         MultimediaType type,
         List<String> categories,
+        List<String> galleryUrls,
         String author,
         LocalDateTime uploadedAt,
         LocalDateTime updatedAt,

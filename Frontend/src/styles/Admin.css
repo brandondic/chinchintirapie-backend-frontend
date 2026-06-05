@@ -160,3 +160,126 @@
 .admin-form button:hover {
     background-color: var(--purpura);
 }
+
+/* ── Admin Category Selector ── */
+.admin-categories-section {
+    padding: 15px;
+    background: #2a2a2a;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.admin-categories-title {
+    margin: 0 0 10px 0;
+    font-weight: bold;
+    color: #fff;
+    font-size: 1rem;
+}
+
+.admin-categories-subtitle {
+    margin: 8px 0 6px 0;
+    font-size: 0.85rem;
+    color: #a3a3a3;
+}
+
+.admin-categories-selected {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
+.admin-cat-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--purpura, #8e44ad);
+    color: #fff;
+    font-size: 0.82rem;
+    font-weight: 700;
+    padding: 0.3rem 0.7rem;
+    border-radius: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.admin-cat-pill button {
+    background: none !important;
+    border: none;
+    color: rgba(255,255,255,0.7);
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 0 2px;
+    line-height: 1;
+    transition: color 0.15s;
+}
+
+.admin-cat-pill button:hover {
+    color: #ff6b6b !important;
+    background: none !important;
+}
+
+.admin-categories-available {
+    margin-bottom: 10px;
+}
+
+.admin-categories-pills {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+}
+
+.admin-cat-add-pill {
+    background: #3a3a3a !important;
+    border: 1px dashed #666 !important;
+    color: #ccc !important;
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 0.25rem 0.6rem;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.admin-cat-add-pill:hover {
+    background: #4a4a4a !important;
+    border-color: var(--purpura, #8e44ad) !important;
+    color: #fff !important;
+}
+
+.admin-categories-new {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.admin-categories-new input {
+    flex: 1;
+    padding: 8px 12px !important;
+    font-size: 0.9rem !important;
+    border-radius: 8px;
+    border: 1px solid #555;
+    background: #333;
+    color: #fff;
+}
+
+.admin-categories-new input::placeholder {
+    color: #888;
+}
+
+.admin-categories-new button {
+    padding: 8px 16px !important;
+    background: var(--purpura, #8e44ad) !important;
+    color: #fff !important;
+    border: none !important;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+}
+
+.admin-categories-new button:hover {
+    background: #a855f7 !important;
+}

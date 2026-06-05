@@ -39,6 +39,27 @@ public class MultimediaController {
         return multimediaService.findByType(type);
     }
 
+    /**
+     * Obtener categorías únicas. Opcionalmente filtrar por tipo.
+     * GET /api/multimedia/categorias
+     * GET /api/multimedia/categorias?type=CEDOC
+     */
+    @GetMapping("/categorias")
+    public List<String> getCategories(@RequestParam(required = false) MultimediaType type) {
+        return multimediaService.getCategories(type);
+    }
+
+    /**
+     * Filtrar multimedia por tipo y categoría.
+     * GET /api/multimedia/type/{type}/category/{category}
+     */
+    @GetMapping("/type/{type}/category/{category}")
+    public List<MultimediaResponseDto> findByTypeAndCategory(
+            @PathVariable MultimediaType type,
+            @PathVariable String category) {
+        return multimediaService.findByTypeAndCategory(type, category);
+    }
+
     @PutMapping("/{id}")
     public MultimediaResponseDto update(@PathVariable Long id, @Valid @RequestBody MultimediaRequestDto request) {
         return multimediaService.update(id, request);

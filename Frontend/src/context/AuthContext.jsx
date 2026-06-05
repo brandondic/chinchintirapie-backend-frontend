@@ -8,15 +8,10 @@ const AuthContext = createContext(null);
  */
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(() => {
-    try {
-      const localUser = localStorage.getItem('user');
-      return localUser ? JSON.parse(localUser) : authService.getUser();
-    } catch {
-      return authService.getUser();
-    }
+    return authService.getUser();
   });
   const [token, setToken] = useState(() => {
-    return localStorage.getItem('token') || authService.getToken();
+    return authService.getToken();
   });
 
   const login = useCallback(async (email, password) => {
@@ -28,9 +23,7 @@ export function AuthProvider({ children }) {
       role: data.role,
     });
     setToken(data.token);
-    // Persistir login tradicional en localStorage
-    localStorage.setItem('user', JSON.stringify(data));
-    localStorage.setItem('token', data.token);
+    // authService ya se encarga de guardar en localStorage correctamente
     return data;
   }, []);
 

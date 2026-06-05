@@ -34,6 +34,7 @@ public class MultimediaService {
                 .year(request.year())
                 .type(request.type())
                 .categories(request.categories() != null ? request.categories() : List.of())
+                .galleryUrls(request.galleryUrls() != null ? request.galleryUrls() : List.of())
                 .thumbnailUrl(request.thumbnailUrl())
                 .author(request.author())
                 .uploadedBy(user)
@@ -63,6 +64,26 @@ public class MultimediaService {
                 .toList();
     }
 
+    /**
+     * Obtener lista de categorías únicas, opcionalmente filtradas por tipo.
+     */
+    public List<String> getCategories(MultimediaType type) {
+        if (type != null) {
+            return multimediaRepository.findDistinctCategoriesByType(type);
+        }
+        return multimediaRepository.findDistinctCategories();
+    }
+
+    /**
+     * Buscar multimedia por tipo y categoría.
+     */
+    public List<MultimediaResponseDto> findByTypeAndCategory(MultimediaType type, String category) {
+        return multimediaRepository.findByTypeAndCategory(type, category)
+                .stream()
+                .map(MultimediaMapper::toResponseDto)
+                .toList();
+    }
+
     @Transactional
     public MultimediaResponseDto update(Long id, MultimediaRequestDto request) {
         MultimediaEntity multimedia = multimediaRepository.findById(id)
@@ -74,6 +95,7 @@ public class MultimediaService {
         multimedia.setYear(request.year());
         multimedia.setType(request.type());
         multimedia.setCategories(request.categories() != null ? request.categories() : List.of());
+        multimedia.setGalleryUrls(request.galleryUrls() != null ? request.galleryUrls() : List.of());
         multimedia.setThumbnailUrl(request.thumbnailUrl());
         multimedia.setAuthor(request.author());
 

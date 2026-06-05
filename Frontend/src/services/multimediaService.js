@@ -57,11 +57,20 @@ const multimediaService = {
   },
 
   /**
-   * Obtener lista de categorías disponibles
-   * Endpoint sugerido: GET /api/multimedia/categorias
+   * Obtener lista de categorías disponibles.
+   * @param {string} [type] - Tipo de multimedia (REPOSITORIO, CEDOC, MATERIAL_EDUCATIVO). Si no se pasa, devuelve todas.
    */
-  async fetchCategorias() {
-    const response = await apiFetch('/multimedia/categorias');
+  async fetchCategorias(type) {
+    const params = type ? `?type=${type}` : '';
+    const response = await apiFetch(`/multimedia/categorias${params}`);
+    return response.json();
+  },
+
+  /**
+   * Obtener multimedia filtrado por tipo y categoría.
+   */
+  async fetchByTypeAndCategory(type, category) {
+    const response = await apiFetch(`/multimedia/type/${type}/category/${encodeURIComponent(category)}`);
     return response.json();
   },
 
@@ -98,3 +107,4 @@ const multimediaService = {
 };
 
 export default multimediaService;
+

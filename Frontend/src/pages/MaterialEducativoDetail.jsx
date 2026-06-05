@@ -47,6 +47,10 @@ export default function MaterialEducativoDetail() {
           <div className="educativo-icon" style={item.thumbnailUrl || item.url ? { background: 'transparent', overflow: 'hidden' } : {}}>
             {item.thumbnailUrl ? (
               <img src={item.thumbnailUrl} alt={item.title} style={{ width: '100%', maxHeight: '400px', objectFit: 'cover', borderRadius: '12px' }} />
+            ) : item.url && (item.url.includes('youtube.com/embed/')) ? (
+              <iframe src={item.url} style={{ width: '100%', height: '400px', borderRadius: '12px', border: 'none' }} allowFullScreen title={item.title} />
+            ) : item.url && (item.url.includes('youtube.com/watch?v=') || item.url.includes('youtu.be/')) ? (
+              <iframe src={item.url.replace('watch?v=', 'embed/').replace('youtu.be/', 'youtube.com/embed/')} style={{ width: '100%', height: '400px', borderRadius: '12px', border: 'none' }} allowFullScreen title={item.title} />
             ) : item.url && (item.url.toLowerCase().endsWith('.jpg') || item.url.toLowerCase().endsWith('.png')) ? (
               <img src={item.url} alt={item.title} style={{ width: '100%', maxHeight: '400px', objectFit: 'cover', borderRadius: '12px' }} />
             ) : (

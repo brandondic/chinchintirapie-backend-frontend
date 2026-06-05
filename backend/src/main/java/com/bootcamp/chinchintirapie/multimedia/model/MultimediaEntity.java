@@ -45,6 +45,12 @@ public class MultimediaEntity {
     @Column(name = "category")
     private List<String> categories = new ArrayList<>();
 
+    @Builder.Default
+    @ElementCollection
+    @CollectionTable(name = "multimedia_gallery", joinColumns = @JoinColumn(name = "multimedia_id"))
+    @Column(name = "image_url", length = 1000)
+    private List<String> galleryUrls = new ArrayList<>();
+
     @Column(nullable = false)
     private String author;
 
