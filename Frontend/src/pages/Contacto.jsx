@@ -5,13 +5,12 @@ import contactoService from '../services/contactoService';
 import '../styles/Contacto.css';
 
 const CHIPS = [
-  '🎪 Quiero inscribirme',
-  '🥁 Quiero una cotización',
-  '🗓️ Quiero asistir a un evento',
-  '👥 Quiero participar con mi comunidad',
-  '🎭 Quiero información de talleres',
-  '🎨 Colaboración artística',
-  '❤️ Donaciones y apoyo',
+  'Quiero obtener información general',
+  'Quiero inscribirme en un taller o curso',
+  'Quiero enviar un aporte al Archivo',
+  'Quiero hacer una consulta sobre el repertorio',
+  'Quiero hacer una cotizaciòn',
+  'Otro',
 ];
 
 const initialForm = {

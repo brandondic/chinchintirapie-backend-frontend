@@ -84,18 +84,6 @@ export default function CEDOC() {
           {/* Sidebar */}
           <aside className="cedoc-sidebar">
             <div className="sidebar-widget reveal">
-              <h3>⏳ Línea de Tiempo</h3>
-              <div className="timeline">
-                {TIMELINE.map(({ year, text }) => (
-                  <div className="timeline-item" key={year}>
-                    <div className="timeline-year">{year}</div>
-                    <p>{text}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="sidebar-widget reveal">
               <h3>📄 Descargas Rápidas</h3>
               <div className="download-list">
                 {DOWNLOADS.map(({ emoji, label, size, gold }) => (
