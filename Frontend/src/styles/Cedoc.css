@@ -367,6 +367,31 @@
   color: #fff;
 }
 
+.cedoc-controls {
+  display: flex;
+  flex-direction: column;
+  gap: .8rem;
+  margin-bottom: 1rem;
+}
+
+.cedoc-search {
+  padding: .6rem .9rem;
+  border-radius: 8px;
+  border: 1px solid var(--color-acento);
+  max-width: 520px;
+}
+
+.cedoc-categories {
+  display: flex;
+  gap: .5rem;
+  flex-wrap: wrap;
+}
+
+.topic-pill.selected {
+  background: var(--rojo);
+  color: #fff;
+}
+
 .sidebar-widget--dark {
   background: var(--oscuro);
   color: #fff;
