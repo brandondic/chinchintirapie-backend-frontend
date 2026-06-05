@@ -1,6 +1,9 @@
+import { useState, useEffect } from 'react';
 import { useReveal } from '../hooks/useReveal';
 import Ticker from '../components/Ticker';
+import { TIMELINE } from '../data/cedocData';
 import '../styles/Historia.css';
+import '../styles/Cedoc.css'; // Para mantener el estilo de la línea de tiempo
 
 const STORY_CARDS = [
   {
@@ -21,14 +24,34 @@ const STORY_CARDS = [
   },
 ];
 
-const CAROUSEL_IMAGES = [
-  { src: '/img/1.webp', caption: 'Ensayos y escuela en movimiento', desc: 'Formación, comunidad y trabajo colectivo.' },
-  { src: '/img/2.webp', caption: 'La calle como escenario', desc: 'Comparsas, desfiles, challa y presencia territorial.' },
-  { src: '/img/3.webp', caption: 'Memoria, archivo y futuro', desc: 'Hitos, retratos de integrantes y celebraciones importantes.' },
-];
+// Imágenes del carrusel eliminadas, se manejan desde el estado ahora.
 
 export default function Historia() {
   useReveal();
+
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [fotosRepositorio, setFotosRepositorio] = useState([]);
+
+  useEffect(() => {
+    // TODO: reemplazar con llamada al servicio real
+    setFotosRepositorio([
+      { url: '/img/1.webp', caption: 'Ensayos y escuela en movimiento', desc: 'Formación, comunidad y trabajo colectivo.' },
+      { url: '/img/2.webp', caption: 'La calle como escenario', desc: 'Comparsas, desfiles, challa y presencia territorial.' },
+      { url: '/img/3.webp', caption: 'Memoria, archivo y futuro', desc: 'Hitos, retratos de integrantes y celebraciones importantes.' },
+    ]);
+  }, []);
+
+  const nextImage = () => {
+    if (fotosRepositorio.length > 0) {
+      setCurrentImageIndex((prev) => (prev + 1) % fotosRepositorio.length);
+    }
+  };
+
+  const prevImage = () => {
+    if (fotosRepositorio.length > 0) {
+      setCurrentImageIndex((prev) => (prev - 1 + fotosRepositorio.length) % fotosRepositorio.length);
+    }
+  };
 
   return (
     <>
@@ -77,11 +100,29 @@ export default function Historia() {
           </div>
         </section>
 
+        {/* LÍNEA DE TIEMPO */}
+        <section className="timeline-section" style={{ padding: '4rem 2rem', background: 'var(--crema)' }}>
+          <div className="section-inner">
+            <div className="section-header">
+              <p>Hitos históricos</p>
+              <h2>Línea de tiempo</h2>
+            </div>
+            <div className="timeline">
+              {TIMELINE.map(({ year, text }) => (
+                <div className="timeline-item" key={year}>
+                  <div className="timeline-year">{year}</div>
+                  <p>{text}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* MISIÓN Y VISIÓN */}
         <section className="mission-section">
           <div className="section-inner">
             <div className="section-header">
-              <p>Horizonte colectivo</p>
+              <p style={{ color: '#FFFFFF' }}>Horizonte colectivo</p>
               <h2>Misión y visión</h2>
             </div>
             <div className="mission-grid">
@@ -114,16 +155,22 @@ export default function Historia() {
               <p>Archivo visual</p>
               <h2>Galería fotográfica</h2>
             </div>
-            <div className="gallery-grid">
-              {CAROUSEL_IMAGES.map(({ src, caption, desc }) => (
-                <figure key={src} className="gallery-card">
-                  <img src={src} alt={caption} className="gallery-img" loading="lazy" />
-                  <figcaption className="gallery-caption">
-                    <strong className="gallery-caption-title">{caption}</strong>
-                    <span className="gallery-caption-desc">{desc}</span>
-                  </figcaption>
-                </figure>
-              ))}
+            <div className="gallery-carousel">
+              {fotosRepositorio.length === 0 ? (
+                <p style={{ textAlign: 'center', padding: '2rem' }}>Próximamente fotos del Archivo</p>
+              ) : (
+                <div className="carousel-container" style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <button onClick={prevImage} style={{ position: 'absolute', left: 0, zIndex: 10, background: 'rgba(0,0,0,0.5)', color: 'white', border: 'none', padding: '1rem', cursor: 'pointer', borderRadius: '50%' }}>❮</button>
+                  <figure className="gallery-card" style={{ margin: '0 2rem', flex: 1, maxWidth: '800px' }}>
+                    <img src={fotosRepositorio[currentImageIndex].url} alt={fotosRepositorio[currentImageIndex].caption} className="gallery-img" style={{ width: '100%', maxHeight: '600px', objectFit: 'cover' }} loading="lazy" />
+                    <figcaption className="gallery-caption">
+                      <strong className="gallery-caption-title">{fotosRepositorio[currentImageIndex].caption}</strong>
+                      <span className="gallery-caption-desc">{fotosRepositorio[currentImageIndex].desc}</span>
+                    </figcaption>
+                  </figure>
+                  <button onClick={nextImage} style={{ position: 'absolute', right: 0, zIndex: 10, background: 'rgba(0,0,0,0.5)', color: 'white', border: 'none', padding: '1rem', cursor: 'pointer', borderRadius: '50%' }}>❯</button>
+                </div>
+              )}
             </div>
           </div>
         </section>
