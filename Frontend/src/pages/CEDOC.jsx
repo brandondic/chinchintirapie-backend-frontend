@@ -25,15 +25,9 @@ export default function CEDOC() {
       try {
         const data = await multimediaService.fetchByType('CEDOC');
         setArticles(data);
-        // intentar cargar categorías dinámicas desde backend
-        try {
-          const cats = await multimediaService.fetchCategorias('CEDOC');
-          // esperar arreglo simple de strings
-          if (Array.isArray(cats) && cats.length > 0) setCategories(cats);
-        } catch (catErr) {
-          // fallback a TOPICS definido localmente
-          setCategories(TOPICS);
-        }
+        // Extraer categorías únicas de los artículos devueltos
+        const uniqueCategories = Array.from(new Set(data.flatMap(a => a.categories || []))).sort();
+        setCategories(uniqueCategories);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -87,18 +81,29 @@ export default function CEDOC() {
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="cedoc-search"
                 />
-                <div className="cedoc-categories">
-                  {(categories && categories.length > 0 ? categories : TOPICS).map((c) => (
-                    <button
-                      key={c}
-                      type="button"
-                      className={`meta-tag topic-pill${selectedCategory === c ? ' selected' : ''}`}
-                      onClick={() => setSelectedCategory(selectedCategory === c ? null : c)}
-                    >
-                      {c}
-                    </button>
-                  ))}
-                </div>
+                {categories.length > 0 && (
+                  <div className="cedoc-categories">
+                    {categories.map((c) => (
+                      <button
+                        key={c}
+                        type="button"
+                        className={`meta-tag topic-pill${selectedCategory === c ? ' selected' : ''}`}
+                        onClick={() => setSelectedCategory(selectedCategory === c ? null : c)}
+                      >
+                        {c}
+                      </button>
+                    ))}
+                    {selectedCategory && (
+                      <button
+                        type="button"
+                        className="meta-tag topic-pill topic-clear"
+                        onClick={() => setSelectedCategory(null)}
+                      >
+                        ✕ Limpiar
+                      </button>
+                    )}
+                  </div>
+                )}
               </div>
               <h2>✦ Artículos Destacados</h2>
               {loading && <p>Cargando artículos...</p>}

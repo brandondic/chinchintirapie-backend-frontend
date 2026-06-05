@@ -21,13 +21,9 @@ export default function Repositorio() {
       try {
         const data = await multimediaService.fetchByType('REPOSITORIO');
         setItems(data);
-        // Cargar categorías dinámicas
-        try {
-          const cats = await multimediaService.fetchCategorias('REPOSITORIO');
-          if (Array.isArray(cats)) setCategories(cats);
-        } catch (_) {
-          // si falla, las categorías quedan vacías
-        }
+        // Extraer categorías únicas de los items devueltos
+        const uniqueCategories = Array.from(new Set(data.flatMap(i => i.categories || []))).sort();
+        setCategories(uniqueCategories);
       } catch (err) {
         setError(err.message);
       } finally {
