@@ -238,3 +238,27 @@
   text-transform: uppercase;
   letter-spacing: 0.3px;
 }
+
+/* Year groupings */
+.repo-year-group {
+  margin-bottom: 4rem;
+}
+
+.repo-year-title {
+  font-family: var(--font-titulo);
+  font-size: 2.5rem;
+  color: var(--naranja);
+  margin-bottom: 2rem;
+  text-align: center;
+  position: relative;
+}
+
+.repo-year-title::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 4px;
+  background: var(--rojo);
+  margin: 0.5rem auto 0;
+  border-radius: 2px;
+}

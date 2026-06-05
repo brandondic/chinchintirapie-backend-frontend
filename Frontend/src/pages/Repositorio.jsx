@@ -41,6 +41,19 @@ export default function Repositorio() {
     return matchesSearch && matchesCategory;
   });
 
+  const groupedByYear = filtered.reduce((acc, item) => {
+    const year = item.year || 'Sin año';
+    if (!acc[year]) acc[year] = [];
+    acc[year].push(item);
+    return acc;
+  }, {});
+
+  const sortedYears = Object.keys(groupedByYear).sort((a, b) => {
+    if (a === 'Sin año') return 1;
+    if (b === 'Sin año') return -1;
+    return b - a; // descending
+  });
+
   return (
     <>
       <Ticker text="📂 Repositorio Documental · Fotografías · Videos · Audios · Documentos históricos" />
@@ -82,35 +95,40 @@ export default function Repositorio() {
         </div>
       </div>
       <section className="repositorio-section">
-        <div className="media-grid repositorio-media-grid">
-          {loading && <p>Cargando repositorio...</p>}
-          {error && <p className="error">{error}</p>}
-          {!loading && !error && filtered.length === 0 && <p>No hay archivos disponibles.</p>}
-          {!loading && !error && filtered.map((item) => (
-            <Link to={`/repositorio/${item.id}`} key={item.id} className="repositorio-link-reset">
-              <div className="media-card reveal">
-                <div className="media-thumb" style={item.url ? { padding: 0, overflow: 'hidden', background: 'transparent' } : {}}>
-                  <MediaThumbnail url={item.url} thumbnailUrl={item.thumbnailUrl} alt={item.title} typeEmoji="📂" />
-                </div>
-                <div className="media-info">
-                  <span className="media-tag">Repositorio</span>
-                  <h4>{item.title}</h4>
-                  {item.categories && item.categories.length > 0 && (
-                    <div className="media-categories">
-                      {item.categories.map((cat) => (
-                        <span key={cat} className="media-cat-badge">{cat}</span>
-                      ))}
+        {loading && <p style={{textAlign: 'center'}}>Cargando repositorio...</p>}
+        {error && <p className="error" style={{textAlign: 'center'}}>{error}</p>}
+        {!loading && !error && filtered.length === 0 && <p style={{textAlign: 'center'}}>No hay archivos disponibles.</p>}
+        
+        {!loading && !error && sortedYears.map(year => (
+          <div key={year} className="repo-year-group">
+            <h2 className="repo-year-title reveal">{year}</h2>
+            <div className="media-grid repositorio-media-grid">
+              {groupedByYear[year].map((item) => (
+                <Link to={`/repositorio/${item.id}`} key={item.id} className="repositorio-link-reset">
+                  <div className="media-card reveal">
+                    <div className="media-thumb" style={item.url ? { padding: 0, overflow: 'hidden', background: 'transparent' } : {}}>
+                      <MediaThumbnail url={item.url} thumbnailUrl={item.thumbnailUrl} alt={item.title} typeEmoji="📂" />
                     </div>
-                  )}
-                  <p>
-                    {item.year && `${item.year} · `}
-                    {item.author && `Por ${item.author}`}
-                  </p>
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
+                    <div className="media-info">
+                      <span className="media-tag">Repositorio</span>
+                      <h4>{item.title}</h4>
+                      {item.categories && item.categories.length > 0 && (
+                        <div className="media-categories">
+                          {item.categories.map((cat) => (
+                            <span key={cat} className="media-cat-badge">{cat}</span>
+                          ))}
+                        </div>
+                      )}
+                      <p>
+                        {item.author ? `Por ${item.author}` : ''}
+                      </p>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        ))}
       </section>
     </>
   );
