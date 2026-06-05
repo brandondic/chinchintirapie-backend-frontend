@@ -12,7 +12,7 @@ export default function Repositorio() {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  useReveal([items]);
+  useReveal([items, loading, search]);
 
   useEffect(() => {
     const fetchRepo = async () => {

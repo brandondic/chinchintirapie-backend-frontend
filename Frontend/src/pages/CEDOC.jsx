@@ -18,7 +18,7 @@ export default function CEDOC() {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const showQuickDownloads = false; // cambiar a true si se reutiliza pronto
   const navigate = useNavigate();
-  useReveal([articles]);
+  useReveal([articles, loading, searchTerm, selectedCategory]);
 
   useEffect(() => {
     const fetchCedoc = async () => {

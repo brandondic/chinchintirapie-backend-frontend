@@ -9,9 +9,9 @@ import '../styles/Cronica.css';
 
 export default function Cronicas() {
   const [cronicas, setCronicas] = useState([]);
-  useReveal([cronicas]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  useReveal([cronicas, loading]);
 
   useEffect(() => {
     const fetchCronicas = async () => {
