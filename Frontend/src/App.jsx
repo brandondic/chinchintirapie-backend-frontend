@@ -5,6 +5,7 @@ import Footer from './components/Footer.jsx'
 import ScrollToTop from './components/ScrollToTop.jsx'
 import { AuthProvider } from './context/AuthContext'
 import './styles/global.css'
+import AccessibilityWidget from './components/AccessibilityWidget'
 
 // Lazy-loaded pages
 const Home            = lazy(() => import('./pages/Home.jsx'))
@@ -21,27 +22,26 @@ const Perfil          = lazy(() => import('./pages/Perfil.jsx'))
 
 // ADMIN
 const AdminDashboard = lazy(() => import('./pages/Admin/AdminDashboard.jsx'))
-const NoticiasAdmin = lazy(() => import('./pages/Admin/NoticiasAdmin.jsx'))
-const AdminLayout   = lazy(() => import('./pages/Admin/AdminLayout.jsx'))
-const NoticiasList  = lazy(() => import('./pages/Admin/NoticiasList.jsx'))
-
-const AdminList = lazy(() => import('./pages/Admin/AdminList.jsx'))
-const AdminForm = lazy(() => import('./pages/Admin/AdminForm.jsx'))
-const CronicasAdmin = lazy(() => import('./pages/Admin/CronicasAdmin.jsx'))
-const CronicasList  = lazy(() => import('./pages/Admin/CronicasList.jsx'))
-const UsuariosAdmin = lazy(() => import('./pages/Admin/UsuariosAdmin.jsx'))
-const UsuariosList  = lazy(() => import('./pages/Admin/UsuariosList.jsx'))
-const MaterialAdmin = lazy(() => import('./pages/Admin/MaterialAdmin.jsx'))
-const MaterialList  = lazy(() => import('./pages/Admin/MaterialList.jsx'))
+const NoticiasAdmin  = lazy(() => import('./pages/Admin/NoticiasAdmin.jsx'))
+const AdminLayout    = lazy(() => import('./pages/Admin/AdminLayout.jsx'))
+const NoticiasList   = lazy(() => import('./pages/Admin/NoticiasList.jsx'))
+const AdminList      = lazy(() => import('./pages/Admin/AdminList.jsx'))
+const AdminForm      = lazy(() => import('./pages/Admin/AdminForm.jsx'))
+const CronicasAdmin  = lazy(() => import('./pages/Admin/CronicasAdmin.jsx'))
+const CronicasList   = lazy(() => import('./pages/Admin/CronicasList.jsx'))
+const UsuariosAdmin  = lazy(() => import('./pages/Admin/UsuariosAdmin.jsx'))
+const UsuariosList   = lazy(() => import('./pages/Admin/UsuariosList.jsx'))
+const MaterialAdmin  = lazy(() => import('./pages/Admin/MaterialAdmin.jsx'))
+const MaterialList   = lazy(() => import('./pages/Admin/MaterialList.jsx'))
 const RepositorioAdmin = lazy(() => import('./pages/Admin/RepositorioAdmin.jsx'))
 const RepositorioList  = lazy(() => import('./pages/Admin/RepositorioList.jsx'))
-const CedocAdmin = lazy(() => import('./pages/Admin/CedocAdmin.jsx'))
-const CedocList  = lazy(() => import('./pages/Admin/CedocList.jsx'))
+const CedocAdmin     = lazy(() => import('./pages/Admin/CedocAdmin.jsx'))
+const CedocList      = lazy(() => import('./pages/Admin/CedocList.jsx'))
 
 // OTRAS PÁGINAS
-const Cronicas           = lazy(() => import('./pages/Cronicas.jsx'))
-const Repositorio        = lazy(() => import('./pages/Repositorio.jsx'))
-const MaterialEducativo  = lazy(() => import('./pages/MaterialEducativo.jsx'))
+const Cronicas          = lazy(() => import('./pages/Cronicas.jsx'))
+const Repositorio       = lazy(() => import('./pages/Repositorio.jsx'))
+const MaterialEducativo = lazy(() => import('./pages/MaterialEducativo.jsx'))
 
 // DETALLES
 const NoticiaDetail           = lazy(() => import('./pages/NoticiaDetail.jsx'))
@@ -69,7 +69,9 @@ function PageLoader() {
 
 function Layout() {
     const { pathname, hash } = useLocation()
-    const isLogin = pathname.startsWith('/login') || pathname.startsWith('/recuperar-password') || pathname.startsWith('/reset-password')
+    const isLogin = pathname.startsWith('/login')
+        || pathname.startsWith('/recuperar-password')
+        || pathname.startsWith('/reset-password')
 
     useEffect(() => {
         if (!hash) {
@@ -109,36 +111,26 @@ function Layout() {
 
                     {/* ADMIN */}
                     <Route path="/admin" element={<AdminLayout />}>
-                        <Route
-                            index
-                            element={<AdminDashboard />}
-                        />
+                        <Route index element={<AdminDashboard />} />
 
-                        {/* NOTICIAS */}
                         <Route path="noticias" element={<NoticiasAdmin />} />
                         <Route path="noticias/editar" element={<NoticiasList />} />
 
-                        {/* CRÓNICAS */}
                         <Route path="cronicas" element={<CronicasAdmin />} />
                         <Route path="cronicas/editar" element={<CronicasList />} />
 
-                        {/* MATERIAL */}
                         <Route path="material" element={<MaterialAdmin />} />
                         <Route path="material/editar" element={<MaterialList />} />
 
-                        {/* REPOSITORIO */}
                         <Route path="repositorio" element={<RepositorioAdmin />} />
                         <Route path="repositorio/editar" element={<RepositorioList />} />
 
-                        {/* CEDOC */}
                         <Route path="cedoc" element={<CedocAdmin />} />
                         <Route path="cedoc/editar" element={<CedocList />} />
 
-                        {/* EVENTOS */}
                         <Route path="eventos" element={<AdminForm tipo="evento" />} />
                         <Route path="eventos/editar" element={<AdminList tipo="eventos" />} />
 
-                        {/* USUARIOS */}
                         <Route path="usuarios" element={<UsuariosAdmin />} />
                         <Route path="usuarios/listar" element={<UsuariosList />} />
                     </Route>
@@ -161,6 +153,7 @@ function Layout() {
             </Suspense>
 
             {!isLogin && <Footer />}
+            <AccessibilityWidget />
             <ScrollToTop />
         </>
     )

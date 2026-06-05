@@ -41,9 +41,9 @@ const STATS = [
 ];
 
 const TALLERES = [
-  { icon: '💃', title: 'Baile',    phrase: 'Cuerpo en movimiento' },
-  { icon: '🥁', title: 'Banda',    phrase: 'Pulso de la calle' },
-  { icon: '🎭', title: 'Figurines', phrase: 'Color y memoria' },
+  { img: '/public/img/Taller-baile.webp', title: 'Baile',    phrase: 'Cuerpo en movimiento' },
+  { img: '/public/img/Taller-banda.webp', title: 'Banda',    phrase: 'Pulso de la calle' },
+  { img: '/public/img/Taller-figurines.webp', title: 'Figurines', phrase: 'Color y memoria' },
 ];
 
 export default function Home() {
@@ -148,19 +148,21 @@ export default function Home() {
         <section className="talleres-section" id="talleres">
           <div className="section-header reveal">
             <h2 style={{ color: 'var(--blanco)' }}>Nuestros <span style={{ color: 'var(--amarillo)' }}>Talleres</span></h2>
-            <div className="deco-line"><span>🥁</span></div>
+            <div className="deco-line"><span></span></div>
             <p>Descubre los tres pilares fundamentales de nuestra escuela.</p>
           </div>
           <div className="talleres-mini-grid">
-            {TALLERES.map(({ icon, title, phrase }) => (
-                <div className="taller-mini-card reveal" key={title}>
-                  <div className="taller-icon">{icon}</div>
-                  <div className="taller-info">
-                    <h3>{title}</h3>
-                    <p>{phrase}</p>
-                  </div>
-                </div>
-            ))}
+            {TALLERES.map(({ img, title, phrase }) => (
+             <div className="taller-mini-card reveal" key={title}>
+              <div className="taller-icon">
+                <img src={img} alt={title} />
+              </div>
+              <div className="taller-info">
+                <h3>{title}</h3>
+                <p>{phrase}</p>
+              </div>
+            </div>
+          ))}
           </div>
           <div className="talleres-action reveal" style={{ textAlign: 'center', marginTop: '3rem' }}>
             <a href="/organizacion#los-tres-cuerpos" className="btn btn-primary">Ver Organización</a>

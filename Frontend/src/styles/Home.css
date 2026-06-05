@@ -437,7 +437,13 @@
   letter-spacing: 3px;
   margin-bottom: .7rem;
 }
-
+.taller-icon {
+  flex-shrink: 0;
+  width: 90px;  
+  height: 90px; 
+  border-radius: 8px;
+  overflow: hidden;
+}
 .taller-card p {
   color: rgba(255,255,255,.85);
   font-size: 1rem;
