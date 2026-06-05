@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react';
 import { useReveal } from '../hooks/useReveal';
 import PageHero from '../components/PageHero';
 import Ticker from '../components/Ticker';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import MediaThumbnail from '../components/MediaThumbnail';
 import multimediaService from '../services/multimediaService';
-import { TIMELINE, DOWNLOADS, TOPICS, STATS } from '../data/cedocData';
+import { DOWNLOADS, TOPICS, STATS } from '../data/cedocData';
 import '../styles/Cedoc.css';
 
 
@@ -13,13 +13,27 @@ export default function CEDOC() {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  useReveal([articles]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const showQuickDownloads = false; // cambiar a true si se reutiliza pronto
+  const navigate = useNavigate();
+  useReveal([articles, loading, searchTerm, selectedCategory]);
 
   useEffect(() => {
     const fetchCedoc = async () => {
       try {
         const data = await multimediaService.fetchByType('CEDOC');
         setArticles(data);
+        // intentar cargar categorías dinámicas desde backend
+        try {
+          const cats = await multimediaService.fetchCategorias();
+          // esperar arreglo simple de strings
+          if (Array.isArray(cats) && cats.length > 0) setCategories(cats);
+        } catch (catErr) {
+          // fallback a TOPICS definido localmente
+          setCategories(TOPICS);
+        }
       } catch (err) {
         setError(err.message);
       } finally {
@@ -28,6 +42,15 @@ export default function CEDOC() {
     };
     fetchCedoc();
   }, []);
+
+  // Filtrado client-side: búsqueda + categoría (AND lógico)
+  const filteredArticles = articles.filter((a) => {
+    const hayBusqueda = searchTerm && searchTerm.trim() !== '';
+    const text = `${a.title || ''} ${a.description || ''} ${(a.categories || []).join(' ')}`.toLowerCase();
+    const matchesSearch = !hayBusqueda || text.includes(searchTerm.toLowerCase());
+    const matchesCategory = !selectedCategory || (a.categories && a.categories.includes(selectedCategory));
+    return matchesSearch && matchesCategory;
+  });
 
   return (
     <>
@@ -56,11 +79,32 @@ export default function CEDOC() {
           {/* Artículos */}
           <div className="cedoc-main">
             <section>
+              <div className="cedoc-controls reveal">
+                <input
+                  type="search"
+                  placeholder="Buscar en CEDOC por título o descripción..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="cedoc-search"
+                />
+                <div className="cedoc-categories">
+                  {(categories && categories.length > 0 ? categories : TOPICS).map((c) => (
+                    <button
+                      key={c}
+                      type="button"
+                      className={`meta-tag topic-pill${selectedCategory === c ? ' selected' : ''}`}
+                      onClick={() => setSelectedCategory(selectedCategory === c ? null : c)}
+                    >
+                      {c}
+                    </button>
+                  ))}
+                </div>
+              </div>
               <h2>✦ Artículos Destacados</h2>
               {loading && <p>Cargando artículos...</p>}
               {error && <p className="error">{error}</p>}
               {!loading && !error && articles.length === 0 && <p>No hay artículos disponibles.</p>}
-              {!loading && !error && articles.map((a) => (
+              {!loading && !error && filteredArticles.map((a) => (
                 <Link to={`/cedoc/${a.id}`} key={a.id} className="link-reset">
                   <div className="article-card reveal">
                     <div className="article-icon" style={a.url ? { padding: 0, overflow: 'hidden', background: 'transparent', borderRadius: '12px' } : { background: 'linear-gradient(135deg, var(--purpura), var(--azul))' }}>
@@ -83,35 +127,30 @@ export default function CEDOC() {
 
           {/* Sidebar */}
           <aside className="cedoc-sidebar">
-            <div className="sidebar-widget reveal">
-              <h3>📄 Descargas Rápidas</h3>
-              <div className="download-list">
-                {DOWNLOADS.map(({ emoji, label, size, gold }) => (
-                  <button key={label} type="button" className={`download-btn${gold ? ' download-btn--gold' : ''}`}>
-                    <span>{emoji} {label}</span>
-                    <span className="download-meta">{size}</span>
-                  </button>
-                ))}
+            {showQuickDownloads && (
+              <div className="sidebar-widget reveal">
+                <h3>📄 Descargas Rápidas</h3>
+                <div className="download-list">
+                  {DOWNLOADS.map(({ emoji, label, size, gold }) => (
+                    <button key={label} type="button" className={`download-btn${gold ? ' download-btn--gold' : ''}`}>
+                      <span>{emoji} {label}</span>
+                      <span className="download-meta">{size}</span>
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
 
-            <div className="sidebar-widget reveal">
-              <h3>🏷 Temas de Investigación</h3>
-              <div className="tag-row">
-                {TOPICS.map((t) => (
-                  <span key={t} className="meta-tag topic-pill">{t}</span>
-                ))}
-              </div>
-            </div>
+            {/* Widget 'Temas de Investigación' removido a petición */}
 
             <div className="sidebar-widget reveal sidebar-widget--dark">
               <h3>✉ Envía tu Investigación</h3>
               <p>
                 ¿Tienes una investigación sobre carnaval y cultura popular? El CEDOC recibe colaboraciones externas.
               </p>
-              <a href="mailto:chinchintirapie@gmail.com" className="download-btn download-btn--solid">
+              <button type="button" className="download-btn download-btn--solid" onClick={() => navigate('/contacto')}>
                 📨 Enviar propuesta
-              </a>
+              </button>
             </div>
           </aside>
         </div>

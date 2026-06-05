@@ -11,7 +11,7 @@ export default function MaterialEducativo() {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  useReveal([items]);
+  useReveal([items, loading]);
 
   useEffect(() => {
     const fetchMaterial = async () => {

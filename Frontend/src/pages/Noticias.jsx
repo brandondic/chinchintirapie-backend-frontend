@@ -17,7 +17,7 @@ export default function Noticias() {
   const [noticias, setNoticias] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  useReveal([noticias]);
+  useReveal([noticias, loading]);
 
   useEffect(() => {
     const fetchNoticias = async () => {

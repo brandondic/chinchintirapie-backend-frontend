@@ -57,6 +57,15 @@ const multimediaService = {
   },
 
   /**
+   * Obtener lista de categorías disponibles
+   * Endpoint sugerido: GET /api/multimedia/categorias
+   */
+  async fetchCategorias() {
+    const response = await apiFetch('/multimedia/categorias');
+    return response.json();
+  },
+
+  /**
    * Crear un nuevo multimedia
    */
   async create(data) {
