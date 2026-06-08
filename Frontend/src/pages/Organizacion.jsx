@@ -136,24 +136,7 @@ export default function Organizacion() {
                 <div className="card-body">
                   <p className="card-desc">{desc}</p>
                   
-                  <div className="card-section">
-                    <h4>Contenidos</h4>
-                    <div className="pill-container">
-                      {contenidos.map((pill, i) => (
-                        <span key={i} className="pill" style={{ borderColor: color, color: color }}>{pill}</span>
-                      ))}
-                    </div>
-                  </div>
 
-                  <div className="card-section">
-                    <h4>Equipo</h4>
-                    <div className="avatar-group">
-                      <div className="avatar" style={{ backgroundColor: color }}>M</div>
-                      <div className="avatar" style={{ backgroundColor: color }}>A</div>
-                      <div className="avatar" style={{ backgroundColor: color }}>R</div>
-                      <div className="avatar-count">+{miembros}</div>
-                    </div>
-                  </div>
 
                   <div className="card-footer">
                     <p>¿Te interesa sumarte?</p>

@@ -38,26 +38,19 @@ export default function Cronicas() {
           {error && <p className="error">{error}</p>}
           {!loading && !error && cronicas.length === 0 && <p>No hay crónicas disponibles.</p>}
           {!loading && !error && cronicas.map((c) => (
-            <Link to={`/cronicas/${c.id}`} key={c.id} className="cronica-link">
-              <article className="cronica-card reveal">
-                <div className="cronica-emoji" style={c.urlPhoto ? { padding: 0, overflow: 'hidden', background: 'transparent' } : {}}>
-                  <MediaThumbnail url={c.urlPhoto} alt={c.title} typeEmoji="📰" />
-                </div>
-                <div>
-                  <p className="cronica-date">
-                    {c.createdAt ? new Date(c.createdAt).toLocaleDateString() : ''}
-                  </p>
-                  <h3>{c.title}</h3>
-                  <p className="cronica-body">{c.description || c.body.substring(0, 100) + '...'}</p>
-                  <div className="cronica-footer">
-                    <div className="cronica-tags">
-                      <span className="meta-tag">Crónica</span>
-                    </div>
-                    <span className="cronica-author">Por {c.author}</span>
-                  </div>
-                </div>
-              </article>
-            </Link>
+            <article key={c.id} className="cronica-card reveal">
+              <div className="cronica-card-media" style={c.urlPhoto ? { padding: 0, overflow: 'hidden' } : {}}>
+                <MediaThumbnail url={c.urlPhoto} alt={c.title} typeEmoji="📰" />
+              </div>
+              <div className="cronica-card-body">
+                <span className="cronica-card-tag">Crónica</span>
+                <h3>{c.title}</h3>
+                <p>{c.description || (c.body ? c.body.substring(0, 100) + '...' : '')}</p>
+                <Link to={`/cronicas/${c.id}`} className="link-reset">
+                  <button>Ver crónica</button>
+                </Link>
+              </div>
+            </article>
           ))}
         </div>
       </section>
