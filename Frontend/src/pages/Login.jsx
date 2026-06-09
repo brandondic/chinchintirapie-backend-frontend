@@ -91,7 +91,7 @@ export default function Login() {
       } catch (err) {
         console.error('Error al obtener Client ID de Google:', err);
         // Fallback en caso de que el backend no esté corriendo, para que se muestre el botón
-        setClientId('713791119665-gh4tag21e5v8pjkn86n8lgeirjoims7d.apps.googleusercontent.com');
+        setClientId('169866536586-tt5a721luc6sohs03j56nq1s3cha7h99.apps.googleusercontent.com');
       }
     };
     fetchClientId();
