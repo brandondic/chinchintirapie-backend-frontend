@@ -1,7 +1,6 @@
 import { useParams, Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import multimediaService from '../services/multimediaService';
-import PageHero from '../components/PageHero';
 import '../styles/CedocDetail.css';
 
 export default function CEDOCDetail() {
@@ -25,53 +24,128 @@ export default function CEDOCDetail() {
   }, [id]);
 
   if (loading) return (
-    <div className="page-empty-state">
-      <h2>Cargando...</h2>
+    <div className="cd-empty">
+      <span className="cd-empty__icon">🥁</span>
+      <p>Cargando documento...</p>
     </div>
   );
 
   if (error || !article) return (
-    <div className="page-empty-state">
-      <h2>Artículo no encontrado</h2>
+    <div className="cd-empty">
+      <span className="cd-empty__icon">🎭</span>
+      <h2>Documento no encontrado</h2>
       <p>{error}</p>
-      <Link to="/cedoc" className="page-back-link">Volver</Link>
+      <Link to="/cedoc" className="cd-back">← Volver al CEDOC</Link>
     </div>
   );
 
+  const esVideo = article.url && (article.url.includes('youtube') || article.url.includes('youtu.be'));
+  const esPDF   = article.url && !esVideo;
+
+  const fecha = article.uploadedAt
+    ? new Date(article.uploadedAt).toLocaleDateString('es-CL', { year: 'numeric', month: 'long', day: 'numeric' })
+    : null;
+
   return (
-    <>
-      <PageHero badge="📄 CEDOC" title={article.title} description="" />
-      <div className="page-container">
-        <Link to="/cedoc" className="page-back-link">← Volver al CEDOC</Link>
-        <div className="detail-page-row">
-          <div className="article-icon detail-article-icon" style={article.thumbnailUrl || article.url ? { padding: 0, overflow: 'hidden', background: 'transparent' } : { background: 'linear-gradient(135deg, var(--purpura), var(--azul))' }}>
-            {article.thumbnailUrl ? (
-              <img src={article.thumbnailUrl} alt={article.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            ) : article.url && (article.url.toLowerCase().endsWith('.jpg') || article.url.toLowerCase().endsWith('.png')) ? (
-              <img src={article.url} alt={article.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            ) : (
-              "📚"
-            )}
-          </div>
-          <div>
-            <div className="tag-row">
-              {article.categories && article.categories.map((t) => <span key={t} className="meta-tag topic-pill">{t}</span>)}
-              <span className="meta-tag topic-pill">CEDOC</span>
-            </div>
-            <p className="detail-article-description">{article.description}</p>
-            {article.url && (
-              <div style={{ marginTop: '20px', marginBottom: '10px' }}>
-                <a href={article.url} target="_blank" rel="noreferrer" className="download-btn download-btn--solid" style={{ textDecoration: 'none', display: 'inline-block', background: 'var(--purpura)', color: 'white', padding: '10px 20px', borderRadius: '5px', fontWeight: 'bold' }}>
-                  {article.url.includes('youtube') || article.url.includes('youtu.be') ? '🎥 Ver Video' : '⬇ Leer / Descargar Archivo'}
-                </a>
-              </div>
-            )}
-            <p style={{ marginTop: '1rem', color: '#999', fontSize: '.9rem' }}>
-              Por {article.author} · {article.uploadedAt ? new Date(article.uploadedAt).toLocaleDateString() : ''}
-            </p>
-          </div>
+    <div className="cd-root">
+
+      {/* ── SIDEBAR ── */}
+      <aside className="cd-sidebar">
+
+        <Link to="/cedoc" className="cd-back">← Volver al CEDOC</Link>
+
+        {/* Thumbnail */}
+        <div className="cd-thumb">
+          {article.thumbnailUrl
+            ? <img src={article.thumbnailUrl} alt={article.title} />
+            : <span className="cd-thumb__placeholder">📚</span>
+          }
         </div>
-      </div>
-    </>
+
+        {/* Badge */}
+        <div className="cd-badge">CEDOC</div>
+
+        {/* Título */}
+        <h1 className="cd-title">{article.title}</h1>
+
+        {/* Meta */}
+        {(article.author || fecha) && (
+          <p className="cd-meta">
+            {article.author && <span>Por <strong>{article.author}</strong></span>}
+            {article.author && fecha && ' · '}
+            {fecha && <span>{fecha}</span>}
+          </p>
+        )}
+
+        {/* Descripción */}
+        {article.description && (
+          <p className="cd-description">{article.description}</p>
+        )}
+
+        {/* Categorías */}
+        {article.categories && article.categories.length > 0 && (
+          <div className="cd-tags">
+            {article.categories.map(t => (
+              <span key={t} className="cd-tag">{t}</span>
+            ))}
+          </div>
+        )}
+
+        {/* Acciones */}
+        {article.url && (
+          <div className="cd-actions">
+            {esPDF && (
+              <a
+                href={article.url}
+                target="_blank"
+                rel="noreferrer"
+                className="cd-btn cd-btn--download"
+              >
+                ⬇ Descargar PDF
+              </a>
+            )}
+            {esVideo && (
+              <a
+                href={article.url}
+                target="_blank"
+                rel="noreferrer"
+                className="cd-btn cd-btn--video"
+              >
+                🎥 Ver video
+              </a>
+            )}
+          </div>
+        )}
+      </aside>
+
+      {/* ── VIEWER ── */}
+      <main className="cd-viewer">
+        {esPDF ? (
+          <iframe
+            src={article.url}
+            title={article.title}
+            className="cd-iframe"
+          />
+        ) : esVideo ? (
+          <div className="cd-video-wrap">
+            <iframe
+              src={article.url
+                .replace('watch?v=', 'embed/')
+                .replace('youtu.be/', 'www.youtube.com/embed/')}
+              title={article.title}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="cd-iframe"
+            />
+          </div>
+        ) : (
+          <div className="cd-no-preview">
+            <span>📄</span>
+            <p>Sin previsualización disponible</p>
+          </div>
+        )}
+      </main>
+
+    </div>
   );
 }

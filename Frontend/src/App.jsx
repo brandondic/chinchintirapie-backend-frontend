@@ -7,6 +7,7 @@ import { AuthProvider } from './context/AuthContext'
 import './styles/global.css'
 import AccessibilityWidget from './components/AccessibilityWidget'
 
+
 // Lazy-loaded pages
 const Home            = lazy(() => import('./pages/Home.jsx'))
 const Historia        = lazy(() => import('./pages/Historia.jsx'))
@@ -19,6 +20,7 @@ const Login           = lazy(() => import('./pages/Login.jsx'))
 const RecuperarPassword = lazy(() => import('./pages/RecuperarPassword.jsx'))
 const ResetPassword   = lazy(() => import('./pages/ResetPassword.jsx'))
 const Perfil          = lazy(() => import('./pages/Perfil.jsx'))
+
 
 // ADMIN
 const AdminDashboard = lazy(() => import('./pages/Admin/AdminDashboard.jsx'))
@@ -103,11 +105,13 @@ function Layout() {
                     <Route path="/perfil" element={<Perfil />} />
 
                     {/* DETALLES */}
+                    {/* DETALLES */}
                     <Route path="/noticias/:id" element={<NoticiaDetail />} />
                     <Route path="/cronicas/:id" element={<CronicaDetail />} />
                     <Route path="/repositorio/:id" element={<RepositorioDetail />} />
                     <Route path="/cedoc/:id" element={<CEDOCDetail />} />
                     <Route path="/material-educativo/:id" element={<MaterialEducativoDetail />} />
+                   
 
                     {/* ADMIN */}
                     <Route path="/admin" element={<AdminLayout />}>
