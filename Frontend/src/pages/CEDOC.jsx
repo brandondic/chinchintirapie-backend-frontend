@@ -6,6 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import MediaThumbnail from '../components/MediaThumbnail';
 import multimediaService from '../services/multimediaService';
 import { DOWNLOADS, TOPICS, STATS } from '../data/cedocData';
+import CedocCard from '../components/CedocCard';
 import '../styles/Cedoc.css';
 
 
@@ -110,22 +111,7 @@ export default function CEDOC() {
               {error && <p className="error">{error}</p>}
               {!loading && !error && articles.length === 0 && <p>No hay artículos disponibles.</p>}
               {!loading && !error && filteredArticles.map((a) => (
-                <Link to={`/cedoc/${a.id}`} key={a.id} className="link-reset">
-                  <div className="article-card reveal">
-                    <div className="article-icon" style={a.url ? { padding: 0, overflow: 'hidden', background: 'transparent', borderRadius: '12px' } : { background: 'linear-gradient(135deg, var(--purpura), var(--azul))' }}>
-                      <MediaThumbnail url={a.url} thumbnailUrl={a.thumbnailUrl} alt={a.title} typeEmoji="📚" />
-                    </div>
-                    <div className="article-body">
-                      <h3>{a.title}</h3>
-                      <p>{a.description}</p>
-                      <div className="article-meta">
-                        {a.categories && a.categories.map((t) => <span className="meta-tag" key={t}>{t}</span>)}
-                        <span className="meta-tag">CEDOC</span>
-                      </div>
-                      <button type="button" className="download-btn">⬇ Ver artículo completo</button>
-                    </div>
-                  </div>
-                </Link>
+                <CedocCard key={a.id} article={a} />
               ))}
             </section>
           </div>

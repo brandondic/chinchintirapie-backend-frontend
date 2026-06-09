@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import { useAuth } from '../context/AuthContext';
+import authService from '../services/authService';
 import { getPasswordStrength, isPasswordValid } from '../utils/passwordStrength';
 import '../styles/Login.css';
-
-const ADMIN_EMAILS = ['chinchintirapie@gmail.com'];
 
 // ── Barra de fuerza ──────────────────────────────────────────────────────────
 const LEVEL_CONFIG = {
@@ -77,63 +77,44 @@ export default function Login() {
   const [serverError, setServerError] = useState('');
   const [serverSuccess, setServerSuccess] = useState('');
   const [loading, setLoading] = useState(false);
+  const [clientId, setClientId] = useState('');
 
   const { login, register, loginWithGoogle } = useAuth();
   const navigate = useNavigate();
 
-  // We'll use useEffect to render the Google button once the script is loaded
+  // Obtener Client ID de Google al montar
   useEffect(() => {
-    if (typeof window === 'undefined') return;
-
-    let checkGoogleLoad;
-
-    const initGoogleAuth = async () => {
+    const fetchClientId = async () => {
       try {
-        const clientId = await authService.getGoogleClientId();
-        
-        if (!clientId) {
-          setServerError('No se pudo obtener el Client ID de Google desde el servidor.');
-          return;
-        }
-
-        checkGoogleLoad = setInterval(() => {
-          if (window.google && window.google.accounts && window.google.accounts.id) {
-            clearInterval(checkGoogleLoad);
-            
-            window.google.accounts.id.initialize({
-              client_id: clientId,
-              callback: async (response) => {
-                setServerError('');
-                setLoading(true);
-                try {
-                  const role = await loginWithGoogle(response.credential);
-                  navigate(role === 'admin' ? '/admin' : '/');
-                } catch (err) {
-                  setServerError(err.message || 'Error al iniciar sesión con Google');
-                } finally {
-                  setLoading(false);
-                }
-              }
-            });
-
-            window.google.accounts.id.renderButton(
-              document.getElementById("google-button-container"),
-              { theme: "outline", size: "large", width: "100%", text: "continue_with" }
-            );
-          }
-        }, 100);
-
+        const id = await authService.getGoogleClientId();
+        if (id) setClientId(id);
       } catch (err) {
-        console.error("Error al preparar Google Auth:", err);
+        console.error('Error al obtener Client ID de Google:', err);
+        // Fallback en caso de que el backend no esté corriendo, para que se muestre el botón
+        setClientId('713791119665-gh4tag21e5v8pjkn86n8lgeirjoims7d.apps.googleusercontent.com');
       }
     };
+    fetchClientId();
+  }, []);
 
-    initGoogleAuth();
+  const onGoogleSuccess = async (credentialResponse) => {
+    setServerError('');
+    setLoading(true);
+    try {
+      // credential contiene el id_token que necesita el backend
+      const role = await loginWithGoogle(credentialResponse.credential);
+      const normalizedRole = role ? role.toUpperCase() : '';
+      navigate(normalizedRole === 'ADMIN' ? '/admin' : '/');
+    } catch (err) {
+      setServerError(err.message || 'Error al iniciar sesión con Google');
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    return () => {
-      if (checkGoogleLoad) clearInterval(checkGoogleLoad);
-    };
-  }, [loginWithGoogle, navigate]);
+  const onGoogleError = () => {
+    setServerError('Falló el inicio de sesión con Google');
+  };
 
   const handleChange = (field) => (e) => {
     setForm((f) => ({ ...f, [field]: e.target.value }));
@@ -169,8 +150,9 @@ export default function Login() {
         setTab('login');
         setForm((f) => ({ ...f, password: '', confirm: '' }));
       } else {
-        await login(form.email, form.password);
-        setTimeout(() => navigate('/'), 600);
+        const data = await login(form.email, form.password);
+        const userRole = data?.role ? data.role.toUpperCase() : '';
+        setTimeout(() => navigate(userRole === 'ADMIN' ? '/admin' : '/'), 600);
       }
     } catch (err) {
       setServerError(err.message || 'Error de conexión con el servidor');
@@ -274,9 +256,29 @@ export default function Login() {
           <span>o continúa con</span>
         </div>
 
-        <div style={{ marginTop: '2rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          {loading && <p style={{ marginBottom: '1rem', color: 'var(--blanco)' }}>⏳ Preparando...</p>}
-          <div id="google-button-container" style={{ width: '100%', display: 'flex', justifyContent: 'center' }}></div>
+        <div style={{ marginTop: '1.5rem', width: '100%' }}>
+          {clientId ? (
+            <GoogleOAuthProvider clientId={clientId}>
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <GoogleLogin
+                  onSuccess={onGoogleSuccess}
+                  onError={onGoogleError}
+                  theme="outline"
+                  size="large"
+                  text="signin_with"
+                  shape="rectangular"
+                  width="100%"
+                  useOneTap={false}
+                  auto_select={false}
+                  itp_support={false}
+                />
+              </div>
+            </GoogleOAuthProvider>
+          ) : (
+            <div style={{ textAlign: 'center', padding: '0.85rem', color: 'var(--gris)' }}>
+              Cargando botón de Google...
+            </div>
+          )}
         </div>
 
         <p className="login-footer">

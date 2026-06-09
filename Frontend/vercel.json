@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "https://web-chinchintirapie.onrender.com/api/$1"
+      "destination": "https://chinchintirapie-api.onrender.com/api/$1"
     },
     {
       "source": "/(.*)",

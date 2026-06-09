@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useCallback } from 'react';
+import { googleLogout } from '@react-oauth/google';
 import authService from '../services/authService';
 
 const AuthContext = createContext(null);
@@ -39,6 +40,9 @@ export function AuthProvider({ children }) {
     localStorage.removeItem('token');
     setUser(null);
     setToken(null);
+    
+    // Revocar la sesión local de Google para que no autoseleccione la cuenta al volver a ingresar
+    googleLogout();
   }, []);
 
   const loginWithGoogle = useCallback(async (token) => {

@@ -29,7 +29,12 @@ const authService = {
       body: JSON.stringify({ fullName, email, password }),
     });
 
-    const data = await response.json();
+    let data;
+    try {
+      data = await response.json();
+    } catch (e) {
+      throw new Error('Error de conexión: El servidor backend no está respondiendo.');
+    }
 
     if (!response.ok) {
       const errorMsg = data.message || data.error || 'Error al registrarse';
@@ -64,7 +69,12 @@ const authService = {
       body: JSON.stringify({ token }),
     });
 
-    const data = await response.json();
+    let data;
+    try {
+      data = await response.json();
+    } catch (e) {
+      throw new Error('Error de conexión: El servidor backend no está respondiendo.');
+    }
 
     if (!response.ok) {
       const errorMsg = data.message || data.error || 'Error al iniciar sesión con Google';
@@ -96,7 +106,12 @@ const authService = {
       body: JSON.stringify({ email, password }),
     });
 
-    const data = await response.json();
+    let data;
+    try {
+      data = await response.json();
+    } catch (e) {
+      throw new Error('Error de conexión: El servidor backend no está respondiendo.');
+    }
 
     if (!response.ok) {
       const errorMsg = data.message || data.error || 'Credenciales incorrectas';

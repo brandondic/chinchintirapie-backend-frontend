@@ -41,9 +41,9 @@ const STATS = [
 ];
 
 const TALLERES = [
-  { img: '/public/img/Taller-baile.webp', title: 'Baile',    phrase: 'Cuerpo en movimiento' },
-  { img: '/public/img/Taller-banda.webp', title: 'Banda',    phrase: 'Pulso de la calle' },
-  { img: '/public/img/Taller-figurines.webp', title: 'Figurines', phrase: 'Color y memoria' },
+  { img: '/img/Taller-baile.webp', title: 'Baile',    phrase: 'Cuerpo en movimiento' },
+  { img: '/img/Taller-banda.webp', title: 'Banda',    phrase: 'Pulso de la calle' },
+  { img: '/img/Taller-figurines.webp', title: 'Figurines', phrase: 'Color y memoria' },
 ];
 
 export default function Home() {
