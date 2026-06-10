@@ -1,6 +1,12 @@
 import { Link } from 'react-router-dom';
 import Ticker from '../components/Ticker';
+import { useState, useEffect} from "react";
+import articuloService from '../services/articuloService';
+import multimediaService from '../services/multimediaService';
+import MultimediaCard from '../components/MultimediaCard';
+import ArticuloCard from '../components/ArticuloCard.jsx';
 import { useReveal } from '../hooks/useReveal';
+import '../styles/Noticias.css';
 import '../styles/Home.css';
 
 const CARDS = [
@@ -48,6 +54,65 @@ const TALLERES = [
 
 export default function Home() {
   useReveal();
+  const [articulosRecientes, setArticulosRecientes] = useState([]);
+  const [multimediaReciente, setMultimediaReciente] = useState([]);
+
+  useEffect(() => {
+    const cargarArticulos = async () => {
+      try {
+        const articulos = await articuloService.fetchAll();
+
+        const ordenados = articulos.sort(
+            (a, b) =>
+                new Date(b.createdAt) -
+                new Date(a.createdAt)
+        );
+
+        const noticias = ordenados
+            .filter(
+                articulo =>
+                    articulo.type === 'NOTICIA'
+            )
+            .slice(0, 2);
+
+        const cronicas = ordenados
+            .filter(
+                articulo =>
+                    articulo.type === 'CRONICA'
+            )
+            .slice(0, 2);
+
+        const recientes = [
+          ...noticias,
+          ...cronicas
+        ];
+
+        setArticulosRecientes(recientes);
+
+        const multimedia = await multimediaService.fetchAll();
+        console.log(multimedia);
+
+        const multimediaOrdenada = multimedia
+            .sort(
+                (a, b) =>
+                    new Date(b.uploadedAt) -
+                    new Date(a.uploadedAt)
+            )
+            .slice(0, 4);
+
+        setMultimediaReciente(multimediaOrdenada);
+
+      } catch (error) {
+        console.error(
+            'Error cargando artículos:',
+            error
+        );
+      }
+    };
+
+    cargarArticulos();
+  }, []);
+
 
   return (
       <>
@@ -143,6 +208,74 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        {/* ARTÍCULOS RECIENTES */}
+        <section className="noticias-grid">
+          <div className="section-header reveal">
+            <h2>
+              Artículos <span>Recientes</span>
+            </h2>
+          </div>
+
+          <div className="noticias-grid-inner reveal">
+            {articulosRecientes.map((item) => (
+                <ArticuloCard
+                    key={item.id}
+                    articulo={item}
+                />
+            ))}
+          </div>
+
+          <div
+              style={{
+                textAlign: 'center',
+                marginTop: '2rem'
+              }}
+          >
+            <Link
+                to="/noticias"
+                className="btn btn-primary reveal"
+            >
+              Ver todos los artículos
+            </Link>
+          </div>
+        </section>
+
+        <section className="noticias-grid">
+          <div className="section-header reveal">
+            <h2>
+              Multimedia <span>Destacado</span>
+            </h2>
+
+            <p>
+              Fotografías, videos y documentos recientes.
+            </p>
+          </div>
+
+          <div className="noticias-grid-inner reveal">
+            {multimediaReciente.map((item) => (
+                <MultimediaCard
+                    key={item.id}
+                    multimedia={item}
+                />
+            ))}
+          </div>
+
+          <div
+              style={{
+                textAlign: 'center',
+                marginTop: '2rem'
+              }}
+          >
+            <Link
+                to="/repositorio"
+                className="btn btn-primary reveal"
+            >
+              Ver todo el multimedia
+            </Link>
+          </div>
+        </section>
+
 
         {/* TALLERES */}
         <section className="talleres-section" id="talleres">

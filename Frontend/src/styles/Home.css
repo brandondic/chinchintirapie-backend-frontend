@@ -404,6 +404,10 @@
   overflow: hidden;
 }
 
+.talleres-section .section-header p {
+  color: rgba(255,255,255,0.85);
+}
+
 .talleres-section::before {
   display: none;
 }

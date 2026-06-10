@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -33,8 +34,16 @@ public class MultimediaService {
                 .description(request.description())
                 .year(request.year())
                 .type(request.type())
-                .categories(request.categories() != null ? request.categories() : List.of())
-                .galleryUrls(request.galleryUrls() != null ? request.galleryUrls() : List.of())
+                .categories(
+                        request.categories() != null
+                                ? new ArrayList<>(request.categories())
+                                : new ArrayList<>()
+                )
+                .galleryUrls(
+                        request.galleryUrls() != null
+                                ? new ArrayList<>(request.galleryUrls())
+                                : new ArrayList<>()
+                )
                 .thumbnailUrl(request.thumbnailUrl())
                 .author(request.author())
                 .uploadedBy(user)
@@ -86,21 +95,40 @@ public class MultimediaService {
 
     @Transactional
     public MultimediaResponseDto update(Long id, MultimediaRequestDto request) {
+
+
         MultimediaEntity multimedia = multimediaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Multimedia no encontrada con ID: " + id));
+                .orElseThrow(() -> new RuntimeException(
+                        "Multimedia no encontrada con ID: " + id));
+
+        System.out.println("PASO 2");
 
         multimedia.setTitle(request.title());
         multimedia.setUrl(request.url());
         multimedia.setDescription(request.description());
         multimedia.setYear(request.year());
         multimedia.setType(request.type());
-        multimedia.setCategories(request.categories() != null ? request.categories() : List.of());
-        multimedia.setGalleryUrls(request.galleryUrls() != null ? request.galleryUrls() : List.of());
+        multimedia.setCategories(
+                request.categories() != null
+                        ? new ArrayList<>(request.categories())
+                        : new ArrayList<>()
+        );
+
+        multimedia.setGalleryUrls(
+                request.galleryUrls() != null
+                        ? new ArrayList<>(request.galleryUrls())
+                        : new ArrayList<>()
+        );
         multimedia.setThumbnailUrl(request.thumbnailUrl());
         multimedia.setAuthor(request.author());
 
-        MultimediaEntity saved = multimediaRepository.save(multimedia);
+        MultimediaEntity saved =
+                multimediaRepository.save(multimedia);
+
+
         return MultimediaMapper.toResponseDto(saved);
+
+
     }
 
     @Transactional

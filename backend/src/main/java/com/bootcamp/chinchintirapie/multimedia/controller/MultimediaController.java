@@ -61,7 +61,14 @@ public class MultimediaController {
     }
 
     @PutMapping("/{id}")
-    public MultimediaResponseDto update(@PathVariable Long id, @Valid @RequestBody MultimediaRequestDto request) {
+    public MultimediaResponseDto update(
+            @PathVariable Long id,
+            @Valid @RequestBody MultimediaRequestDto request
+    ) {
+
+        System.out.println("===== REQUEST UPDATE =====");
+        System.out.println(request);
+
         return multimediaService.update(id, request);
     }
 

@@ -35,10 +35,21 @@
   max-height: 400px;
   overflow: hidden;
 }
-.noticias-carousel img,
-.noticias-carousel video {
+.carousel-track {
+  display: flex;
+  transition: transform 0.8s ease-in-out;
   width: 100%;
+}
+
+.carousel-slide {
+  min-width: 100%;
   height: 400px;
+  position: relative;
+}
+.carousel-slide img,
+.carousel-slide video {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   display: block;
 }
