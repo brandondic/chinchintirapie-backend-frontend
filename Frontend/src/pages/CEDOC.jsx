@@ -5,7 +5,6 @@ import Ticker from '../components/Ticker';
 import { Link, useNavigate } from 'react-router-dom';
 import MediaThumbnail from '../components/MediaThumbnail';
 import multimediaService from '../services/multimediaService';
-import { DOWNLOADS, TOPICS, STATS } from '../data/cedocData';
 import CedocCard from '../components/CedocCard';
 import '../styles/Cedoc.css';
 
@@ -17,7 +16,6 @@ export default function CEDOC() {
   const [searchTerm, setSearchTerm] = useState('');
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const showQuickDownloads = false; // cambiar a true si se reutiliza pronto
   const navigate = useNavigate();
   useReveal([articles, loading, searchTerm, selectedCategory]);
 
@@ -47,6 +45,12 @@ export default function CEDOC() {
     return matchesSearch && matchesCategory;
   });
 
+  const stats = [
+    { num: articles.length, label: 'Documentos' },
+    { num: new Set(articles.map(a => a.author).filter(Boolean)).size, label: 'Autores' },
+    { num: categories.length, label: 'Áreas temáticas' },
+  ];
+
   return (
     <>
       <Ticker text="📚 Centro de Documentación e Investigación · Ensayos · Investigaciones culturales · Documentos descargables" />
@@ -60,7 +64,7 @@ export default function CEDOC() {
 
       {/* Stats */}
       <div className="stats-strip">
-        {STATS.map(({ num, label }) => (
+        {stats.map(({ num, label }) => (
           <div className="strip-stat" key={label}>
             <span className="s-num">{num}</span>
             <span className="s-label">{label}</span>
@@ -118,22 +122,6 @@ export default function CEDOC() {
 
           {/* Sidebar */}
           <aside className="cedoc-sidebar">
-            {showQuickDownloads && (
-              <div className="sidebar-widget reveal">
-                <h3>📄 Descargas Rápidas</h3>
-                <div className="download-list">
-                  {DOWNLOADS.map(({ emoji, label, size, gold }) => (
-                    <button key={label} type="button" className={`download-btn${gold ? ' download-btn--gold' : ''}`}>
-                      <span>{emoji} {label}</span>
-                      <span className="download-meta">{size}</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Widget 'Temas de Investigación' removido a petición */}
-
             <div className="sidebar-widget reveal sidebar-widget--dark">
               <h3>✉ Envía tu Investigación</h3>
               <p>

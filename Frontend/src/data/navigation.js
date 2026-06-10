@@ -38,7 +38,7 @@ export const FOOTER_LINKS = {
     { label: 'Crónicas', to: '/cronicas' },
   ],
   contacto: [
-    { label: 'info@chinchintirapie.cl', href: 'mailto:info@chinchintirapie.cl' },
+    { label: 'chinchintirapie@gmail.com', to: '/contacto' },
     { label: 'Tienda', to: '/tienda' },
     { label: 'Donaciones', to: '/tienda#donaciones' },
     { label: 'Únete a la escuela', to: '/contacto' },

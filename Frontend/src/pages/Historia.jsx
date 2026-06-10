@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useReveal } from '../hooks/useReveal';
 import Ticker from '../components/Ticker';
-import { TIMELINE } from '../data/cedocData';
+import { TIMELINE } from '../data/historiaData';
 import '../styles/Historia.css';
 import '../styles/Cedoc.css'; // Para mantener el estilo de la línea de tiempo
 
