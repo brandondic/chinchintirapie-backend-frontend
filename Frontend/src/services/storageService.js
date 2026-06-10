@@ -11,11 +11,15 @@ const storageService = {
    * @param {File} file - El archivo obtenido desde el <input type="file" />
    * @returns {Promise<string>} - La URL pública del archivo
    */
-  async uploadFile(file) {
+  async uploadFile(file, folder = 'GENERAL', subfolder = '') {
     if (!file) throw new Error("No hay archivo para subir.");
 
     const formData = new FormData();
     formData.append('file', file);
+    formData.append('folder', folder);
+    if (subfolder) {
+      formData.append('subfolder', subfolder);
+    }
 
     // No le ponemos 'Content-Type': 'application/json' porque fetch
     // genera el Content-Type multipart/form-data con los boundaries automáticamente

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import articuloService from '../../services/articuloService';
+import storageService from '../../services/storageService';
 import { useAuth } from '../../context/AuthContext';
 import '../../styles/Admin.css';
 
@@ -18,6 +19,7 @@ function NoticiasAdmin() {
     });
 
     const [loading, setLoading] = useState(false);
+    const [uploadingImage, setUploadingImage] = useState(false);
     const [error, setError] = useState(null);
     const [successMsg, setSuccessMsg] = useState(null);
 
@@ -49,6 +51,22 @@ function NoticiasAdmin() {
             ...form,
             [e.target.name]: e.target.value
         });
+    };
+
+    const handleImageUpload = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        setUploadingImage(true);
+        setError(null);
+        try {
+            const uploadedUrl = await storageService.uploadFile(file, 'NOTICIAS');
+            setForm(prev => ({ ...prev, urlPhoto: uploadedUrl }));
+        } catch (err) {
+            setError(err.message || 'Error al subir la imagen');
+        } finally {
+            setUploadingImage(false);
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -136,23 +154,40 @@ function NoticiasAdmin() {
                     required
                 />
 
-                <input
-                    type="text"
-                    name="urlPhoto"
-                    value={form.urlPhoto}
-                    placeholder="URL de la imagen (temporal)"
-                    onChange={handleChange}
-                />
+                <div style={{ padding: '15px', background: '#2a2a2a', borderRadius: '8px', marginBottom: '15px' }}>
+                    <p style={{ margin: '0 0 10px 0', fontWeight: 'bold' }}>Imagen de la Noticia:</p>
+                    <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        disabled={uploadingImage}
+                    />
+                    {uploadingImage && <span style={{ color: '#f59e0b', display: 'block', marginTop: '5px' }}>Subiendo imagen...</span>}
+                    {form.urlPhoto && !uploadingImage && (
+                        <div style={{ marginTop: '10px' }}>
+                            <img src={form.urlPhoto} alt="Portada" style={{ height: '100px', borderRadius: '5px', objectFit: 'cover' }} />
+                            <p style={{ fontSize: '0.8rem', color: '#a3a3a3', marginTop: '5px', wordBreak: 'break-all' }}>URL: {form.urlPhoto}</p>
+                        </div>
+                    )}
+                    <input
+                        type="text"
+                        name="urlPhoto"
+                        value={form.urlPhoto}
+                        placeholder="O pega el link directo de la imagen aquí"
+                        onChange={handleChange}
+                        style={{ marginTop: '10px' }}
+                    />
+                </div>
 
                 <div style={{ display: 'flex', gap: '10px' }}>
-                    <button type="submit" disabled={loading} style={{ background: 'var(--purpura)', color: 'white', padding: '10px 20px', borderRadius: '5px', cursor: 'pointer', border: 'none', fontWeight: 'bold' }}>
+                    <button type="submit" disabled={loading || uploadingImage} style={{ background: 'var(--purpura)', color: 'white', padding: '10px 20px', borderRadius: '5px', cursor: 'pointer', border: 'none', fontWeight: 'bold' }}>
                         {loading ? 'Guardando...' : (noticiaAEditar ? 'Guardar Cambios' : 'Publicar')}
                     </button>
 
                     {noticiaAEditar && (
                         <button 
                             type="button" 
-                            disabled={loading} 
+                            disabled={loading || uploadingImage} 
                             onClick={handleDelete}
                             style={{ background: 'var(--rojo)', color: 'white', border: 'none', padding: '10px 20px', borderRadius: '5px', cursor: 'pointer', fontWeight: 'bold' }}
                         >

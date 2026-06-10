@@ -90,7 +90,7 @@ function MaterialAdmin() {
         setError(null);
 
         try {
-            const uploadedUrl = await storageService.uploadFile(file);
+            const uploadedUrl = await storageService.uploadFile(file, 'MATERIAL_EDUCATIVO');
             setForm(prev => ({
                 ...prev,
                 [field]: uploadedUrl

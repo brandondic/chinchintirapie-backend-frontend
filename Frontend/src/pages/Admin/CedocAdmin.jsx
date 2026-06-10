@@ -90,7 +90,7 @@ function CedocAdmin() {
         setError(null);
 
         try {
-            const uploadedUrl = await storageService.uploadFile(file);
+            const uploadedUrl = await storageService.uploadFile(file, 'CEDOC');
             setForm(prev => ({
                 ...prev,
                 [field]: uploadedUrl

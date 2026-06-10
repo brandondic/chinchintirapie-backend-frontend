@@ -11,6 +11,7 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 import java.io.IOException;
 import java.util.UUID;
+import com.bootcamp.chinchintirapie.storage.model.StorageFolder;
 
 @Service
 @RequiredArgsConstructor
@@ -25,7 +26,7 @@ public class StorageService {
     @Value("${cloudflare.r2.public-url:}")
     private String publicUrl;
 
-    public String uploadFile(MultipartFile file) {
+    public String uploadFile(MultipartFile file, StorageFolder folder, String subfolder) {
         if (s3Client == null) {
             throw new RuntimeException("Cloudflare R2 no está configurado en el backend.");
         }
@@ -41,7 +42,13 @@ public class StorageService {
                     : "";
             
             // Generar nombre de archivo único
-            String uniqueFilename = UUID.randomUUID().toString() + extension;
+            String prefix = folder.getPath();
+            if (subfolder != null && !subfolder.trim().isEmpty()) {
+                // Sanitizar subfolder para evitar caracteres raros en la URL
+                String safeSubfolder = subfolder.trim().replaceAll("[^a-zA-Z0-9-_]", "_");
+                prefix = prefix + "/" + safeSubfolder;
+            }
+            String uniqueFilename = prefix + "/" + UUID.randomUUID().toString() + extension;
 
             PutObjectRequest putObjectRequest = PutObjectRequest.builder()
                     .bucket(bucketName)

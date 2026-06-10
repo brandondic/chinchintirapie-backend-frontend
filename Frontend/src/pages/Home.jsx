@@ -1,43 +1,16 @@
 import { Link } from 'react-router-dom';
 import Ticker from '../components/Ticker';
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import articuloService from '../services/articuloService';
 import multimediaService from '../services/multimediaService';
 import MultimediaCard from '../components/MultimediaCard';
 import ArticuloCard from '../components/ArticuloCard.jsx';
+import MediaThumbnail from '../components/MediaThumbnail';
 import { useReveal } from '../hooks/useReveal';
 import '../styles/Noticias.css';
 import '../styles/Home.css';
 
-const CARDS = [
-  {
-    img: 'card-img-1',
-    emoji: '📂',
-    tag: 'Archivo',
-    title: 'Repositorio Documental',
-    desc: 'Fotografías, audiovisuales y documentos de todas las ediciones del carnaval, desde los primeros ensayos hasta los últimos desfiles.',
-    link: '/repositorio',
-    linkText: 'Explorar →',
-  },
-  {
-    img: 'card-img-2',
-    emoji: '📰',
-    tag: 'Crónicas',
-    title: 'Noticias y Crónicas',
-    desc: 'Relatos, entrevistas y notas periodísticas que cuentan la historia viva de la escuela y sus protagonistas en las calles.',
-    link: '/cronicas',
-    linkText: 'Leer más →',
-  },
-  {
-    img: 'card-img-3',
-    emoji: '✍️',
-    tag: 'Ensayos',
-    title: 'CEDOC – Ensayos',
-    desc: 'Centro de documentación con ensayos académicos y reflexiones culturales sobre el carnaval como arte y práctica comunitaria.',
-    link: '/cedoc',
-    linkText: 'Consultar →',
-  },
-];
+
 
 const STATS = [
   { num: '500+', label: 'Estudiantes' },
@@ -54,63 +27,51 @@ const TALLERES = [
 
 export default function Home() {
   useReveal();
-  const [articulosRecientes, setArticulosRecientes] = useState([]);
-  const [multimediaReciente, setMultimediaReciente] = useState([]);
+  const [noticiasRecientes, setNoticiasRecientes] = useState([]);
+  const [cronicaReciente, setCronicaReciente] = useState(null);
+  const [reposDestacados, setReposDestacados] = useState([]);
+  const [cedocDestacado, setCedocDestacado] = useState(null);
 
   useEffect(() => {
-    const cargarArticulos = async () => {
+    const cargarContenido = async () => {
       try {
+        // Artículos: 2 noticias + 1 crónica más recientes
         const articulos = await articuloService.fetchAll();
-
         const ordenados = articulos.sort(
-            (a, b) =>
-                new Date(b.createdAt) -
-                new Date(a.createdAt)
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
 
         const noticias = ordenados
-            .filter(
-                articulo =>
-                    articulo.type === 'NOTICIA'
-            )
-            .slice(0, 2);
+          .filter((a) => a.type === 'NOTICIA')
+          .slice(0, 2);
+        setNoticiasRecientes(noticias);
 
-        const cronicas = ordenados
-            .filter(
-                articulo =>
-                    articulo.type === 'CRONICA'
-            )
-            .slice(0, 2);
+        const cronica = ordenados
+          .filter((a) => a.type === 'CRONICA')
+          .slice(0, 1);
+        setCronicaReciente(cronica[0] || null);
 
-        const recientes = [
-          ...noticias,
-          ...cronicas
-        ];
-
-        setArticulosRecientes(recientes);
-
+        // Multimedia: 2 repos + 1 CEDOC más recientes
         const multimedia = await multimediaService.fetchAll();
-        console.log(multimedia);
-
-        const multimediaOrdenada = multimedia
-            .sort(
-                (a, b) =>
-                    new Date(b.uploadedAt) -
-                    new Date(a.uploadedAt)
-            )
-            .slice(0, 4);
-
-        setMultimediaReciente(multimediaOrdenada);
-
-      } catch (error) {
-        console.error(
-            'Error cargando artículos:',
-            error
+        const multOrdenada = multimedia.sort(
+          (a, b) => new Date(b.uploadedAt) - new Date(a.uploadedAt)
         );
+
+        const repos = multOrdenada
+          .filter((m) => m.type === 'REPOSITORIO')
+          .slice(0, 2);
+        setReposDestacados(repos);
+
+        const cedoc = multOrdenada
+          .filter((m) => m.type === 'CEDOC')
+          .slice(0, 1);
+        setCedocDestacado(cedoc[0] || null);
+      } catch (error) {
+        console.error('Error cargando contenido:', error);
       }
     };
 
-    cargarArticulos();
+    cargarContenido();
   }, []);
 
 
@@ -148,28 +109,100 @@ export default function Home() {
           <div className="scroll-hint">Descubrir</div>
         </section>
 
-        {/* CARDS */}
+        {/* LO QUE HACE VIBRAR — Unified Section */}
         <section className="cards-section" id="hitos">
           <div className="section-header reveal">
             <h2>Lo que hace <span>vibrar</span> la escuela</h2>
             <div className="deco-line"><span>🎶</span></div>
             <p>Archivo, crónicas y ensayos que documentan 20 años de fiesta comunitaria.</p>
           </div>
-          <div className="cards-grid">
-            {CARDS.map((c) => (
-                <div className="card reveal" key={c.title}>
-                  <div className={`card-img ${c.img}`}>
-                    <div className="card-img-inner">{c.emoji}</div>
-                    <span className="card-tag">{c.tag}</span>
-                  </div>
-                  <div className="card-body">
-                    <h3>{c.title}</h3>
-                    <p>{c.desc}</p>
-                    <Link to={c.link} className="card-link">{c.linkText}</Link>
-                  </div>
-                </div>
-            ))}
+
+          {/* ── Noticias Recientes ── */}
+          <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+            <div className="home-subsection-header reveal">
+              <div className="home-subsection-label">📰 Noticias Recientes</div>
+              <div className="home-subsection-line"></div>
+              <div className="home-subsection-actions">
+                <Link to="/noticias" className="btn-ghost">Todas las Noticias</Link>
+                <Link to="/cronicas" className="btn-ghost">Crónicas</Link>
+              </div>
+            </div>
           </div>
+
+          <div className="home-vibrar-grid reveal">
+            {/* Hero: Noticia principal */}
+            {noticiasRecientes[0] && (
+              <Link to={`/noticias/${noticiasRecientes[0].id}`} className="home-vibrar-hero">
+                <div className="home-vibrar-hero-img">
+                  <img
+                    src={noticiasRecientes[0].urlPhoto}
+                    alt={noticiasRecientes[0].title}
+                  />
+                </div>
+                <div className="home-vibrar-hero-overlay">
+                  <span className="noticias-card-tag">{noticiasRecientes[0].type}</span>
+                  <h3>{noticiasRecientes[0].title}</h3>
+                  {noticiasRecientes[0].description && (
+                    <p>{noticiasRecientes[0].description}</p>
+                  )}
+                  <span className="hero-read-more">Leer más →</span>
+                </div>
+              </Link>
+            )}
+
+            {/* Side: 2ª noticia + crónica */}
+            <div className="home-vibrar-side">
+              {noticiasRecientes[1] && (
+                <ArticuloCard key={noticiasRecientes[1].id} articulo={noticiasRecientes[1]} />
+              )}
+              {cronicaReciente && (
+                <ArticuloCard key={cronicaReciente.id} articulo={cronicaReciente} />
+              )}
+            </div>
+          </div>
+
+          {/* ── Multimedias Destacados ── */}
+          <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+            <div className="home-subsection-header reveal">
+              <div className="home-subsection-label">📂 Multimedias Destacados</div>
+              <div className="home-subsection-line"></div>
+              <div className="home-subsection-actions">
+                <Link to="/repositorio" className="btn-ghost">Repositorio Audiovisual</Link>
+                <Link to="/cedoc" className="btn-ghost">Cedoc</Link>
+              </div>
+            </div>
+          </div>
+
+          <div className="home-vibrar-bottom reveal">
+            {reposDestacados.map((item) => (
+              <MultimediaCard key={item.id} multimedia={item} />
+            ))}
+
+            {cedocDestacado && (
+              <article className="noticias-card">
+                <div className="noticias-card-media">
+                  <MediaThumbnail
+                    url={cedocDestacado.url}
+                    thumbnailUrl={cedocDestacado.thumbnailUrl}
+                    alt={cedocDestacado.title}
+                    typeEmoji="📚"
+                  />
+                </div>
+                <div className="noticias-card-body">
+                  <span className="noticias-card-tag">📚 Investigación</span>
+                  <h3>{cedocDestacado.title}</h3>
+                  {cedocDestacado.description && (
+                    <p>{cedocDestacado.description}</p>
+                  )}
+                  <Link to={`/cedoc/${cedocDestacado.id}`} className="link-reset">
+                    <button>Ver investigación</button>
+                  </Link>
+                </div>
+              </article>
+            )}
+          </div>
+
+
         </section>
 
         {/* 20 AÑOS */}
@@ -206,73 +239,6 @@ export default function Home() {
                 ))}
               </div>
             </div>
-          </div>
-        </section>
-
-        {/* ARTÍCULOS RECIENTES */}
-        <section className="noticias-grid">
-          <div className="section-header reveal">
-            <h2>
-              Artículos <span>Recientes</span>
-            </h2>
-          </div>
-
-          <div className="noticias-grid-inner reveal">
-            {articulosRecientes.map((item) => (
-                <ArticuloCard
-                    key={item.id}
-                    articulo={item}
-                />
-            ))}
-          </div>
-
-          <div
-              style={{
-                textAlign: 'center',
-                marginTop: '2rem'
-              }}
-          >
-            <Link
-                to="/noticias"
-                className="btn btn-primary reveal"
-            >
-              Ver todos los artículos
-            </Link>
-          </div>
-        </section>
-
-        <section className="noticias-grid">
-          <div className="section-header reveal">
-            <h2>
-              Multimedia <span>Destacado</span>
-            </h2>
-
-            <p>
-              Fotografías, videos y documentos recientes.
-            </p>
-          </div>
-
-          <div className="noticias-grid-inner reveal">
-            {multimediaReciente.map((item) => (
-                <MultimediaCard
-                    key={item.id}
-                    multimedia={item}
-                />
-            ))}
-          </div>
-
-          <div
-              style={{
-                textAlign: 'center',
-                marginTop: '2rem'
-              }}
-          >
-            <Link
-                to="/repositorio"
-                className="btn btn-primary reveal"
-            >
-              Ver todo el multimedia
-            </Link>
           </div>
         </section>
 

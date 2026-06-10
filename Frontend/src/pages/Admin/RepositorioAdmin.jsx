@@ -97,7 +97,7 @@ function RepositorioAdmin() {
         setError(null);
 
         try {
-            const uploadedUrl = await storageService.uploadFile(file);
+            const uploadedUrl = await storageService.uploadFile(file, 'REPOSITORIO');
             setForm(prev => ({
                 ...prev,
                 [field]: uploadedUrl
@@ -113,12 +113,19 @@ function RepositorioAdmin() {
     const handleGalleryUpload = async (e) => {
         const files = Array.from(e.target.files);
         if (files.length === 0) return;
+
+        // Crear nombre de subcarpeta seguro basado en el título
+        let subfolder = form.title.trim().replace(/[^a-zA-Z0-9_\- ]/g, '').replace(/\s+/g, '_').toLowerCase();
+        if (!subfolder) {
+            subfolder = 'galeria_' + Date.now();
+        }
+
         setUploadingGallery(true);
         setError(null);
         try {
             const urls = [];
             for (const file of files) {
-                const uploadedUrl = await storageService.uploadFile(file);
+                const uploadedUrl = await storageService.uploadFile(file, 'REPOSITORIO', subfolder);
                 urls.push(uploadedUrl);
             }
             setGalleryUrls(prev => [...prev, ...urls]);
