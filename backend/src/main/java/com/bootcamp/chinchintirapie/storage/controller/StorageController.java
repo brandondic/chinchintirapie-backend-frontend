@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.services.s3.S3Client;
 
 import java.util.Map;
+import com.bootcamp.chinchintirapie.storage.model.StorageFolder;
 
 @RestController
 @RequestMapping("/api/upload")
@@ -22,8 +23,11 @@ public class StorageController {
     private final StorageService storageService;
 
     @PostMapping
-    public ResponseEntity<Map<String, String>> uploadFile(@RequestParam("file") MultipartFile file) {
-        String url = storageService.uploadFile(file);
+    public ResponseEntity<Map<String, String>> uploadFile(
+            @RequestParam("file") MultipartFile file,
+            @RequestParam(value = "folder", defaultValue = "GENERAL") StorageFolder folder,
+            @RequestParam(value = "subfolder", required = false) String subfolder) {
+        String url = storageService.uploadFile(file, folder, subfolder);
         return ResponseEntity.ok(Map.of("url", url));
     }
 }
