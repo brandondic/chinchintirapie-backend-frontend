@@ -14,7 +14,7 @@ public class BackendApplication {
 
     public static void main(String[] args) {
         Dotenv dotenv = Dotenv.configure()
-                .directory("./")
+                .directory("../")
                 .ignoreIfMissing()
                 .load();
 
